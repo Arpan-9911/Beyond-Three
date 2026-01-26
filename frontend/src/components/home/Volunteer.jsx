@@ -49,44 +49,44 @@ const Volunteer = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50 px-4 md:px-16">
-      <div className="max-w-7xl mx-auto bg-[#0b4d3c] rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-emerald-900/50">
+    <section className="py-10 md:py-20 bg-gray-50 px-4 md:px-8 lg:px-16">
+      <div className="max-w-7xl mx-auto bg-[#0b4d3c] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-emerald-900/50">
 
         {/* Left Column */}
-        <div className="md:w-1/2 p-8 md:p-16 text-white space-y-10">
-          <div className="space-y-4">
-            <h2 className="text-4xl font-bold leading-tight">
+        <div className="md:w-[45%] lg:w-1/2 p-6 md:p-10 lg:p-16 text-white flex flex-col justify-center gap-8 md:gap-10">
+          <div className="space-y-3">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
               {volunteerData.left.title[lang]}
             </h2>
-            <p className="text-lime-400 font-semibold tracking-wide text-sm md:text-base">
+            <p className="text-lime-400 font-semibold tracking-wide text-xs md:text-sm lg:text-base">
               {volunteerData.left.subtitle[lang]}
             </p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {/* Working Hours */}
-            <div className="flex items-start gap-4">
-              <div className="bg-[#1a5d4c] p-3 rounded-full mt-1">
-                <FaClock className="text-lime-400" />
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="bg-[#1a5d4c] p-2 md:p-3 rounded-full mt-1 shrink-0">
+                <FaClock className="text-lime-400 text-sm md:text-base" />
               </div>
               <div>
-                <h4 className="font-bold text-lg mb-1">{volunteerData.left.workingHours.label[lang]}</h4>
-                <p className="text-gray-300">{volunteerData.left.workingHours.text[lang]}</p>
+                <h4 className="font-bold text-base md:text-lg mb-1">{volunteerData.left.workingHours.label[lang]}</h4>
+                <p className="text-gray-300 text-sm md:text-base leading-relaxed">{volunteerData.left.workingHours.text[lang]}</p>
               </div>
             </div>
 
             {/* Stipend Structure */}
-            <div className="flex items-start gap-4">
-              <div className="bg-[#1a5d4c] p-3 rounded-full mt-1">
-                <FaHandsHelping className="text-lime-400" />
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="bg-[#1a5d4c] p-2 md:p-3 rounded-full mt-1 shrink-0">
+                <FaHandsHelping className="text-lime-400 text-sm md:text-base" />
               </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-lg mb-4">{volunteerData.left.stipend.label[lang]}</h4>
-                <div className="space-y-3">
+              <div className="flex-1 min-w-0">
+                <h4 className="font-bold text-base md:text-lg mb-3 md:mb-4">{volunteerData.left.stipend.label[lang]}</h4>
+                <div className="space-y-2 md:space-y-3">
                   {volunteerData.left.stipend.rows.map((row, i) => (
-                    <div key={i} className="flex justify-between items-center text-sm md:text-base">
-                      <span className="text-gray-400">{row.period[lang]}</span>
-                      <span className="font-bold">{row.value[lang]}</span>
+                    <div key={i} className="flex justify-between items-center text-xs md:text-sm lg:text-base gap-4">
+                      <span className="text-gray-400 whitespace-nowrap">{row.period[lang]}</span>
+                      <span className="font-bold text-right">{row.value[lang]}</span>
                     </div>
                   ))}
                 </div>
@@ -96,34 +96,35 @@ const Volunteer = () => {
         </div>
 
         {/* Right Column */}
-        <div className="md:w-1/2 bg-white p-8 md:p-16 flex flex-col justify-center">
-          <h3 className="text-2xl font-bold text-emerald-900 mb-8">
+        <div className="md:w-[55%] lg:w-1/2 bg-white p-6 md:p-10 lg:p-16 flex flex-col justify-center">
+          <h3 className="text-xl md:text-2xl font-bold text-emerald-900 mb-6 md:mb-8">
             {volunteerData.right.title[lang]}
           </h3>
 
-          <div className="space-y-4 mb-10">
+          <div className="space-y-3 md:space-y-4 mb-8 md:mb-10">
             {volunteerData.right.ageGroups.map((group) => (
               <div
                 key={group.id}
-                className="flex items-center justify-between p-4 px-6 border border-gray-100 rounded-2xl bg-gray-50/50 group hover:bg-emerald-50 transition-colors"
+                className="flex items-center justify-between p-3 md:p-4 px-4 md:px-6 border border-gray-100 rounded-xl md:rounded-2xl bg-gray-50/50 group hover:bg-emerald-50 transition-colors gap-3"
               >
-                <div className="flex items-center gap-6">
-                  <span className="bg-emerald-100 text-emerald-700 w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm">
+                <div className="flex items-center gap-3 md:gap-6 min-w-0">
+                  <span className="bg-emerald-100 text-emerald-700 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-full font-bold text-xs md:text-sm shrink-0">
                     {group.id}
                   </span>
-                  <span className="font-bold text-gray-700 md:text-lg">
+                  <span className="font-bold text-gray-700 text-sm md:text-base lg:text-lg truncate">
                     {lang === 'hi' ? group.hi_range : group.range}
                   </span>
                 </div>
-                <span className="bg-lime-100 text-emerald-800 px-4 py-1 rounded-full text-xs font-bold">
+                <span className="bg-lime-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold whitespace-nowrap shrink-0">
                   {lang === 'hi' ? group.hi_badge : group.badge}
                 </span>
               </div>
             ))}
           </div>
 
-          <button className="bg-[#0b4d3c] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#073529] transition-all transform active:scale-95 shadow-lg shadow-emerald-900/20">
-            {volunteerData.right.button[lang]}
+          <button className="bg-[#0b4d3c] text-white py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg hover:bg-[#073529] transition-all transform active:scale-95 shadow-lg shadow-emerald-900/20 w-full group overflow-hidden relative">
+            <span className="relative z-10">{volunteerData.right.button[lang]}</span>
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </button>
         </div>
       </div>
