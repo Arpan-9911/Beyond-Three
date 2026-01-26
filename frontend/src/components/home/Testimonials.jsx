@@ -1,9 +1,108 @@
-import React from 'react'
+import React from "react";
+import { FaStar, FaQuoteRight } from "react-icons/fa";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Testimonials = () => {
-  return (
-    <div>Testimonials</div>
-  )
-}
+  const { lang } = useLanguage();
 
-export default Testimonials
+  const testimonialData = {
+    title: {
+      en: "User Experiences",
+      hi: "उपयोगकर्ता अनुभव",
+    },
+    subtitle: {
+      en: "Thousands have transformed their lifestyles",
+      hi: "हज़ारों ने अपनी जीवनशैली बदली है",
+    },
+    testimonials: [
+      {
+        id: 1,
+        stars: 5,
+        text: {
+          en: '"With Swami ji\'s guidance, my 10-year-old back pain vanished."',
+          hi: '"स्वामी जी के मार्गदर्शन से मेरा 10 साल पुराना पीठ दर्द गायब हो गया।"',
+        },
+        name: {
+          en: "Rahul Sharma",
+          hi: "राहुल शर्मा",
+        },
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      },
+      {
+        id: 2,
+        stars: 5,
+        text: {
+          en: '"Natural diet has completely transformed my energy levels."',
+          hi: '"प्राकृतिक आहार ने मेरे ऊर्जा स्तर को पूरी तरह से बदल दिया है।"',
+        },
+        name: {
+          en: "Priya Singh",
+          hi: "प्रिया सिंह",
+        },
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      },
+      {
+        id: 3,
+        stars: 5,
+        text: {
+          en: '"Beyond Three is the true path to living a stress-free life."',
+          hi: '"बियॉन्ड थ्री तनावमुक्त जीवन जीने का असली रास्ता है।"',
+        },
+        name: {
+          en: "Amit Verma",
+          hi: "अमित वर्मा",
+        },
+        avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+      },
+    ],
+  };
+
+  return (
+    <section className="py-20 bg-[#f0f9f6]">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-emerald-900 mb-2">
+          {testimonialData.title[lang]}
+        </h2>
+        <p className="text-gray-600 mb-12">
+          {testimonialData.subtitle[lang]}
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonialData.testimonials.map((item) => (
+            <div
+              key={item.id}
+              className="relative bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-left flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <div className="flex gap-1">
+                    {[...Array(item.stars)].map((_, i) => (
+                      <FaStar key={i} className="text-lime-500 text-lg" />
+                    ))}
+                  </div>
+                  <FaQuoteRight className="text-lime-100 text-4xl" />
+                </div>
+                <p className="text-gray-700 italic mb-8 leading-relaxed">
+                  {item.text[lang]}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4 mt-auto">
+                <img
+                  src={item.avatar}
+                  alt={item.name[lang]}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-lime-100"
+                />
+                <h4 className="font-bold text-emerald-800">
+                  {item.name[lang]}
+                </h4>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Testimonials;
