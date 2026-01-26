@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="space-y-6">
           <div className="flex items-center gap-2">
             <FaLeaf className="text-lime-400 text-3xl" />
-            <h2 className="text-2xl font-bold">Beyond Three</h2>
+            <h2 className="text-2xl font-bold">{lang === "en" ? "Beyond Three" : "बियॉन्ड थ्री"}</h2>
           </div>
           <p className="text-gray-400 max-w-xs">
             {lang === "hi"

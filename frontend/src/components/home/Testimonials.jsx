@@ -58,23 +58,22 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-20 bg-[#f0f9f6]">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-emerald-900 mb-2">
+    <section className="bg-gray-100">
+      <div className="max-w-7xl mx-auto px-4 text-center py-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-emerald-700 mb-2">
           {testimonialData.title[lang]}
         </h2>
-        <p className="text-gray-600 mb-12">
+        <p className="text-gray-600 mb-8">
           {testimonialData.subtitle[lang]}
         </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-4">
           {testimonialData.testimonials.map((item) => (
             <div
               key={item.id}
-              className="relative bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-left flex flex-col justify-between"
+              className="relative bg-white md:p-8 p-4 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-left flex flex-col justify-between"
             >
               <div>
-                <div className="flex justify-between items-start mb-6">
+                <div className="flex justify-between items-start md:mb-6">
                   <div className="flex gap-1">
                     {[...Array(item.stars)].map((_, i) => (
                       <FaStar key={i} className="text-lime-500 text-lg" />
@@ -82,11 +81,10 @@ const Testimonials = () => {
                   </div>
                   <FaQuoteRight className="text-lime-100 text-4xl" />
                 </div>
-                <p className="text-gray-700 italic mb-8 leading-relaxed">
+                <p className="text-gray-700 italic md:mb-8 mb-4 leading-relaxed">
                   {item.text[lang]}
                 </p>
               </div>
-
               <div className="flex items-center gap-4 mt-auto">
                 <img
                   src={item.avatar}

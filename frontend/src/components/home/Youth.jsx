@@ -30,8 +30,8 @@ const Youth = () => {
   };
 
   return (
-    <section className="bg-emerald-800 py-10 px-4 text-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-emerald-800 text-white">
+      <div className="max-w-7xl mx-auto py-10 px-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div className="space-y-2 text-left">
             <span className="text-lime-400 font-bold tracking-widest text-xs uppercase">

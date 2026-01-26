@@ -26,9 +26,9 @@ const Media = () => {
   ];
 
   return (
-    <section className="bg-gray-100 px-4 py-16">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
+    <section className="bg-gray-100">
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        <h2 className="text-3xl font-bold text-emerald-700 text-center mb-8">
           {lang === "hi" ? "विशेष मीडिया" : "Featured Media"}
         </h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -37,13 +37,14 @@ const Media = () => {
               return (
                 <div
                   key={index}
-                  className="overflow-hidden rounded-xl shadow-md group bg-white"
+                  className="overflow-hidden rounded-xl shadow-md group bg-black relative"
                 >
                   <img
                     src={item.src}
                     alt="media"
-                    className="w-full h-48 object-fill hover:scale-110 transition duration-300 cursor-pointer"
+                    className="w-full h-48 object-contain cursor-pointer"
                   />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
               );
             }
@@ -77,7 +78,7 @@ const Media = () => {
                   setActiveVideo(null);
                   setShowModal(false);
                 }}
-                className="absolute top-2 right-2 bg-black text-white sm:w-10 w-6 sm:h-10 h-6 rounded-full flex items-center justify-center sm:text-xl font-bold hover:bg-red-600 transition z-50"
+                className="absolute cursor-pointer top-2 right-2 bg-black text-white sm:w-10 w-6 sm:h-10 h-6 rounded-full flex items-center justify-center sm:text-xl font-bold hover:bg-red-600 transition z-50"
               >
                 ✕
               </button>
