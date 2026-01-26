@@ -23,7 +23,7 @@ const About = () => {
     },
     {
       id: 2,
-      title: { en: "Founded by Swami Ji", hi: "स्वामी जी द्वारा स्थापित" },
+      title: { en: "Founder", hi: "संस्थापक" },
       desc: {
         en: "The organization was founded by Swami Ji with a vision to uplift society through spiritual wisdom, social responsibility, and sustainable development.",
         hi: "इस संगठन की स्थापना स्वामी जी ने समाज को आध्यात्मिक ज्ञान, सामाजिक जिम्मेदारी और सतत विकास के माध्यम से उठाने के दृष्टिकोण के साथ की।",
@@ -32,7 +32,7 @@ const About = () => {
     },
     {
       id: 3,
-      title: { en: "Our Padhdhati", hi: "हमारी पद्धति" },
+      title: { en: "Our Approach", hi: "हमारी पद्धति" },
       desc: {
         en: "Our padhdhati is based on discipline, values, and practical learning. We combine tradition with modern approaches to create meaningful impact.",
         hi: "हमारी पद्धति अनुशासन, मूल्यों और व्यावहारिक शिक्षा पर आधारित है। हम परंपरा और आधुनिक दृष्टिकोण को मिलाकर सार्थक प्रभाव पैदा करते हैं।",
@@ -42,9 +42,9 @@ const About = () => {
   ];
 
   return (
-    <section className="py-10 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+    <section className="py-10 bg-gray-100">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-emerald-700 text-center mb-8">
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h2>
         <div className="grid md:grid-cols-3 gap-6">

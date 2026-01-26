@@ -1,0 +1,100 @@
+import React, { useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
+import HeroBG from "../../assets/HeroBG.jpg";
+
+const Media = () => {
+  const { lang } = useLanguage();
+  const [activeVideo, setActiveVideo] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const mediaData = [
+    {
+      type: "image",
+      src: HeroBG,
+    },
+    {
+      type: "image",
+      src: HeroBG,
+    },
+    {
+      type: "video",
+      src: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    },
+    {
+      type: "video",
+      src: "https://www.youtube.com/embed/9bZkp7q19f0",
+    },
+  ];
+
+  return (
+    <section className="bg-gray-100 px-4 py-16">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">
+          {lang === "hi" ? "विशेष मीडिया" : "Featured Media"}
+        </h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {mediaData.map((item, index) => {
+            if (item.type === "image") {
+              return (
+                <div
+                  key={index}
+                  className="overflow-hidden rounded-xl shadow-md group bg-white"
+                >
+                  <img
+                    src={item.src}
+                    alt="media"
+                    className="w-full h-48 object-fill hover:scale-110 transition duration-300 cursor-pointer"
+                  />
+                </div>
+              );
+            }
+            return (
+              <div
+                key={index}
+                className="relative cursor-pointer group rounded-xl overflow-hidden shadow-md bg-white"
+                onClick={() => {
+                  setActiveVideo(item.src);
+                  setShowModal(true);
+                }}
+              >
+                <iframe
+                  src={item.src}
+                  title={`video-${index}`}
+                  className="w-full h-48 pointer-events-none"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"></div>
+              </div>
+            );
+          })}
+        </div>
+
+        {activeVideo && showModal && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+            <div className="bg-black rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl relative">
+              <button
+                onClick={() => {
+                  setActiveVideo(null);
+                  setShowModal(false);
+                }}
+                className="absolute top-2 right-2 bg-black text-white sm:w-10 w-6 sm:h-10 h-6 rounded-full flex items-center justify-center sm:text-xl font-bold hover:bg-red-600 transition z-50"
+              >
+                ✕
+              </button>
+              <iframe
+                src={activeVideo}
+                title="popup-video"
+                className="w-full sm:h-100 h-60"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+};
+
+export default Media;

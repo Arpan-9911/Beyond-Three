@@ -1,10 +1,10 @@
 import React from 'react';
 import { FaBolt, FaUsers } from 'react-icons/fa';
 import { useLanguage } from '../../context/LanguageContext';
+import { Link } from 'react-router-dom';
 
 const Youth = () => {
   const { lang } = useLanguage();
-
   const youthData = {
     subtitle: { en: "EMPOWERMENT", hi: "सशक्तिकरण" },
     title: { en: "Youth Projects", hi: "युवा परियोजनाएं" },
@@ -30,35 +30,35 @@ const Youth = () => {
   };
 
   return (
-    <section className="bg-[#0a4d3c] py-20 px-6 md:px-16 text-white relative overflow-hidden">
+    <section className="bg-emerald-800 py-10 px-4 text-white">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div className="space-y-2 text-left">
-            <span className="text-lime-400 font-bold tracking-widest text-sm uppercase">
+            <span className="text-lime-400 font-bold tracking-widest text-xs uppercase">
               {youthData.subtitle[lang]}
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <h2 className="text-3xl md:text-4xl font-bold">
               {youthData.title[lang]}
             </h2>
           </div>
-          <button className="bg-lime-400 text-[#0a4d3c] px-8 py-3 rounded-full font-bold hover:bg-lime-300 transition-colors w-fit">
+          <Link to={"/projects"} className="bg-lime-400 text-emerald-700 px-8 py-3 rounded-full font-bold hover:bg-lime-300 transition-colors w-fit">
             {youthData.button[lang]}
-          </button>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-4">
           {youthData.projects.map((project, index) => (
             <div
               key={index}
-              className="bg-[#1a5d4c] p-10 rounded-[2rem] border border-white/10 hover:bg-[#1f6d5a] transition-all group"
+              className="bg-emerald-700 p-6 rounded-2xl border border-white/10 hover:bg-emerald-600 transition duration-300 group"
             >
-              <div className="mb-6 group-hover:scale-110 transition-transform duration-300 text-left">
+              <div className="mb-6 group-hover:-translate-y-2 transition duration-300">
                 {project.icon}
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-left">
+              <h3 className="md:text-2xl text-xl font-bold md:mb-4 mb-2">
                 {project.title[lang]}
               </h3>
-              <p className="text-gray-300 text-lg leading-relaxed text-left">
+              <p className="text-gray-300 md:text-lg leading-relaxed">
                 {project.desc[lang]}
               </p>
             </div>

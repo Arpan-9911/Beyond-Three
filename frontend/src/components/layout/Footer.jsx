@@ -1,7 +1,20 @@
-import React from 'react';
-import { FaLeaf, FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaLeaf, FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Footer = () => {
+  const { lang } = useLanguage();
+
+  const contactData = {
+    address: {
+      hi: "शांति आश्रम, ऋषिकेश",
+      en: "Shanti Ashram, Rishikesh",
+    },
+    phone: "+91 9990001111",
+    email: "info@beyondthree.org",
+  };
+
   return (
     <footer className="bg-black text-white py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -11,7 +24,9 @@ const Footer = () => {
             <h2 className="text-2xl font-bold">Beyond Three</h2>
           </div>
           <p className="text-gray-400 max-w-xs">
-            A new healthy life in the lap of nature.
+            {lang === "hi"
+              ? "प्रकृति की गोद में एक नया स्वस्थ जीवन।"
+              : "A new healthy life in the lap of nature."}
           </p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-lime-400 transition-colors">
@@ -26,38 +41,69 @@ const Footer = () => {
           </div>
         </div>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Contact</h3>
+          <h3 className="text-lg font-semibold">
+            {lang === "hi" ? "संपर्क" : "Contact"}
+          </h3>
           <div className="space-y-2 text-gray-400">
-            <p>Shanti Ashram, Rishikesh</p>
-            <p>+91 9990001111</p>
-            <p>info@beyondthree.org</p>
+            <p>{contactData.address[lang]}</p>
+            <p>{contactData.phone}</p>
+            <p>{contactData.email}</p>
           </div>
         </div>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Projects</h3>
+          <h3 className="text-lg font-semibold">
+            {lang === "hi" ? "परियोजनाएँ" : "Projects"}
+          </h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <a href="#" className="hover:text-lime-400 transition-colors">Youth Projects</a>
+              <Link to="/projects" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "युवा परियोजनाएँ" : "Youth Projects"}
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-lime-400 transition-colors">Med-Free Campaign</a>
+              <Link to="/projects" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "रोग मुक्त अभियान" : "Disease Free Campaign"}
+              </Link>
             </li>
           </ul>
         </div>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Resources</h3>
+          <h3 className="text-lg font-semibold">
+            {lang === "hi" ? "संसाधन" : "Resources"}
+          </h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <a href="#" className="hover:text-lime-400 transition-colors">Legal Documents</a>
+              <Link to="/about" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "कानूनी दस्तावेज़" : "Legal Documents"}
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-lime-400 transition-colors">Blog</a>
+              <Link to="/blogs" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "ब्लॉग" : "Blogs"}
+              </Link>
+            </li>
+            <li>
+              <Link to="/events" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "कार्यक्रम" : "Events"}
+              </Link>
+            </li>
+            <li>
+              <Link to="/news" className="hover:text-lime-400 transition-colors">
+                {lang === "hi" ? "समाचार" : "News"}
+              </Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>© {new Date().getFullYear()} Beyond Three Trust. All rights reserved. | Developed by <a href="#" target="_blank" rel="noopener noreferrer" className="hover:text-lime-400 transition-colors">Surpanix</a></p>
+        <p>
+          © {new Date().getFullYear()} Beyond Three Trust.{" "}
+          {lang === "hi" ? "सभी अधिकार सुरक्षित।" : "All rights reserved."} |{" "}
+          Developed by{" "}
+          <a href="#" className="hover:text-lime-400 transition-colors">
+            Surpanix
+          </a>
+        </p>
       </div>
     </footer>
   );
