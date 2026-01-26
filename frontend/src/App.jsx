@@ -1,19 +1,21 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import Footer from './components/layout/Footer';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LanguageProvider from "./context/LanguageProvider";
+
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <LanguageProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </LanguageProvider>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;
