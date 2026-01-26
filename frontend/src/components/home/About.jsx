@@ -42,27 +42,22 @@ const About = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
+    <section className="py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h2>
-
-        {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {aboutData.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
             >
-              {/* Image */}
               <img
                 src={item.img}
                 alt={item.title[lang]}
                 className="w-full h-52 object-cover"
               />
-
-              {/* Content */}
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-3">
                   {item.title[lang]}
@@ -70,8 +65,6 @@ const About = () => {
                 <p className="text-gray-600 mb-4">
                   {truncateText(item.desc[lang])}
                 </p>
-
-                {/* Button using Link */}
                 <Link
                   to="/about"
                   className="inline-block px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"

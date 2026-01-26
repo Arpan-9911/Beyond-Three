@@ -1,15 +1,13 @@
 import React from 'react';
-import { FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
-import { GiLeafSkeleton } from 'react-icons/gi';
+import { FaLeaf, FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-        {/* Brand Section */}
         <div className="space-y-6">
           <div className="flex items-center gap-2">
-            <GiLeafSkeleton className="text-lime-400 text-3xl" />
+            <FaLeaf className="text-lime-400 text-3xl" />
             <h2 className="text-2xl font-bold">Beyond Three</h2>
           </div>
           <p className="text-gray-400 max-w-xs">
@@ -27,8 +25,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-
-        {/* Contact Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Contact</h3>
           <div className="space-y-2 text-gray-400">
@@ -37,8 +33,6 @@ const Footer = () => {
             <p>info@beyondthree.org</p>
           </div>
         </div>
-
-        {/* Projects Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Projects</h3>
           <ul className="space-y-2 text-gray-400">
@@ -50,8 +44,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
-        {/* Resources Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Resources</h3>
           <ul className="space-y-2 text-gray-400">
@@ -64,9 +56,8 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>© 2024 Beyond Three Trust. All rights reserved. | Developed by <a href="#" target="_blank" rel="noopener noreferrer" className="hover:text-lime-400 transition-colors">Surpanix</a></p>
+        <p>© {new Date().getFullYear()} Beyond Three Trust. All rights reserved. | Developed by <a href="#" target="_blank" rel="noopener noreferrer" className="hover:text-lime-400 transition-colors">Surpanix</a></p>
       </div>
     </footer>
   );

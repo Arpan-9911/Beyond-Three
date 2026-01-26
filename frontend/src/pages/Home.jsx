@@ -3,6 +3,8 @@ import Header from '../components/layout/Header'
 import Hero from '../components/home/Hero'
 import About from '../components/home/About'
 import Footer from '../components/layout/Footer'
+import Resolution from '../components/home/Resolution'
+import Youth from '../components/home/Youth'
 
 const Home = () => {
   return (
@@ -10,6 +12,8 @@ const Home = () => {
       <Header />
       <Hero />
       <About />
+      <Resolution />
+      <Youth />
       <Footer />
     </div>
   )
