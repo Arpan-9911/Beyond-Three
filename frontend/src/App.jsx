@@ -9,6 +9,8 @@ import Projects from "./pages/Projects";
 import Events from "./pages/Events";
 import Blogs from "./pages/Blogs";
 import News from "./pages/News";
+import JoinUs from "./pages/JoinUs";
+import Tours from "./pages/Tours";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/news" element={<News />} />
+          <Route path="/join" element={<JoinUs />} />
+          <Route path="/tours" element={<Tours />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </LanguageProvider>

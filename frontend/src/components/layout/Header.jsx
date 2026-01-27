@@ -10,7 +10,7 @@ const text = {
     projects: "PROJECTS",
     events: "EVENTS",
     blogs: "BLOGS",
-    join: "JOIN",
+    join: "JOIN US",
     news: "NEWS",
     tours: "TOURS",
     media: "MEDIA",
