@@ -33,6 +33,7 @@ const Tours = () => {
         hi: "मनाली योग यात्रा 2023 हमारी एक परिवर्तनकारी यात्रा थी। प्रतिभागियों ने दैनिक योग सत्रों, निर्देशित ध्यान और हिमाचल प्रदेश की हरी-भरी घाटियों के माध्यम से ट्रेक का आनंद लिया। यह यात्रा प्रकृति की भव्यता के बीच शांति और आध्यात्मिक कायाकल्प चाहने वालों के लिए डिजाइन की गई थी।",
       },
       image: Img,
+      images: [Img, Img, Img, Img],
     },
     {
       id: 2,
@@ -54,15 +55,23 @@ const Tours = () => {
         hi: "जयपुर के वास्तुशिल्प चमत्कारों और ऐतिहासिक कहानियों की खोज करें। भव्य आमेर किले से लेकर जटिल हवा महल तक, यह यात्रा आपको राजस्थान की शाही विरासत के केंद्र में ले जाती है। स्थानीय शिल्प, पारंपरिक व्यंजनों और रेगिस्तानी राज्य के पौराणिक आतिथ्य का अनुभव करें।",
       },
       image: Img,
+      images: [Img, Img, Img],
     },
   ];
 
   const [selectedTour, setSelectedTour] = useState(null);
+  const [activeImage, setActiveImage] = useState(null);
+
+  const handleTourClick = (tour) => {
+    setSelectedTour(tour);
+    setActiveImage(tour.image);
+  };
 
   const t = {
     title: { en: "Our Tours", hi: "हमारी यात्राएँ" },
     readMore: { en: "Read More →", hi: "और पढ़ें →" },
     location: { en: "Location:", hi: "स्थान:" },
+    gallery: { en: "Gallery:", hi: "गैलरी:" },
   };
 
   return (
@@ -82,7 +91,7 @@ const Tours = () => {
             <div
               key={tour.id}
               className="bg-white rounded-[2rem] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer"
-              onClick={() => setSelectedTour(tour)}
+              onClick={() => handleTourClick(tour)}
             >
               {/* Image Section with Overlays */}
               <div className="relative h-64 overflow-hidden">
@@ -119,53 +128,58 @@ const Tours = () => {
         </div>
       </main>
 
-      {/* Modal */}
+      {/* Modal - News.jsx Style */}
       {selectedTour && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-3xl animate-in fade-in zoom-in duration-300">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="relative w-full max-w-3xl">
             <button
               onClick={() => setSelectedTour(null)}
-              className="absolute -top-12 right-0 md:-right-12 text-white text-4xl hover:text-lime-400 transition-colors z-20"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
             >
               ✕
             </button>
 
-            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl overflow-y-auto max-h-[85vh] hide-scrollbar">
-              <div className="relative h-[40vh]">
-                <img
-                  src={selectedTour.image}
-                  alt={selectedTour.title[lang]}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <p className="text-lime-400 font-bold uppercase tracking-widest text-xs mb-2">{selectedTour.date}</p>
-                  <h2 className="text-3xl font-bold">{selectedTour.title[lang]}</h2>
-                </div>
-              </div>
+            <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
+              <img
+                src={activeImage}
+                alt={selectedTour.title[lang]}
+                className="w-full max-h-[60vh] object-contain bg-black"
+              />
 
-              <div className="p-8">
-                <div className="flex items-center gap-2 text-emerald-700 font-medium mb-6">
-                  <FaMapMarkerAlt />
-                  <span>{selectedTour.location[lang]}</span>
-                </div>
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-emerald-700 mb-3">
+                  {selectedTour.title[lang]}
+                </h2>
 
-                <div className="prose prose-emerald max-w-none">
-                  <p className="text-gray-600 text-lg leading-relaxed italic mb-6">
-                    {selectedTour.excerpt[lang]}
-                  </p>
-                  <div className="h-px bg-gray-100 w-full mb-6"></div>
-                  <p className="text-gray-800 leading-relaxed text-base">
-                    {selectedTour.content[lang]}
-                  </p>
-                </div>
+                <p className="text-sm text-gray-500 mb-4">
+                  <FaMapMarkerAlt className="inline mr-1" /> {selectedTour.location[lang]} • {selectedTour.date}
+                </p>
 
-                <button
-                  className="mt-8 bg-emerald-700 text-white px-8 py-3 rounded-full font-bold hover:bg-emerald-800 transition shadow-lg active:scale-95"
-                  onClick={() => setSelectedTour(null)}
-                >
-                  {lang === 'hi' ? 'वापस जाएं' : 'Back to Tours'}
-                </button>
+                <p className="text-gray-700 font-medium mb-3 italic">
+                  {selectedTour.excerpt[lang]}
+                </p>
+                <p className="text-gray-700">
+                  {selectedTour.content[lang]}
+                </p>
+
+                {/* Gallery Section */}
+                {selectedTour.images && selectedTour.images.length > 0 && (
+                  <div className="mt-8 border-t pt-6">
+                    <h4 className="text-lg font-bold text-emerald-700 mb-4">{t.gallery[lang]}</h4>
+                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                      {selectedTour.images.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className={`min-w-[120px] h-20 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === img ? 'border-emerald-600 scale-95' : 'border-transparent hover:border-emerald-200'
+                            }`}
+                          onClick={() => setActiveImage(img)}
+                        >
+                          <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -178,3 +192,4 @@ const Tours = () => {
 };
 
 export default Tours;
+
