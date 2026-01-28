@@ -65,80 +65,73 @@ const JoinUs = () => {
   };
 
   return (
-    <div className="bg-emerald-50/30 min-h-screen">
+    <div className="bg-gray-100">
       <Header />
-
-      <main className="max-w-7xl mx-auto px-4 py-12 pt-28">
-        <h1 className="text-4xl md:text-5xl font-bold text-center text-emerald-900 mb-10">
+      <main className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {t.title[lang]}
         </h1>
-
-        {/* Tab Selection */}
-        <div className="flex justify-center mb-16">
-          <div className="bg-white p-2 rounded-full shadow-md flex gap-2">
-            <button
-              onClick={() => setActiveTab("volunteer")}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${activeTab === "volunteer"
-                  ? "bg-emerald-700 text-white shadow-lg"
-                  : "bg-transparent text-emerald-700 hover:bg-emerald-50"
-                }`}
-            >
-              {t.volunteerTab[lang]}
-            </button>
-            <button
-              onClick={() => setActiveTab("member")}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${activeTab === "member"
-                  ? "bg-emerald-700 text-white shadow-lg"
-                  : "bg-transparent text-emerald-700 hover:bg-emerald-50"
-                }`}
-            >
-              {t.memberTab[lang]}
-            </button>
-          </div>
+        <div className="flex flex-wrap gap-2 mb-8">
+          <button
+            onClick={() => setActiveTab("volunteer")}
+            className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+              activeTab === 'volunteer'
+                ? "bg-emerald-700 text-white"
+                : "bg-white hover:bg-lime-200"
+            }`}
+          >
+            {t.volunteerTab[lang]}
+          </button>
+          <button
+            onClick={() => setActiveTab("member")}
+            className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+              activeTab === 'member'
+                ? "bg-emerald-700 text-white"
+                : "bg-white hover:bg-lime-200"
+            }`}
+          >
+            {t.memberTab[lang]}
+          </button>
         </div>
-
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
-          {/* Left Side: Form */}
-          <div className="w-full lg:w-3/5 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-emerald-100">
+        <div className="flex flex-col-reverse lg:flex-row gap-6 items-start">
+          <div className="w-full lg:w-3/5 bg-white sm:p-8 p-4 rounded-2xl shadow-xl border border-emerald-100">
             <h2 className="text-2xl font-bold text-emerald-800 mb-8">
               {activeContent.formTitle}
             </h2>
-
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.name[lang]}</label>
+                  <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.name[lang]}</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.email[lang]}</label>
+                  <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.email[lang]}</label>
                   <input
                     type="email"
-                    className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.mobile[lang]}</label>
+                <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.mobile[lang]}</label>
                 <input
                   type="tel"
-                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                   placeholder="..."
                 />
               </div>
-
               {activeTab === "volunteer" ? (
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.reason[lang]}</label>
                   <textarea
                     rows="4"
-                    className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none resize-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   ></textarea>
                 </div>
@@ -147,24 +140,21 @@ const JoinUs = () => {
                   <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.password[lang]}</label>
                   <input
                     type="password"
-                    className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
-                    placeholder="........"
+                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    placeholder="..."
                   />
                 </div>
               )}
-
               <p className="text-xs text-orange-600 font-medium italic mt-2">
                 {t.note[lang]}
               </p>
-
-              <button className="w-full bg-emerald-700 text-white py-5 rounded-2xl font-bold text-lg hover:bg-emerald-800 transition-all shadow-lg active:scale-[0.98] mt-4">
+              <button className="w-full bg-emerald-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-emerald-800 transition-all shadow-lg active:scale-90 mt-2">
                 {t.submit[lang]}
               </button>
-            </form>
+            </section>
           </div>
 
-          {/* Right Side: Info & Benefits */}
-          <div className="w-full lg:w-2/5 space-y-8">
+          <div className="w-full lg:w-2/5 space-y-6">
             <div className="flex items-start gap-6">
               <div className="bg-white p-4 rounded-2xl shadow-md text-emerald-700 text-4xl mt-1 border border-emerald-50">
                 <FaUserFriends />
@@ -176,16 +166,15 @@ const JoinUs = () => {
                 </p>
               </div>
             </div>
-
-            <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-emerald-50">
-              <h4 className="text-emerald-800 font-bold mb-6 text-lg border-b border-emerald-50 pb-4 flex items-center gap-2">
+            <div className="bg-white sm:p-8 p-4 rounded-2xl shadow-lg border border-emerald-50">
+              <h4 className="text-emerald-800 font-bold mb-4 text-lg border-b border-emerald-50 flex items-center gap-2">
                 <span className="w-1.5 h-6 bg-lime-400 rounded-full"></span>
                 {t.benefitsTitle[activeTab][lang]}
               </h4>
-              <ul className="space-y-5">
+              <ul className="space-y-2">
                 {activeContent.benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-center gap-4 text-gray-700 group">
-                    <FaCheckCircle className="text-lime-500 text-xl flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <li key={index} className="flex items-center gap-2 text-gray-700 group">
+                    <FaCheckCircle className="text-lime-500 text-xl shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="font-medium">{benefit[lang]}</span>
                   </li>
                 ))}

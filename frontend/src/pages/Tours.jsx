@@ -5,13 +5,8 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { FaMap, FaMapMarkerAlt, FaChevronRight } from "react-icons/fa";
 
-const truncateText = (text, limit = 90) => {
-  return text.length > limit ? text.substring(0, limit) + "..." : text;
-};
-
 const Tours = () => {
   const { lang } = useLanguage();
-
   const tours = [
     {
       id: 1,
@@ -75,33 +70,26 @@ const Tours = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100">
       <Header />
-
-      <main className="max-w-7xl mx-auto px-4 py-10 pt-24 min-h-dvh">
-        <div className="flex items-center gap-3 mb-8">
-          <FaMap className="text-emerald-700 text-3xl" />
-          <h1 className="md:text-4xl text-3xl font-bold text-emerald-800">
-            {t.title[lang]}
-          </h1>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <main className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+          {t.title[lang]}
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {tours.map((tour) => (
             <div
               key={tour.id}
-              className="bg-white rounded-[2rem] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer"
+              className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer"
               onClick={() => handleTourClick(tour)}
             >
-              {/* Image Section with Overlays */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-44 overflow-hidden">
                 <img
                   src={tour.image}
                   alt={tour.title[lang]}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6 text-white">
                   <span className="text-[10px] font-bold text-lime-400 tracking-widest uppercase mb-1 block">
                     {tour.date}
@@ -111,14 +99,11 @@ const Tours = () => {
                   </h3>
                 </div>
               </div>
-
-              {/* Footer Section */}
               <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <FaMapMarkerAlt className="text-emerald-600" />
                   <span>{tour.location[lang]}</span>
                 </div>
-
                 <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
                   <FaChevronRight />
                 </div>
@@ -127,8 +112,6 @@ const Tours = () => {
           ))}
         </div>
       </main>
-
-      {/* Modal - News.jsx Style */}
       {selectedTour && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
@@ -138,39 +121,33 @@ const Tours = () => {
             >
               ✕
             </button>
-
             <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={activeImage}
                 alt={selectedTour.title[lang]}
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
-
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-emerald-700 mb-3">
                   {selectedTour.title[lang]}
                 </h2>
-
                 <p className="text-sm text-gray-500 mb-4">
                   <FaMapMarkerAlt className="inline mr-1" /> {selectedTour.location[lang]} • {selectedTour.date}
                 </p>
-
                 <p className="text-gray-700 font-medium mb-3 italic">
                   {selectedTour.excerpt[lang]}
                 </p>
                 <p className="text-gray-700">
                   {selectedTour.content[lang]}
                 </p>
-
-                {/* Gallery Section */}
                 {selectedTour.images && selectedTour.images.length > 0 && (
                   <div className="mt-8 border-t pt-6">
                     <h4 className="text-lg font-bold text-emerald-700 mb-4">{t.gallery[lang]}</h4>
-                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="flex gap-2 pb-2 flex-wrap justify-evenly">
                       {selectedTour.images.map((img, idx) => (
                         <div
                           key={idx}
-                          className={`min-w-[120px] h-20 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === img ? 'border-emerald-600 scale-95' : 'border-transparent hover:border-emerald-200'
+                          className={`max-w-40 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === img ? 'border-emerald-600 scale-95' : 'border-transparent hover:border-emerald-200'
                             }`}
                           onClick={() => setActiveImage(img)}
                         >
@@ -185,7 +162,6 @@ const Tours = () => {
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );
