@@ -67,13 +67,15 @@ const Blogs = () => {
           {blogs.map((blog) => (
             <article
               key={blog.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
+              className="bg-white rounded-4xl shadow-xl hover:shadow-2xl transition overflow-hidden flex flex-col group"
             >
-              <img
-                src={blog.image}
-                alt={blog.title[lang]}
-                className="w-full h-48 object-cover"
-              />
+              <div className="w-full h-48 overflow-hidden">
+                <img
+                  src={blog.image}
+                  alt={blog.title[lang]}
+                  className="w-full h-48 object-cover group-hover:scale-110 transition duration-300"
+                />
+              </div>
               <div className="p-5 flex flex-col grow">
                 <span className="text-xs text-gray-500">{t.author[lang]} {blog.author[lang]} •{" "}{blog.date}</span>
                 <h3 className="text-lg font-semibold text-emerald-700 mb-2">
@@ -84,7 +86,7 @@ const Blogs = () => {
                 </p>
                 <button
                   onClick={() => setSelectedBlog(blog)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start"
+                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </button>
@@ -100,7 +102,7 @@ const Blogs = () => {
           <div className="relative w-full max-w-3xl">
             <button
               onClick={() => setSelectedBlog(null)}
-              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
             </button>

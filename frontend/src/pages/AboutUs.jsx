@@ -29,7 +29,7 @@ const AboutUs = () => {
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`px-3 py-1 rounded-full ${activeTab === index ? "bg-emerald-700 text-white" : "hover:bg-lime-200"}`}
+              className={`px-3 py-1 rounded-full cursor-pointer ${activeTab === index ? "bg-emerald-700 text-white" : "hover:bg-lime-200"}`}
               onClick={() => setActiveTab(index)}
             >
               {lang === "hi" ? tab.hi : tab.en}

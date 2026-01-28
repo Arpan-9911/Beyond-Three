@@ -37,12 +37,12 @@ const Media = () => {
               return (
                 <div
                   key={index}
-                  className="overflow-hidden rounded-xl shadow-md group bg-black relative"
+                  className="overflow-hidden rounded-4xl shadow-xl group bg-black relative hover:shadow-2xl"
                 >
                   <img
                     src={item.src}
                     alt="media"
-                    className="w-full h-48 object-contain cursor-pointer"
+                    className="w-full h-48 object-cover cursor-pointer"
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
@@ -51,7 +51,7 @@ const Media = () => {
             return (
               <div
                 key={index}
-                className="relative cursor-pointer group rounded-xl overflow-hidden shadow-md bg-white"
+                className="relative cursor-pointer group rounded-4xl overflow-hidden shadow-xl bg-white hover-shadow-2xl"
                 onClick={() => {
                   setActiveVideo(item.src);
                   setShowModal(true);

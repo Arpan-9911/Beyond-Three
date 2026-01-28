@@ -70,7 +70,7 @@ const Testimonials = () => {
           {testimonialData.testimonials.map((item) => (
             <div
               key={item.id}
-              className="relative bg-white md:p-8 p-4 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-left flex flex-col justify-between"
+              className="relative bg-white md:p-8 p-4 rounded-4xl shadow-xl hover:shadow-2xl transition duration-300 text-left flex flex-col justify-between"
             >
               <div>
                 <div className="flex justify-between items-start md:mb-6">

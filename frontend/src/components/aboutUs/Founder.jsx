@@ -28,11 +28,11 @@ const Founder = () => {
 
   return (
     <div className="grid md:grid-cols-2 md:gap-10 gap-4 items-center">
-      <div className="w-full bg-black rounded-2xl">
+      <div className="w-full bg-black rounded-4xl overflow-hidden  shadow-xl hover:shadow-2xl">
         <img
           src={founderImg}
           alt={content.name[lang]}
-          className="w-full md:h-100 object-fill rounded-xl shadow-lg"
+          className="w-full md:h-100 object-fill rounded-4xl hover:scale-110 transition duration-300"
         />
       </div>
       <div>

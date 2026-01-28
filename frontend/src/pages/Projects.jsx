@@ -75,7 +75,7 @@ const Projects = () => {
             <button
               key={cat.id}
               onClick={() => setActiveTab(index)}
-              className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+              className={`px-4 py-1 rounded-full cursor-pointer text-sm font-medium ${
                 activeTab === index
                   ? "bg-emerald-700 text-white"
                   : "bg-white hover:bg-lime-200"
@@ -89,24 +89,25 @@ const Projects = () => {
           {projectCategories[activeTab].projects.map((project) => (
             <div
               key={project.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
+              className="bg-white rounded-4xl shadow-xl hover:shadow-2xl overflow-hidden flex flex-col group"
             >
-              <img
-                src={project.image}
-                alt={project.title[lang]}
-                className="w-full h-48 object-cover"
-              />
+              <div className="w-full h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title[lang]}
+                  className="w-full h-full object-cover group-hover:scale-110 duration-300"
+                />
+              </div>
               <div className="p-5 flex flex-col grow">
                 <h3 className="text-lg font-semibold text-emerald-700 mb-2">
                   {project.title[lang]}
                 </h3>
-
                 <p className="text-gray-600 text-sm mb-4 grow">
                   {truncateText(project.desc[lang])}
                 </p>
                 <button
                   onClick={() => setActiveProject(project)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start"
+                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </button>
@@ -122,7 +123,7 @@ const Projects = () => {
           <div className="relative w-full max-w-3xl">
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
             </button>

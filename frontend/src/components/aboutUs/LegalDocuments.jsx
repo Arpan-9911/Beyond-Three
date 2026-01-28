@@ -40,7 +40,7 @@ const LegalDocuments = () => {
       {documents.map((doc, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl shadow-md p-5 flex flex-col items-center text-center hover:shadow-lg transition"
+          className="bg-white rounded-4xl shadow-xl p-5 flex flex-col items-center text-center hover:shadow-2xl transition"
         >
           <div className="bg-emerald-100 text-emerald-700 p-3 rounded-full mb-3">
             <FaFileAlt size={28} />

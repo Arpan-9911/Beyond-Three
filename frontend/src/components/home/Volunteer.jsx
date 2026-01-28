@@ -50,7 +50,7 @@ const Volunteer = () => {
   return (
     <section className="bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="bg-emerald-800 rounded-2xl overflow-hidden flex max-md:flex-col shadow-2xl border border-emerald-900">
+        <div className="bg-emerald-800 rounded-4xl shadow-xl overflow-hidden flex max-md:flex-col hover:shadow-2xl border border-emerald-900">
           <div className="md:w-1/2 p-4 md:p-10 lg:p-16 text-white flex flex-col justify-center gap-8">
             <div className="space-y-3">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
@@ -113,8 +113,7 @@ const Volunteer = () => {
                 </div>
               ))}
             </div>
-
-            <button className="bg-emerald-800 text-white py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg hover:bg-emerald-900 transition active:scale-95 shadow-lg">
+            <button className="bg-emerald-800 text-white cursor-pointer py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg hover:bg-emerald-900 transition active:scale-95 shadow-lg">
               <span>{volunteerData.right.button[lang]}</span>
             </button>
           </div>

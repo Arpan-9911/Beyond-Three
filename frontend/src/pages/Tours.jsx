@@ -80,14 +80,13 @@ const Tours = () => {
           {tours.map((tour) => (
             <div
               key={tour.id}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer"
-              onClick={() => handleTourClick(tour)}
+              className="bg-white rounded-4xl shadow-xl hover:shadow-2xl overflow-hidden flex flex-col group"
             >
-              <div className="relative h-44 overflow-hidden">
+              <div className="relative h-48 overflow-hidden">
                 <img
                   src={tour.image}
                   alt={tour.title[lang]}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6 text-white">
@@ -104,7 +103,10 @@ const Tours = () => {
                   <FaMapMarkerAlt className="text-emerald-600" />
                   <span>{tour.location[lang]}</span>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                <div
+                  onClick={() => handleTourClick(tour)}
+                  className="w-10 h-10 cursor-pointer rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300"
+                >
                   <FaChevronRight />
                 </div>
               </div>

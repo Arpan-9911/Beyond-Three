@@ -47,7 +47,7 @@ const Faqs = () => {
       {faqs.map((faq, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl shadow-md overflow-hidden"
+          className="bg-white rounded-4xl shadow-xl hover:shadow-2xl overflow-hidden"
         >
           <button
             onClick={() => toggleFaq(index)}

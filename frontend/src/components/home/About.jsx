@@ -42,8 +42,8 @@ const About = () => {
   ];
 
   return (
-    <section className="py-10 bg-gray-100">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="bg-gray-100">
+      <div className="max-w-7xl mx-auto px-4 py-10">
         <h2 className="text-3xl md:text-4xl font-bold text-emerald-700 text-center mb-8">
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h2>
@@ -51,7 +51,7 @@ const About = () => {
           {aboutData.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+              className="bg-white rounded-4xl shadow-xl hover:shadow-2xl transition duration-300 overflow-hidden"
             >
               <img
                 src={item.img}

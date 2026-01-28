@@ -74,7 +74,7 @@ const JoinUs = () => {
         <div className="flex flex-wrap gap-2 mb-8">
           <button
             onClick={() => setActiveTab("volunteer")}
-            className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+            className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
               activeTab === 'volunteer'
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
@@ -84,7 +84,7 @@ const JoinUs = () => {
           </button>
           <button
             onClick={() => setActiveTab("member")}
-            className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+            className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
               activeTab === 'member'
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
@@ -148,7 +148,7 @@ const JoinUs = () => {
               <p className="text-xs text-orange-600 font-medium italic mt-2">
                 {t.note[lang]}
               </p>
-              <button className="w-full bg-emerald-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-emerald-800 transition-all shadow-lg active:scale-90 mt-2">
+              <button className="w-full cursor-pointer bg-emerald-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-emerald-800 transition-all shadow-lg active:scale-90 mt-2">
                 {t.submit[lang]}
               </button>
             </section>

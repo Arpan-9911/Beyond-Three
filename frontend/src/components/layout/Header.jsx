@@ -78,7 +78,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
+      className={`fixed top-0 left-0 w-full z-50 transition duration-300
       ${isHome && !scrolled && !menuOpen ? "bg-white/30" : "bg-white shadow-lg"}
       `}
     >
@@ -95,14 +95,14 @@ const Header = () => {
           {navLinks}
           <button
             onClick={toggleLang}
-            className="border border-emerald-500 px-2 py-1 rounded-full text-emerald-600 hover:bg-emerald-500 hover:text-white transition"
+            className="cursor-pointer border border-emerald-500 px-2 py-1 rounded-full text-emerald-600 hover:bg-emerald-500 hover:text-white"
           >
             {t.langBtn}
           </button>
-          <button className="bg-lime-400 text-black px-3 py-1 rounded-full font-semibold hover:bg-lime-300 shadow-md transition">
+          <button className="cursor-pointer bg-lime-400 text-black px-3 py-1 rounded-full font-semibold hover:bg-lime-300 shadow-md">
             {t.appointment}
           </button>
-          <button className="bg-emerald-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-emerald-600 shadow-md transition">
+          <button className="cursor-pointer bg-emerald-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-emerald-600 shadow-md">
             {t.login}
           </button>
         </nav>

@@ -69,7 +69,7 @@ const Events = () => {
         <div className="flex flex-wrap gap-2 mb-8 text-sm font-medium">
           <button
             onClick={() => setActiveTab("upcoming")}
-            className={`px-4 py-1 rounded-full transition ${
+            className={`px-4 py-1 rounded-full cursor-pointer ${
               activeTab === 'upcoming'
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
@@ -79,7 +79,7 @@ const Events = () => {
           </button>
           <button
             onClick={() => setActiveTab("past")}
-            className={`px-4 py-1 rounded-full transition ${
+            className={`px-4 py-1 rounded-full cursor-pointer ${
               activeTab === 'past'
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
@@ -92,13 +92,13 @@ const Events = () => {
           {eventsToShow.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden flex flex-col sm:flex-row"
+              className="bg-white rounded-4xl group shadow-xl hover:shadow-2xl transition overflow-hidden flex flex-col sm:flex-row"
             >
-              <div className="sm:w-1/2 w-full h-48 sm:h-auto">
+              <div className="sm:w-1/2 w-full h-48 sm:h-auto overflow-hidden">
                 <img
                   src={event.image}
                   alt={event.title[lang]}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-110 duration-300"
                 />
               </div>
               <div className="p-5 flex flex-col gap-2 sm:w-1/2">
@@ -112,7 +112,7 @@ const Events = () => {
                 <p className="text-gray-700 mt-2">{truncateText(event.desc[lang], 100)}</p>
                 <button
                   onClick={() => setActiveEvent(event)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start"
+                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </button>
@@ -128,7 +128,7 @@ const Events = () => {
           <div className="relative w-full max-w-3xl">
             <button
               onClick={() => setActiveEvent(null)}
-              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
             </button>

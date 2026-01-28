@@ -88,14 +88,15 @@ const News = () => {
           {news.map((item) => (
             <article
               key={item.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
+              className="bg-white rounded-4xl shadow-xl hover:shadow-2xl transition overflow-hidden flex flex-col group"
             >
-              <img
-                src={item.image}
-                alt={item.title[lang]}
-                className="w-full h-48 object-cover"
-              />
-
+              <div className="w-full h-48 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title[lang]}
+                  className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                />
+              </div>
               <div className="p-5 flex flex-col grow">
                 <span className="text-xs text-gray-500">
                   {t.source[lang]} {item.source[lang]} • {item.date}
@@ -111,7 +112,7 @@ const News = () => {
 
                 <button
                   onClick={() => setSelectedNews(item)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start"
+                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {t.readMore[lang]}
                 </button>
@@ -121,13 +122,12 @@ const News = () => {
         </div>
       </main>
 
-      {/* Modal (same as Blogs) */}
       {selectedNews && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
             <button
               onClick={() => setSelectedNews(null)}
-              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
             </button>

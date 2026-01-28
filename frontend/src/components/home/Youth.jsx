@@ -50,7 +50,7 @@ const Youth = () => {
           {youthData.projects.map((project, index) => (
             <div
               key={index}
-              className="bg-emerald-700 p-6 rounded-2xl border border-white/10 hover:bg-emerald-600 transition duration-300 group"
+              className="bg-emerald-700 p-6 rounded-4xl border border-white/10 hover:bg-emerald-600 transition duration-300 group"
             >
               <div className="mb-6 group-hover:-translate-y-2 transition duration-300">
                 {project.icon}

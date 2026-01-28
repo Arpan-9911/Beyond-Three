@@ -41,8 +41,8 @@ const Resolution = () => {
   ];
 
   return (
-    <section className="py-10 bg-gray-100">
-      <section className="max-w-7xl mx-auto px-4 text-center">
+    <section className="bg-gray-100">
+      <section className="max-w-7xl mx-auto px-4 text-center py-10">
         <h2 className="md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {lang === "hi" ? "हमारा संकल्प" : "Our Resolution"}
         </h2>
@@ -50,7 +50,7 @@ const Resolution = () => {
           {resolutions.map((res, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl flex flex-col items-center transition duration-300 border border-gray-200"
+              className="bg-white rounded-4xl p-6 shadow-xl hover:shadow-2xl flex flex-col items-center transition duration-300 border border-gray-200"
             >
               <div className="p-3 rounded-full">
                 {res.icon}
