@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -30,13 +30,25 @@ const slides = [
 const Hero = () => {
   const { lang } = useLanguage();
   const [index, setIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
+
+  const handleSlideChange = useCallback((i) => {
+    if (animating || i === index) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setIndex(i);
+      setAnimating(false);
+    }, 300);
+  }, [animating, index]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
+      const nextIndex = (index + 1) % slides.length;
+      handleSlideChange(nextIndex);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [handleSlideChange, index]);
+  
   const slide = slides[index];
 
   return (
@@ -47,27 +59,29 @@ const Hero = () => {
         <div className="p-0.5 w-40 bg-lime-400 rounded-full"></div>
       </div>
       <div className="grid md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto">
-        <div className="w-full h-85 md:h-100 rounded-4xl overflow-hidden shadow-xl">
+        <div className="w-full h-70 md:h-100 rounded-4xl overflow-hidden shadow-xl">
           <img
             src={slide.image}
             alt="hero"
-            className="w-full h-full object-cover transition duration-300"
+            className={`w-full h-full object-cover transition-all duration-300 ${
+              animating ? "opacity-30" : "opacity-100"
+            }`}
           />
         </div>
-        <div>
+        <div
+          className={`transition-all duration-300 ${
+            animating ? "translate-x-2" : "translate-x-0"
+          }`}
+        >
           <p className="text-6xl text-lime-200 font-bold mb-4"><FaQuoteLeft /></p>
-          <p className="text-lg md:text-xl text-lime-400 leading-relaxed mb-6">
-            {slide.desc[lang]}
-          </p>
-          <h3 className="text-white font-semibold tracking-wide text-lg">
-            — {slide.title[lang]}
-          </h3>
+          <p className="text-lg md:text-xl text-lime-400 leading-relaxed mb-6">{slide.desc[lang]}</p>
+          <h3 className="text-white font-semibold tracking-wide text-lg">— {slide.title[lang]}</h3>
           <div className="flex gap-2 mt-6">
             {slides.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setIndex(i)}
-                className={`h-2 rounded-full transition duration-300 ${
+                onClick={() => handleSlideChange(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
                   i === index ? "bg-green-500 w-10" : "bg-gray-300 w-2"
                 }`}
               ></button>
@@ -75,7 +89,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };

@@ -114,12 +114,15 @@ const Media = () => {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-4xl">
             <button
-              onClick={() => setActiveMedia(null)}
+              onClick={() => {
+                setActiveMedia(null);
+                setShowModal(false);
+              }}
               className="absolute top-4 right-4 bg-black text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
             </button>
-            <div className="bg-black rounded-xl overflow-hidden max-h-[90vh]">
+            <div className="bg-black rounded-4xl overflow-hidden max-h-[90vh]">
               {activeMedia.type === "image" ? (
                 <img
                   src={activeMedia.src}

@@ -51,7 +51,7 @@ const Media = () => {
             return (
               <div
                 key={index}
-                className="relative cursor-pointer group rounded-4xl overflow-hidden shadow-xl bg-white hover-shadow-2xl"
+                className="relative cursor-pointer group rounded-4xl overflow-hidden shadow-xl bg-white hover:shadow-2xl"
                 onClick={() => {
                   setActiveVideo(item.src);
                   setShowModal(true);
@@ -71,28 +71,29 @@ const Media = () => {
         </div>
 
         {activeVideo && showModal && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-            <div className="bg-black rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl relative">
-              <button
-                onClick={() => {
-                  setActiveVideo(null);
-                  setShowModal(false);
-                }}
-                className="absolute cursor-pointer top-2 right-2 bg-black text-white sm:w-10 w-6 sm:h-10 h-6 rounded-full flex items-center justify-center sm:text-xl font-bold hover:bg-red-600 transition z-50"
-              >
-                ✕
-              </button>
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="relative w-full max-w-4xl">
+            <button
+              onClick={() => {
+                setActiveVideo(null);
+                setShowModal(false);
+              }}
+              className="absolute top-4 right-4 bg-black text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="bg-black rounded-4xl overflow-hidden">
               <iframe
                 src={activeVideo}
                 title="popup-video"
-                className="w-full sm:h-100 h-60"
+                className="w-full h-[60vh]"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
             </div>
           </div>
+        </div>
         )}
-
       </div>
     </section>
   );
