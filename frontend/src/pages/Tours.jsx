@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Img from "../assets/HeroBG.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
-import { FaMap, FaMapMarkerAlt, FaChevronRight } from "react-icons/fa";
+import { FaMapMarkerAlt, FaChevronRight } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 
 const Tours = () => {
   const { lang } = useLanguage();
+  const { id } = useParams();
+
   const tours = [
     {
       id: 1,
@@ -54,14 +57,13 @@ const Tours = () => {
     },
   ];
 
-  const [selectedTour, setSelectedTour] = useState(null);
+  const selectedTour = id ? tours.find((t) => t.id === Number(id)) : null;
   const [activeImage, setActiveImage] = useState(null);
-
-  const handleTourClick = (tour) => {
-    setSelectedTour(tour);
-    setActiveImage(tour.image);
-  };
-
+  useEffect(() => {
+    if (selectedTour) {
+      setActiveImage(selectedTour.image);
+    }
+  }, [selectedTour]);
   const t = {
     title: { en: "Our Tours", hi: "हमारी यात्राएँ" },
     readMore: { en: "Read More →", hi: "और पढ़ें →" },
@@ -72,7 +74,7 @@ const Tours = () => {
   return (
     <div className="bg-gray-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
         <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {t.title[lang]}
         </h1>
@@ -103,26 +105,27 @@ const Tours = () => {
                   <FaMapMarkerAlt className="text-emerald-600" />
                   <span>{tour.location[lang]}</span>
                 </div>
-                <div
-                  onClick={() => handleTourClick(tour)}
+                <Link
+                  to={`/tours/${tour.id}`}
                   className="w-10 h-10 cursor-pointer rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300"
                 >
                   <FaChevronRight />
-                </div>
+                </Link>
               </div>
             </div>
           ))}
         </div>
       </main>
+
       {selectedTour && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
-            <button
-              onClick={() => setSelectedTour(null)}
+            <Link
+              to="/tours"
               className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
             >
               ✕
-            </button>
+            </Link>
             <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={activeImage}
@@ -134,7 +137,8 @@ const Tours = () => {
                   {selectedTour.title[lang]}
                 </h2>
                 <p className="text-sm text-gray-500 mb-4">
-                  <FaMapMarkerAlt className="inline mr-1" /> {selectedTour.location[lang]} • {selectedTour.date}
+                  <FaMapMarkerAlt className="inline mr-1" />{" "}
+                  {selectedTour.location[lang]} • {selectedTour.date}
                 </p>
                 <p className="text-gray-700 font-medium mb-3 italic">
                   {selectedTour.excerpt[lang]}
@@ -144,16 +148,25 @@ const Tours = () => {
                 </p>
                 {selectedTour.images && selectedTour.images.length > 0 && (
                   <div className="mt-8 border-t pt-6">
-                    <h4 className="text-lg font-bold text-emerald-700 mb-4">{t.gallery[lang]}</h4>
+                    <h4 className="text-lg font-bold text-emerald-700 mb-4">
+                      {t.gallery[lang]}
+                    </h4>
                     <div className="flex gap-2 pb-2 flex-wrap justify-evenly">
                       {selectedTour.images.map((img, idx) => (
                         <div
                           key={idx}
-                          className={`max-w-40 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === img ? 'border-emerald-600 scale-95' : 'border-transparent hover:border-emerald-200'
-                            }`}
+                          className={`max-w-40 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                            activeImage === img
+                              ? "border-emerald-600 scale-95"
+                              : "border-transparent hover:border-emerald-200"
+                          }`}
                           onClick={() => setActiveImage(img)}
                         >
-                          <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} />
+                          <img
+                            src={img}
+                            className="w-full h-full object-cover"
+                            alt={`Gallery ${idx}`}
+                          />
                         </div>
                       ))}
                     </div>
@@ -170,4 +183,3 @@ const Tours = () => {
 };
 
 export default Tours;
-

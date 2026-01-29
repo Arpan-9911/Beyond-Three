@@ -21,7 +21,7 @@ const AboutUs = () => {
   return (
     <div className='bg-gray-100'>
       <Header />
-      <div className='max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh'>
+      <div className='max-w-7xl mx-auto px-4 py-10 min-h-dvh'>
         <h1 className='border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8'>
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h1>

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import { Link, useParams } from "react-router-dom";
 
 const eventsData = [
   {
@@ -44,7 +45,7 @@ const eventsData = [
 
 const Events = () => {
   const { lang } = useLanguage();
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const { tab = "upcoming", id } = useParams();
   const [activeEvent, setActiveEvent] = useState(null);
 
   const today = new Date();
@@ -54,39 +55,46 @@ const Events = () => {
   const pastEvents = eventsData.filter(
     (event) => new Date(event.date) < today
   );
-  const eventsToShow = activeTab === "upcoming" ? upcomingEvents : pastEvents;
-
+  const eventsToShow = tab === "past" ? pastEvents : upcomingEvents;
   const truncateText = (text, limit = 90) =>
     text.length > limit ? text.slice(0, limit) + "..." : text;
+  useEffect(() => {
+    if (id) {
+      const event = eventsData.find((e) => e.id === parseInt(id, 10));
+      setActiveEvent(event || null);
+    } else {
+      setActiveEvent(null);
+    }
+  }, [id]);
 
   return (
     <div className="bg-gray-100">
       <Header />
-      <div className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+      <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
         <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {lang === "hi" ? "कार्यक्रम" : "Events"}
         </h1>
         <div className="flex flex-wrap gap-2 mb-8 text-sm font-medium">
-          <button
-            onClick={() => setActiveTab("upcoming")}
+          <Link
+            to="/events/upcoming"
             className={`px-4 py-1 rounded-full cursor-pointer ${
-              activeTab === 'upcoming'
+              tab === "upcoming"
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
             }`}
           >
             {lang === "hi" ? "आगामी" : "Upcoming"}
-          </button>
-          <button
-            onClick={() => setActiveTab("past")}
+          </Link>
+          <Link
+            to="/events/past"
             className={`px-4 py-1 rounded-full cursor-pointer ${
-              activeTab === 'past'
+              tab === "past"
                 ? "bg-emerald-700 text-white"
                 : "bg-white hover:bg-lime-200"
             }`}
           >
             {lang === "hi" ? "पिछले" : "Past"}
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {eventsToShow.map((event) => (
@@ -106,16 +114,20 @@ const Events = () => {
                   {event.title[lang]}
                 </h2>
                 <div className="text-sm text-gray-600 flex flex-wrap gap-4">
-                  <span>📅 {new Date(event.date).toLocaleDateString("en-GB")}</span>
+                  <span>
+                    📅 {new Date(event.date).toLocaleDateString("en-GB")}
+                  </span>
                   <span>📍 {event.place[lang]}</span>
                 </div>
-                <p className="text-gray-700 mt-2">{truncateText(event.desc[lang], 100)}</p>
-                <button
-                  onClick={() => setActiveEvent(event)}
+                <p className="text-gray-700 mt-2">
+                  {truncateText(event.desc[lang], 100)}
+                </p>
+                <Link
+                  to={`/events/${tab}/${event.id}`}
                   className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
-                </button>
+                </Link>
               </div>
             </div>
           ))}
@@ -126,12 +138,12 @@ const Events = () => {
       {activeEvent && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
-            <button
-              onClick={() => setActiveEvent(null)}
+            <Link
+              to={`/events/${tab}`}
               className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
-            </button>
+            </Link>
             <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={activeEvent.image}
@@ -139,12 +151,19 @@ const Events = () => {
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
               <div className="p-6">
-                <h2 className="sm:text-2xl text-xl font-bold text-emerald-700 mb-2">{activeEvent.title[lang]}</h2>
+                <h2 className="sm:text-2xl text-xl font-bold text-emerald-700 mb-2">
+                  {activeEvent.title[lang]}
+                </h2>
                 <div className="text-sm text-gray-600 mb-4 flex gap-4 flex-wrap">
-                  <span>📅 {new Date(activeEvent.date).toLocaleDateString("en-GB")}</span>
+                  <span>
+                    📅{" "}
+                    {new Date(activeEvent.date).toLocaleDateString("en-GB")}
+                  </span>
                   <span>📍 {activeEvent.place[lang]}</span>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{activeEvent.desc[lang]}</p>
+                <p className="text-gray-700 leading-relaxed">
+                  {activeEvent.desc[lang]}
+                </p>
               </div>
             </div>
           </div>

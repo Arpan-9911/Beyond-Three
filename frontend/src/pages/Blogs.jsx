@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Img from "../assets/HeroBG.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import { useParams, Link } from "react-router-dom";
 
+// Helper to truncate text
 const truncateText = (text, limit = 90) => {
   return text.length > limit ? text.substring(0, limit) + "..." : text;
 };
@@ -48,6 +50,7 @@ const Blogs = () => {
       image: Img,
     },
   ];
+
   const [selectedBlog, setSelectedBlog] = useState(null);
   const t = {
     title: { en: "Our Blogs", hi: "हमारे ब्लॉग" },
@@ -56,10 +59,20 @@ const Blogs = () => {
     postedOn: { en: "Posted on", hi: "प्रकाशित" },
   };
 
+  const { id } = useParams();
+  useEffect(() => {
+    if (id) {
+      const blog = blogs.find((b) => b.id === parseInt(id, 10));
+      setSelectedBlog(blog || null);
+    } else {
+      setSelectedBlog(null);
+    }
+  }, [id]);
+
   return (
     <div className="bg-gray-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
         <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {t.title[lang]}
         </h1>
@@ -77,35 +90,36 @@ const Blogs = () => {
                 />
               </div>
               <div className="p-5 flex flex-col grow">
-                <span className="text-xs text-gray-500">{t.author[lang]} {blog.author[lang]} •{" "}{blog.date}</span>
+                <span className="text-xs text-gray-500">
+                  {t.author[lang]} {blog.author[lang]} • {blog.date}
+                </span>
                 <h3 className="text-lg font-semibold text-emerald-700 mb-2">
                   {blog.title[lang]}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4 grow">
                   {truncateText(blog.excerpt[lang])}
                 </p>
-                <button
-                  onClick={() => setSelectedBlog(blog)}
+                <Link
+                  to={`/blogs/${blog.id}`}
                   className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
-                  {lang === "hi" ? "और पढ़ें →" : "Read More →"}
-                </button>
+                  {t.readMore[lang]}
+                </Link>
               </div>
             </article>
           ))}
         </div>
       </main>
 
-      {/* Modal */}
       {selectedBlog && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
-            <button
-              onClick={() => setSelectedBlog(null)}
+            <Link
+              to="/blogs"
               className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
             >
               ✕
-            </button>
+            </Link>
             <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={selectedBlog.image}
@@ -117,15 +131,10 @@ const Blogs = () => {
                   {selectedBlog.title[lang]}
                 </h2>
                 <p className="text-sm text-gray-500 mb-4">
-                  {t.author[lang]} {selectedBlog.author[lang]} •{" "}
-                  {selectedBlog.date}
+                  {t.author[lang]} {selectedBlog.author[lang]} • {selectedBlog.date}
                 </p>
-                <p className="text-gray-700">
-                  {selectedBlog.excerpt[lang]}
-                </p>
-                <p className="text-gray-700 mt-2">
-                  {selectedBlog.content[lang]}
-                </p>
+                <p className="text-gray-700">{selectedBlog.excerpt[lang]}</p>
+                <p className="text-gray-700 mt-2">{selectedBlog.content[lang]}</p>
               </div>
             </div>
           </div>

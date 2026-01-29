@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Img from "../assets/HeroBG.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import { Link, useParams } from "react-router-dom";
 
 const truncateText = (text, limit = 90) => {
   return text.length > limit ? text.substring(0, limit) + "..." : text;
@@ -10,6 +11,7 @@ const truncateText = (text, limit = 90) => {
 
 const News = () => {
   const { lang } = useLanguage();
+  const { id } = useParams();
 
   const news = [
     {
@@ -68,8 +70,7 @@ const News = () => {
     },
   ];
 
-  const [selectedNews, setSelectedNews] = useState(null);
-
+  const selectedNews = id ? news.find((item) => item.id === Number(id)) : null;
   const t = {
     title: { en: "Latest News", hi: "ताज़ा समाचार" },
     readMore: { en: "Read More →", hi: "और पढ़ें →" },
@@ -79,8 +80,7 @@ const News = () => {
   return (
     <div className="bg-gray-100">
       <Header />
-
-      <main className="max-w-7xl mx-auto px-4 py-10 pt-20 min-h-dvh">
+      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
         <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
           {t.title[lang]}
         </h1>
@@ -109,13 +109,12 @@ const News = () => {
                 <p className="text-gray-600 text-sm mb-4 grow">
                   {truncateText(item.excerpt[lang])}
                 </p>
-
-                <button
-                  onClick={() => setSelectedNews(item)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
+                <Link
+                  to={`/news/${item.id}`}
+                  className="text-emerald-700 font-medium hover:underline text-sm self-start"
                 >
                   {t.readMore[lang]}
-                </button>
+                </Link>
               </div>
             </article>
           ))}
@@ -125,30 +124,26 @@ const News = () => {
       {selectedNews && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-3xl">
-            <button
-              onClick={() => setSelectedNews(null)}
-              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
+            <Link
+              to="/news"
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20"
             >
               ✕
-            </button>
-
+            </Link>
             <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={selectedNews.image}
                 alt={selectedNews.title[lang]}
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
-
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-emerald-700 mb-3">
                   {selectedNews.title[lang]}
                 </h2>
-
                 <p className="text-sm text-gray-500 mb-4">
                   {t.source[lang]} {selectedNews.source[lang]} •{" "}
                   {selectedNews.date}
                 </p>
-
                 <p className="text-gray-700">
                   {selectedNews.excerpt[lang]}
                 </p>
@@ -160,7 +155,6 @@ const News = () => {
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );
