@@ -11,7 +11,7 @@ const Youth = () => {
     button: { en: "View All", hi: "सभी देखें" },
     projects: [
       {
-        icon: <FaBolt className="text-3xl text-lime-400" />,
+        icon: <FaBolt className="text-3xl text-yellow-400" />,
         title: { en: "Mental Health Awareness", hi: "मानसिक स्वास्थ्य जागरूकता" },
         desc: {
           en: "Strengthening youth mental health through natural ways.",
@@ -19,7 +19,7 @@ const Youth = () => {
         }
       },
       {
-        icon: <FaUsers className="text-3xl text-lime-400" />,
+        icon: <FaUsers className="text-3xl text-yellow-400" />,
         title: { en: "Skill Development", hi: "कौशल विकास" },
         desc: {
           en: "Initiative to make youth self-reliant through nature-based jobs.",
@@ -30,18 +30,18 @@ const Youth = () => {
   };
 
   return (
-    <section className="bg-emerald-800 text-white">
+    <section className="bg-amber-800 text-white">
       <div className="max-w-7xl mx-auto py-10 px-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div className="space-y-2 text-left">
-            <span className="text-lime-400 font-bold tracking-widest text-xs uppercase">
+            <span className="text-yellow-400 font-bold tracking-widest text-xs uppercase">
               {youthData.subtitle[lang]}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold">
               {youthData.title[lang]}
             </h2>
           </div>
-          <Link to={"/projects"} className="bg-lime-400 text-emerald-700 px-8 py-3 rounded-full font-bold hover:bg-lime-300 transition-colors w-fit">
+          <Link to={"/projects"} className="bg-yellow-400 text-amber-700 px-8 py-3 rounded-full font-bold hover:bg-yellow-300 transition-colors w-fit">
             {youthData.button[lang]}
           </Link>
         </div>
@@ -50,7 +50,7 @@ const Youth = () => {
           {youthData.projects.map((project, index) => (
             <div
               key={index}
-              className="bg-emerald-700 p-6 rounded-4xl border border-white/10 hover:bg-emerald-600 transition duration-300 group"
+              className="bg-amber-700 p-6 rounded-4xl border border-white/10 hover:bg-amber-600 transition duration-300 group"
             >
               <div className="mb-6 group-hover:-translate-y-2 transition duration-300">
                 {project.icon}

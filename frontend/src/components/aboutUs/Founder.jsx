@@ -36,10 +36,10 @@ const Founder = () => {
         />
       </div>
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-emerald-700 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-amber-700 mb-2">
           {content.name[lang]}
         </h2>
-        <p className="text-lime-400 font-semibold mb-4">
+        <p className="text-yellow-400 font-semibold mb-4">
           {content.title[lang]}
         </p>
         <p className="text-gray-700 leading-relaxed md:text-lg">

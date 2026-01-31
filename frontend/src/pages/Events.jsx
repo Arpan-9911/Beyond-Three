@@ -71,7 +71,7 @@ const Events = () => {
     <div className="bg-gray-100">
       <Header />
       <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {lang === "hi" ? "कार्यक्रम" : "Events"}
         </h1>
         <div className="flex flex-wrap gap-2 mb-8 text-sm font-medium">
@@ -79,8 +79,8 @@ const Events = () => {
             to="/events/upcoming"
             className={`px-4 py-1 rounded-full cursor-pointer ${
               tab === "upcoming"
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {lang === "hi" ? "आगामी" : "Upcoming"}
@@ -89,8 +89,8 @@ const Events = () => {
             to="/events/past"
             className={`px-4 py-1 rounded-full cursor-pointer ${
               tab === "past"
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {lang === "hi" ? "पिछले" : "Past"}
@@ -110,7 +110,7 @@ const Events = () => {
                 />
               </div>
               <div className="p-5 flex flex-col gap-2 sm:w-1/2">
-                <h2 className="text-lg sm:text-xl font-semibold text-emerald-700">
+                <h2 className="text-lg sm:text-xl font-semibold text-amber-700">
                   {event.title[lang]}
                 </h2>
                 <div className="text-sm text-gray-600 flex flex-wrap gap-4">
@@ -124,7 +124,7 @@ const Events = () => {
                 </p>
                 <Link
                   to={`/events/${tab}/${event.id}`}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
+                  className="text-amber-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </Link>
@@ -151,7 +151,7 @@ const Events = () => {
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
               <div className="p-6">
-                <h2 className="sm:text-2xl text-xl font-bold text-emerald-700 mb-2">
+                <h2 className="sm:text-2xl text-xl font-bold text-amber-700 mb-2">
                   {activeEvent.title[lang]}
                 </h2>
                 <div className="text-sm text-gray-600 mb-4 flex gap-4 flex-wrap">

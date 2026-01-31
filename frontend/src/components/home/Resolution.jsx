@@ -6,7 +6,7 @@ const Resolution = () => {
   const { lang } = useLanguage();
   const resolutions = [
     {
-      icon: <FaHeartbeat className="text-4xl text-emerald-700" />,
+      icon: <FaHeartbeat className="text-4xl text-amber-700" />,
       title: {
         en: "Pure Health",
         hi: "शुद्ध स्वास्थ्य"
@@ -17,7 +17,7 @@ const Resolution = () => {
       }
     },
     {
-      icon: <FaUsers className="text-4xl text-emerald-700" />,
+      icon: <FaUsers className="text-4xl text-amber-700" />,
       title: {
         en: "Empowered Society",
         hi: "सशक्त समाज"
@@ -28,7 +28,7 @@ const Resolution = () => {
       }
     },
     {
-      icon: <FaSun className="text-4xl text-emerald-700" />,
+      icon: <FaSun className="text-4xl text-amber-700" />,
       title: {
         en: "Natural Joy",
         hi: "प्राकृतिक आनंद"
@@ -43,7 +43,7 @@ const Resolution = () => {
   return (
     <section className="bg-gray-100">
       <section className="max-w-7xl mx-auto px-4 text-center py-10">
-        <h2 className="md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h2 className="md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {lang === "hi" ? "हमारा संकल्प" : "Our Resolution"}
         </h2>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-4">

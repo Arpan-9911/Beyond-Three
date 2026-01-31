@@ -50,20 +50,20 @@ const Volunteer = () => {
   return (
     <section className="bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="bg-emerald-800 rounded-4xl shadow-xl overflow-hidden flex max-md:flex-col hover:shadow-2xl border border-emerald-900">
+        <div className="bg-amber-800 rounded-4xl shadow-xl overflow-hidden flex max-md:flex-col hover:shadow-2xl border border-amber-900">
           <div className="md:w-1/2 p-4 md:p-10 lg:p-16 text-white flex flex-col justify-center gap-8">
             <div className="space-y-3">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 {volunteerData.left.title[lang]}
               </h2>
-              <p className="text-lime-400 font-semibold tracking-wide text-xs md:text-sm lg:text-base">
+              <p className="text-yellow-400 font-semibold tracking-wide text-xs md:text-sm lg:text-base">
                 {volunteerData.left.subtitle[lang]}
               </p>
             </div>
             <div className="space-y-6 md:space-y-8">
               <div className="flex items-start gap-3 md:gap-4">
-                <div className="bg-emerald-900 p-2 md:p-3 rounded-full mt-1 shrink-0">
-                  <FaClock className="text-lime-400 text-sm md:text-base" />
+                <div className="bg-amber-900 p-2 md:p-3 rounded-full mt-1 shrink-0">
+                  <FaClock className="text-yellow-400 text-sm md:text-base" />
                 </div>
                 <div>
                   <h4 className="font-bold text-base md:text-lg mb-1">{volunteerData.left.workingHours.label[lang]}</h4>
@@ -71,8 +71,8 @@ const Volunteer = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3 md:gap-4">
-                <div className="bg-emerald-900 p-2 md:p-3 rounded-full mt-1 shrink-0">
-                  <FaHandsHelping className="text-lime-400 text-sm md:text-base" />
+                <div className="bg-amber-900 p-2 md:p-3 rounded-full mt-1 shrink-0">
+                  <FaHandsHelping className="text-yellow-400 text-sm md:text-base" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-bold text-base md:text-lg mb-3 md:mb-4">{volunteerData.left.stipend.label[lang]}</h4>
@@ -89,7 +89,7 @@ const Volunteer = () => {
             </div>
           </div>
           <div className="md:w-1/2 bg-white p-4 md:p-10 lg:p-16 flex flex-col justify-center">
-            <h3 className="text-xl md:text-2xl font-bold text-emerald-700 mb-6 md:mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-amber-700 mb-6 md:mb-8">
               {volunteerData.right.title[lang]}
             </h3>
 
@@ -97,23 +97,23 @@ const Volunteer = () => {
               {volunteerData.right.ageGroups.map((group) => (
                 <div
                   key={group.id}
-                  className="flex items-center justify-between p-3 md:p-4 px-4 md:px-6 border border-gray-100 rounded-xl md:rounded-2xl bg-gray-50/50 group hover:bg-emerald-50 transition-colors gap-3"
+                  className="flex items-center justify-between p-3 md:p-4 px-4 md:px-6 border border-gray-100 rounded-xl md:rounded-2xl bg-gray-50/50 group hover:bg-amber-50 transition-colors gap-3"
                 >
                   <div className="flex items-center gap-3 md:gap-6 min-w-0">
-                    <span className="bg-emerald-100 text-emerald-700 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-full font-bold text-xs md:text-sm shrink-0">
+                    <span className="bg-amber-100 text-amber-700 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-full font-bold text-xs md:text-sm shrink-0">
                       {group.id}
                     </span>
                     <span className="font-bold text-gray-700 text-sm md:text-base lg:text-lg truncate">
                       {lang === 'hi' ? group.hi_range : group.range}
                     </span>
                   </div>
-                  <span className="bg-lime-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold whitespace-nowrap shrink-0">
+                  <span className="bg-yellow-100 text-amber-800 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold whitespace-nowrap shrink-0">
                     {lang === 'hi' ? group.hi_badge : group.badge}
                   </span>
                 </div>
               ))}
             </div>
-            <button className="bg-emerald-800 text-white cursor-pointer py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg hover:bg-emerald-900 transition active:scale-95 shadow-lg">
+            <button className="bg-amber-800 text-white cursor-pointer py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg hover:bg-amber-900 transition active:scale-95 shadow-lg">
               <span>{volunteerData.right.button[lang]}</span>
             </button>
           </div>

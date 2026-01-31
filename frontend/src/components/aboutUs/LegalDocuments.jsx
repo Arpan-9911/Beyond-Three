@@ -42,7 +42,7 @@ const LegalDocuments = () => {
           key={index}
           className="bg-white rounded-4xl shadow-xl p-5 flex flex-col items-center text-center hover:shadow-2xl transition"
         >
-          <div className="bg-emerald-100 text-emerald-700 p-3 rounded-full mb-3">
+          <div className="bg-amber-100 text-amber-700 p-3 rounded-full mb-3">
             <FaFileAlt size={28} />
           </div>
           <h3 className="font-semibold text-gray-800 mb-2 text-sm md:text-base">
@@ -52,7 +52,7 @@ const LegalDocuments = () => {
             href={doc.file}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-700 text-sm font-medium hover:underline"
+            className="text-amber-700 text-sm font-medium hover:underline"
           >
             {lang === "hi" ? "डाउनलोड करें" : "Download"}
           </a>

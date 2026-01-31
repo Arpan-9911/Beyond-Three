@@ -43,7 +43,7 @@ const Media = () => {
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {lang === "hi" ? "मीडिया" : "Media"}
         </h1>
         <div className="flex flex-wrap gap-2 mb-8 text-sm font-medium">
@@ -51,8 +51,8 @@ const Media = () => {
             onClick={() => setActiveTab("images")}
             className={`px-4 py-1 rounded-full font-medium cursor-pointer ${
               activeTab === "images"
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {lang === "hi" ? "चित्र" : "Images"}
@@ -61,8 +61,8 @@ const Media = () => {
             onClick={() => setActiveTab("videos")}
             className={`px-4 py-1 rounded-full font-medium cursor-pointer ${
               activeTab === "videos"
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {lang === "hi" ? "वीडियो" : "Videos"}

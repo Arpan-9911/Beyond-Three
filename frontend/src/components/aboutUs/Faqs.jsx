@@ -51,7 +51,7 @@ const Faqs = () => {
         >
           <button
             onClick={() => toggleFaq(index)}
-            className={`w-full flex justify-between items-center px-6 py-4 text-left font-semibold text-gray-800 ${activeIndex === index ? "bg-lime-300" : "hover:bg-lime-200"} transition`}
+            className={`w-full flex justify-between items-center px-6 py-4 text-left font-semibold text-gray-800 ${activeIndex === index ? "bg-yellow-300" : "hover:bg-yellow-200"} transition`}
           >
             <span>
               {lang === "hi" ? faq.question.hi : faq.question.en}

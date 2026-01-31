@@ -75,7 +75,7 @@ const Tours = () => {
     <div className="bg-gray-100">
       <Header />
       <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {t.title[lang]}
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -92,7 +92,7 @@ const Tours = () => {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6 text-white">
-                  <span className="text-[10px] font-bold text-lime-400 tracking-widest uppercase mb-1 block">
+                  <span className="text-[10px] font-bold text-yellow-400 tracking-widest uppercase mb-1 block">
                     {tour.date}
                   </span>
                   <h3 className="text-xl font-bold leading-tight drop-shadow-md">
@@ -102,12 +102,12 @@ const Tours = () => {
               </div>
               <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-500 text-sm">
-                  <FaMapMarkerAlt className="text-emerald-600" />
+                  <FaMapMarkerAlt className="text-amber-600" />
                   <span>{tour.location[lang]}</span>
                 </div>
                 <Link
                   to={`/tours/${tour.id}`}
-                  className="w-10 h-10 cursor-pointer rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300"
+                  className="w-10 h-10 cursor-pointer rounded-full bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300"
                 >
                   <FaChevronRight />
                 </Link>
@@ -133,7 +133,7 @@ const Tours = () => {
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-emerald-700 mb-3">
+                <h2 className="text-2xl font-bold text-amber-700 mb-3">
                   {selectedTour.title[lang]}
                 </h2>
                 <p className="text-sm text-gray-500 mb-4">
@@ -148,7 +148,7 @@ const Tours = () => {
                 </p>
                 {selectedTour.images && selectedTour.images.length > 0 && (
                   <div className="mt-8 border-t pt-6">
-                    <h4 className="text-lg font-bold text-emerald-700 mb-4">
+                    <h4 className="text-lg font-bold text-amber-700 mb-4">
                       {t.gallery[lang]}
                     </h4>
                     <div className="flex gap-2 pb-2 flex-wrap justify-evenly">
@@ -157,8 +157,8 @@ const Tours = () => {
                           key={idx}
                           className={`max-w-40 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
                             activeImage === img
-                              ? "border-emerald-600 scale-95"
-                              : "border-transparent hover:border-emerald-200"
+                              ? "border-amber-600 scale-95"
+                              : "border-transparent hover:border-amber-200"
                           }`}
                           onClick={() => setActiveImage(img)}
                         >

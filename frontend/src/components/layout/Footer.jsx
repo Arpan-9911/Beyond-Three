@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-6">
           <div className="flex items-center gap-2">
-            <FaLeaf className="text-lime-400 text-3xl" />
+            <FaLeaf className="text-yellow-400 text-3xl" />
             <h2 className="text-2xl font-bold">{lang === "en" ? "Beyond Three" : "बियॉन्ड थ्री"}</h2>
           </div>
           <p className="text-gray-400 max-w-xs">
@@ -29,13 +29,13 @@ const Footer = () => {
               : "A new healthy life in the lap of nature."}
           </p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-lime-400 transition-colors">
+            <a href="#" className="hover:text-yellow-400 transition-colors">
               <FaFacebookF size={20} />
             </a>
-            <a href="#" className="hover:text-lime-400 transition-colors">
+            <a href="#" className="hover:text-yellow-400 transition-colors">
               <FaInstagram size={20} />
             </a>
-            <a href="#" className="hover:text-lime-400 transition-colors">
+            <a href="#" className="hover:text-yellow-400 transition-colors">
               <FaYoutube size={20} />
             </a>
           </div>
@@ -56,12 +56,12 @@ const Footer = () => {
           </h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link to="/projects" className="hover:text-lime-400 transition-colors">
+              <Link to="/projects" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "युवा परियोजनाएँ" : "Youth Projects"}
               </Link>
             </li>
             <li>
-              <Link to="/projects" className="hover:text-lime-400 transition-colors">
+              <Link to="/projects" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "रोग मुक्त अभियान" : "Disease Free Campaign"}
               </Link>
             </li>
@@ -73,22 +73,22 @@ const Footer = () => {
           </h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link to="/about" className="hover:text-lime-400 transition-colors">
+              <Link to="/about" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "कानूनी दस्तावेज़" : "Legal Documents"}
               </Link>
             </li>
             <li>
-              <Link to="/blogs" className="hover:text-lime-400 transition-colors">
+              <Link to="/blogs" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "ब्लॉग" : "Blogs"}
               </Link>
             </li>
             <li>
-              <Link to="/events" className="hover:text-lime-400 transition-colors">
+              <Link to="/events" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "कार्यक्रम" : "Events"}
               </Link>
             </li>
             <li>
-              <Link to="/news" className="hover:text-lime-400 transition-colors">
+              <Link to="/news" className="hover:text-yellow-400 transition-colors">
                 {lang === "hi" ? "समाचार" : "News"}
               </Link>
             </li>
@@ -100,7 +100,7 @@ const Footer = () => {
           © {new Date().getFullYear()} Beyond Three Trust.{" "}
           {lang === "hi" ? "सभी अधिकार सुरक्षित।" : "All rights reserved."} |{" "}
           Developed by{" "}
-          <a href="#" className="hover:text-lime-400 transition-colors">
+          <a href="#" className="hover:text-yellow-400 transition-colors">
             Surpanix
           </a>
         </p>

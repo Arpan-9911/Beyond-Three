@@ -56,15 +56,15 @@ const NewsEvents = () => {
 
   return (
     <section className="bg-gray-100">
-      <div className="max-w-6xl mx-auto py-10 px-4 grid md:grid-cols-2 md:gap-8 gap-4">
+      <div className="max-w-7xl mx-auto py-10 px-4 grid md:grid-cols-2 md:gap-8 gap-4">
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-emerald-700 border-l-4 border-lime-400 pl-3">
+            <h2 className="text-xl font-bold text-amber-700 border-l-4 border-yellow-400 pl-3">
               {lang === "hi" ? "ताज़ा समाचार" : "Latest News"}
             </h2>
             <Link
               to="/news"
-              className="text-sm font-semibold text-gray-500 hover:text-emerald-700 transition"
+              className="text-sm font-semibold text-gray-500 hover:text-amber-700 transition"
             >
               {lang === "hi" ? "सभी देखें" : "View All"}
             </Link>
@@ -76,22 +76,22 @@ const NewsEvents = () => {
                 to={`/news/${news.id}`}
                 className="flex items-center justify-between group px-2 py-1 rounded-2xl hover:bg-white transition duration-300"
               >
-                <h3 className="text-base font-medium text-gray-800 group-hover:text-emerald-700 transition duration-300">
+                <h3 className="text-base font-medium text-gray-800 group-hover:text-amber-700 transition duration-300">
                   {news.title[lang]}
                 </h3>
-                <FaChevronRight className="text-gray-400 group-hover:text-emerald-700 group-hover:translate-x-1 transition duration-300" />
+                <FaChevronRight className="text-gray-400 group-hover:text-amber-700 group-hover:translate-x-1 transition duration-300" />
               </Link>
             ))}
           </div>
         </div>
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-emerald-700 border-l-4 border-lime-400 pl-3">
+            <h2 className="text-xl font-bold text-amber-700 border-l-4 border-yellow-400 pl-3">
               {lang === "hi" ? "आगामी कार्यक्रम" : "Upcoming Events"}
             </h2>
             <Link
               to="/events"
-              className="text-sm font-semibold text-gray-500 hover:text-emerald-700 transition"
+              className="text-sm font-semibold text-gray-500 hover:text-amber-700 transition"
             >
               {lang === "hi" ? "सभी देखें" : "View All"}
             </Link>
@@ -102,19 +102,19 @@ const NewsEvents = () => {
               <Link
                 key={event.id}
                 to={`/events/upcoming/${event.id}`}
-                className="flex items-center justify-between group px-2 py-1 rounded-lg hover:bg-white transition duration-300"
+                className="flex items-center justify-between group px-2 py-1 rounded-2xl hover:bg-white transition duration-300"
               >
-                <h3 className="text-base font-medium text-gray-800 group-hover:text-emerald-700 transition duration-300">
+                <h3 className="text-base font-medium text-gray-800 group-hover:text-amber-700 transition duration-300">
                   {event.title[lang]}
                 </h3>
-                <FaChevronRight className="text-gray-400 group-hover:text-emerald-700 group-hover:translate-x-1 transition duration-300" />
+                <FaChevronRight className="text-gray-400 group-hover:text-amber-700 group-hover:translate-x-1 transition duration-300" />
               </Link>
             ))}
           </div>
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <div className="p-0.5 w-1/2 bg-lime-400 rounded-full"></div>
+        <div className="p-0.5 w-1/2 bg-yellow-400 rounded-full"></div>
       </div>
     </section>
   );

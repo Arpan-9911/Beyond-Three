@@ -37,16 +37,16 @@ const MissionAndVision = () => {
 
   return (
     <div className="grid md:grid-cols-2 gap-8">
-      <div className="bg-emerald-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
-        <h2 className="md:text-3xl text-2xl font-bold text-emerald-700 mb-4">
+      <div className="bg-amber-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
+        <h2 className="md:text-3xl text-2xl font-bold text-amber-700 mb-4">
           {content.mission.title[lang]}
         </h2>
         <p className="text-gray-600 leading-relaxed font-semibold">
           {content.mission.text[lang]}
         </p>
       </div>
-      <div className="bg-lime-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
-        <h2 className="md:text-3xl text-2xl font-bold text-emerald-700 mb-4">
+      <div className="bg-yellow-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
+        <h2 className="md:text-3xl text-2xl font-bold text-amber-700 mb-4">
           {content.vision.title[lang]}
         </h2>
         <p className="text-gray-600 leading-relaxed font-semibold">

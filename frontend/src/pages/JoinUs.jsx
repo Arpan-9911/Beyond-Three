@@ -68,7 +68,7 @@ const JoinUs = () => {
     <div className="bg-gray-100">
       <Header />
       <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {t.title[lang]}
         </h1>
         <div className="flex flex-wrap gap-2 mb-8">
@@ -76,8 +76,8 @@ const JoinUs = () => {
             onClick={() => setActiveTab("volunteer")}
             className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
               activeTab === 'volunteer'
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {t.volunteerTab[lang]}
@@ -86,61 +86,61 @@ const JoinUs = () => {
             onClick={() => setActiveTab("member")}
             className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
               activeTab === 'member'
-                ? "bg-emerald-700 text-white"
-                : "bg-white hover:bg-lime-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
             }`}
           >
             {t.memberTab[lang]}
           </button>
         </div>
         <div className="flex flex-col-reverse lg:flex-row gap-6 items-start">
-          <div className="w-full lg:w-3/5 bg-white sm:p-8 p-4 rounded-2xl shadow-xl border border-emerald-100">
-            <h2 className="text-2xl font-bold text-emerald-800 mb-8">
+          <div className="w-full lg:w-3/5 bg-white sm:p-8 p-4 rounded-2xl shadow-xl border border-amber-100">
+            <h2 className="text-2xl font-bold text-amber-800 mb-8">
               {activeContent.formTitle}
             </h2>
             <section className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.name[lang]}</label>
+                  <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.name[lang]}</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.email[lang]}</label>
+                  <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.email[lang]}</label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-emerald-700 px-1">{t.fields.mobile[lang]}</label>
+                <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.mobile[lang]}</label>
                 <input
                   type="tel"
-                  className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                   placeholder="..."
                 />
               </div>
               {activeTab === "volunteer" ? (
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.reason[lang]}</label>
+                  <label className="text-sm font-semibold text-amber-900 px-1">{t.fields.reason[lang]}</label>
                   <textarea
                     rows="4"
-                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   ></textarea>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-emerald-900 px-1">{t.fields.password[lang]}</label>
+                  <label className="text-sm font-semibold text-amber-900 px-1">{t.fields.password[lang]}</label>
                   <input
                     type="password"
-                    className="w-full px-3 py-2 bg-gray-50 border border-lime-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -148,7 +148,7 @@ const JoinUs = () => {
               <p className="text-xs text-orange-600 font-medium italic mt-2">
                 {t.note[lang]}
               </p>
-              <button className="w-full cursor-pointer bg-emerald-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-emerald-800 transition-all shadow-lg active:scale-90 mt-2">
+              <button className="w-full cursor-pointer bg-amber-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-amber-800 transition-all shadow-lg active:scale-90 mt-2">
                 {t.submit[lang]}
               </button>
             </section>
@@ -156,25 +156,25 @@ const JoinUs = () => {
 
           <div className="w-full lg:w-2/5 space-y-6">
             <div className="flex items-start gap-6">
-              <div className="bg-white p-4 rounded-2xl shadow-md text-emerald-700 text-4xl mt-1 border border-emerald-50">
+              <div className="bg-white p-4 rounded-2xl shadow-md text-amber-700 text-4xl mt-1 border border-amber-50">
                 <FaUserFriends />
               </div>
               <div className="space-y-2 pt-1">
-                <h3 className="text-xl font-bold text-emerald-900">{activeContent.title}</h3>
+                <h3 className="text-xl font-bold text-amber-900">{activeContent.title}</h3>
                 <p className="text-gray-600 leading-relaxed font-medium">
                   {activeContent.desc}
                 </p>
               </div>
             </div>
-            <div className="bg-white sm:p-8 p-4 rounded-2xl shadow-lg border border-emerald-50">
-              <h4 className="text-emerald-800 font-bold mb-4 text-lg border-b border-emerald-50 flex items-center gap-2">
-                <span className="w-1.5 h-6 bg-lime-400 rounded-full"></span>
+            <div className="bg-white sm:p-8 p-4 rounded-2xl shadow-lg border border-amber-50">
+              <h4 className="text-amber-800 font-bold mb-4 text-lg border-b border-amber-50 flex items-center gap-2">
+                <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
                 {t.benefitsTitle[activeTab][lang]}
               </h4>
               <ul className="space-y-2">
                 {activeContent.benefits.map((benefit, index) => (
                   <li key={index} className="flex items-center gap-2 text-gray-700 group">
-                    <FaCheckCircle className="text-lime-500 text-xl shrink-0 group-hover:scale-110 transition-transform" />
+                    <FaCheckCircle className="text-yellow-500 text-xl shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="font-medium">{benefit[lang]}</span>
                   </li>
                 ))}

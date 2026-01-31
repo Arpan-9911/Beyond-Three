@@ -43,8 +43,8 @@ const Header = () => {
 
   const navClass = ({ isActive }) =>
     `relative transition-all duration-300 
-     ${isActive ? "text-lime-500 font-bold" : "text-emerald-700"}
-     after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-lime-500
+     ${isActive ? "text-yellow-500 font-bold" : "text-amber-700"}
+     after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-yellow-500
      after:transition-all after:duration-300 
      ${isActive ? "after:w-full" : "after:w-0 hover:after:w-full"}`;
 
@@ -67,10 +67,10 @@ const Header = () => {
     <header className="sticky top-0 left-0 w-full z-50 transition duration-300 bg-white shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:py-3 py-2">
         <div className="flex items-center gap-2 text-lg font-bold">
-          <div className="sm:w-9 w-5 sm:h-9 h-5 p-1 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-md">
+          <div className="sm:w-9 w-5 sm:h-9 h-5 p-1 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-md">
             <FaLeaf />
           </div>
-          <span className="text-emerald-700">
+          <span className="text-amber-700">
             {lang === "en" ? "Beyond Three" : "बियॉन्ड थ्री"}
           </span>
         </div>
@@ -78,27 +78,27 @@ const Header = () => {
           {navLinks}
           <button
             onClick={toggleLang}
-            className="cursor-pointer border border-emerald-500 px-2 py-1 rounded-full text-emerald-600 hover:bg-emerald-500 hover:text-white"
+            className="cursor-pointer border border-amber-500 px-2 py-1 rounded-full text-amber-600 hover:bg-amber-500 hover:text-white"
           >
             {t.langBtn}
           </button>
-          <Link to="/appointment" className="cursor-pointer bg-lime-400 text-black px-3 py-1 rounded-full font-semibold hover:bg-lime-300 shadow-md">
+          <Link to="/appointment" className="cursor-pointer bg-yellow-400 text-black px-3 py-1 rounded-full font-semibold hover:bg-yellow-300 shadow-md">
             {t.appointment}
           </Link>
-          <button className="cursor-pointer bg-emerald-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-emerald-600 shadow-md">
+          <button className="cursor-pointer bg-amber-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-amber-600 shadow-md">
             {t.login}
           </button>
         </nav>
         <div className="lg:hidden flex items-center gap-3">
           <button
             onClick={toggleLang}
-            className="border border-emerald-500 px-2 py-1 rounded-full text-emerald-600 text-xs"
+            className="border border-amber-500 px-2 py-1 rounded-full text-amber-600 text-xs"
           >
             {t.langBtn}
           </button>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-emerald-700 text-xl"
+            className="text-amber-700 text-xl"
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -111,10 +111,10 @@ const Header = () => {
       >
         <div className="flex flex-col items-start gap-3 px-6 text-xs font-semibold">
           {navLinks}
-          <button className="bg-lime-400 text-black px-5 py-1 rounded-full font-semibold shadow-md">
+          <button className="bg-yellow-400 text-black px-5 py-1 rounded-full font-semibold shadow-md">
             {t.appointment}
           </button>
-          <button className="bg-emerald-700 text-white px-5 py-1 rounded-full font-semibold shadow-md">
+          <button className="bg-amber-700 text-white px-5 py-1 rounded-full font-semibold shadow-md">
             {t.login}
           </button>
         </div>

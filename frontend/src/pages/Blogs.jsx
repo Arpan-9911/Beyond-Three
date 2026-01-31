@@ -73,7 +73,7 @@ const Blogs = () => {
     <div className="bg-gray-100">
       <Header />
       <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {t.title[lang]}
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -93,7 +93,7 @@ const Blogs = () => {
                 <span className="text-xs text-gray-500">
                   {t.author[lang]} {blog.author[lang]} • {blog.date}
                 </span>
-                <h3 className="text-lg font-semibold text-emerald-700 mb-2">
+                <h3 className="text-lg font-semibold text-amber-700 mb-2">
                   {blog.title[lang]}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4 grow">
@@ -101,7 +101,7 @@ const Blogs = () => {
                 </p>
                 <Link
                   to={`/blogs/${blog.id}`}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
+                  className="text-amber-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {t.readMore[lang]}
                 </Link>
@@ -127,7 +127,7 @@ const Blogs = () => {
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
               <div className="p-6">
-                <h2 className="sm:text-2xl text-xl font-bold text-emerald-700 mb-3">
+                <h2 className="sm:text-2xl text-xl font-bold text-amber-700 mb-3">
                   {selectedBlog.title[lang]}
                 </h2>
                 <p className="text-sm text-gray-500 mb-4">

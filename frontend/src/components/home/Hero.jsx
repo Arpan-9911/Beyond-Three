@@ -1,28 +1,30 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
+import SwamiJi from "../../assets/swamiji.jpeg";
+import GuruJi from "../../assets/guruji.jpeg";
 
 const slides = [
   {
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    image: GuruJi,
     title: {
-      en: "Gurudev Sri Ravinder",
-      hi: "गुरुदेव श्री रविंदर",
+      en: "Pujya Harigiri Ji Maharaj",
+      hi: "पूज्य हरिगिरि जी महाराज",
     },
     desc: {
-      en: "Beyond the limits of the physical mind lies a vast ocean of consciousness. Tap into it through regular meditation.",
-      hi: "भौतिक मन की सीमाओं से परे चेतना का एक विशाल सागर है। नियमित ध्यान से इसमें प्रवेश करें।",
+      en: "Spiritual practice and service are the greatest powers in life. Only when a seeker awakens balance and spiritual practice within himself can he give a new direction to society and the nation.",
+      hi: "साधना और सेवा ही जीवन की सबसे बड़ी शक्ति है। जब साधक अपने भीतर संतुलन और साधना जगाता है, तभी वह समाज और राष्ट्र को नई दिशा दे सकता है।",
     },
   },
   {
-    image: "https://images.unsplash.com/photo-1503264116251-35a269479413",
+    image: SwamiJi,
     title: {
-      en: "Spiritual Awakening",
-      hi: "आध्यात्मिक जागरण",
+      en: "Swami Anandramanand Giri Ji Maharaj",
+      hi: "स्वामी आनंदरामानंद गिरि जी महाराज",
     },
     desc: {
-      en: "True peace comes when the mind becomes silent and the soul speaks.",
-      hi: "सच्ची शांति तब आती है जब मन शांत हो जाता है और आत्मा बोलती है।",
+      en: "The purpose of life is not merely to live for oneself, but to awaken for the collective upliftment of society. One who connects with the soul alone ignites the consciousness of the nation.",
+      hi: "जीवन का उद्देश्य केवल स्वयं के लिए जीना नहीं, बल्कि सामूहिक उत्थान के लिए जागृत होना है। जो आत्मा से जुड़ता है, वही राष्ट्र की चेतना को प्रज्वलित करता है।",
     },
   },
 ];
@@ -52,39 +54,42 @@ const Hero = () => {
   const slide = slides[index];
 
   return (
-    <section className="w-full py-10 px-4 bg-emerald-800">
-      <h6 className="text-center text-sm text-lime-400 font-bold uppercase">This is a subtitle</h6>
-      <h2 className="text-center text-3xl md:text-4xl italic text-white">This is a Slogan</h2>
-      <div className="flex items-center justify-center mb-8 mt-4">
-        <div className="p-0.5 w-40 bg-lime-400 rounded-full"></div>
+    <section className="bg-gray-100">
+      <div className="py-1 text-center bg-amber-700 px-4 text-white font-bold text-lg leading-relaxed tracking-widest">
+        <span>आओ लौट चलें प्रकृति की ओर</span>
       </div>
-      <div className="grid md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto">
-        <div className="w-full h-70 md:h-100 rounded-4xl overflow-hidden shadow-xl">
+      <div className="grid md:grid-cols-2 border-4 border-amber-700">
+        <div className="h-80 md:h-120 overflow-hidden md:border-r-4 max-md:border-b-4 border-amber-700">
           <img
             src={slide.image}
-            alt="hero"
-            className={`w-full h-full object-cover transition-all duration-300 ${
-              animating ? "opacity-30" : "opacity-100"
-            }`}
+            alt="Swami Ji"
+            className={`w-full h-full object-cover transition-all duration-500 ${
+                animating ? "opacity-40 scale-105" : "opacity-100 scale-100"
+              }`}
           />
         </div>
-        <div
-          className={`transition-all duration-300 ${
-            animating ? "translate-x-2" : "translate-x-0"
-          }`}
-        >
-          <p className="text-6xl text-lime-200 font-bold mb-4"><FaQuoteLeft /></p>
-          <p className="text-lg md:text-xl text-lime-400 leading-relaxed mb-6">{slide.desc[lang]}</p>
-          <h3 className="text-white font-semibold tracking-wide text-lg">— {slide.title[lang]}</h3>
-          <div className="flex gap-2 mt-6">
+        <div className="relative h-full md:p-10 p-6 flex flex-col justify-center bg-[#ead1b7]">
+          <div className="absolute md:top-6 top-0 md:left-6 left-2 text-[120px] font-serif text-amber-700/40 leading-none select-none">
+            <FaQuoteLeft />
+          </div>
+          <p className="relative text-lg md:text-2xl text-gray-900 max-w-2xl z-10 font-semibold">
+            {slide.desc[lang]}
+          </p>
+          <div className="mt-10 mb-4 w-24 h-1 bg-amber-700"></div>
+          <h3 className="text-xl font-bold tracking-wide text-amber-800">
+            {slide.title[lang]}
+          </h3>
+          <div className="flex gap-3 mt-12">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => handleSlideChange(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === index ? "bg-green-500 w-10" : "bg-gray-300 w-2"
+                className={`h-1 transition-all duration-300 ${
+                  i === index
+                    ? "w-16 bg-amber-700"
+                    : "w-6 bg-amber-700/30"
                 }`}
-              ></button>
+              />
             ))}
           </div>
         </div>

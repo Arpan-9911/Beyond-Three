@@ -44,7 +44,7 @@ const About = () => {
   return (
     <section className="bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-emerald-700 text-center mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-amber-700 text-center mb-8">
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
@@ -67,7 +67,7 @@ const About = () => {
                 </p>
                 <Link
                   to="/about"
-                  className="inline-block px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
+                  className="inline-block px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </Link>

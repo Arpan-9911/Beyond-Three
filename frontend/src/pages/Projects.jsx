@@ -67,7 +67,7 @@ const Projects = () => {
     <div className="bg-gray-100">
       <Header />
       <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-lime-400 pl-4 md:text-4xl text-3xl font-bold text-emerald-700 mb-8">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
           {lang === "hi" ? "हमारी परियोजनाएँ" : "Our Projects"}
         </h1>
         <div className="flex flex-wrap gap-2 mb-8">
@@ -77,8 +77,8 @@ const Projects = () => {
               onClick={() => setActiveTab(index)}
               className={`px-4 py-1 rounded-full cursor-pointer text-sm font-medium ${
                 activeTab === index
-                  ? "bg-emerald-700 text-white"
-                  : "bg-white hover:bg-lime-200"
+                  ? "bg-amber-700 text-white"
+                  : "bg-white hover:bg-yellow-200"
               }`}
             >
               {lang === "hi" ? cat.title.hi : cat.title.en}
@@ -99,7 +99,7 @@ const Projects = () => {
                 />
               </div>
               <div className="p-5 flex flex-col grow">
-                <h3 className="text-lg font-semibold text-emerald-700 mb-2">
+                <h3 className="text-lg font-semibold text-amber-700 mb-2">
                   {project.title[lang]}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4 grow">
@@ -107,7 +107,7 @@ const Projects = () => {
                 </p>
                 <button
                   onClick={() => setActiveProject(project)}
-                  className="text-emerald-700 font-medium hover:underline text-sm self-start cursor-pointer"
+                  className="text-amber-700 font-medium hover:underline text-sm self-start cursor-pointer"
                 >
                   {lang === "hi" ? "और पढ़ें →" : "Read More →"}
                 </button>
@@ -134,7 +134,7 @@ const Projects = () => {
                 className="w-full max-h-[60vh] object-contain bg-black"
               />
               <div className="p-6">
-                <h2 className="sm:text-2xl text-xl font-bold text-emerald-700 mb-3">
+                <h2 className="sm:text-2xl text-xl font-bold text-amber-700 mb-3">
                   {activeProject.title[lang]}
                 </h2>
                 <p className="text-gray-700">
