@@ -48,7 +48,7 @@ const Volunteer = () => {
   };
 
   return (
-    <section className="bg-gray-100">
+    <section className="bg-amber-100">
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="bg-amber-800 rounded-4xl shadow-xl overflow-hidden flex max-md:flex-col hover:shadow-2xl border border-amber-900">
           <div className="md:w-1/2 p-4 md:p-10 lg:p-16 text-white flex flex-col justify-center gap-8">

@@ -55,7 +55,7 @@ const NewsEvents = () => {
   const { lang } = useLanguage();
 
   return (
-    <section className="bg-gray-100">
+    <section className="bg-amber-100">
       <div className="max-w-7xl mx-auto py-10 px-4 grid md:grid-cols-2 md:gap-8 gap-4">
         <div>
           <div className="flex justify-between items-center mb-4">

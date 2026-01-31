@@ -39,7 +39,7 @@ const Media = () => {
       : mediaData.filter((item) => item.type === "video");
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-amber-100">
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">

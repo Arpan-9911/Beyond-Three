@@ -54,7 +54,7 @@ const Hero = () => {
   const slide = slides[index];
 
   return (
-    <section className="bg-gray-100">
+    <section className="bg-amber-100">
       <div className="py-1 text-center bg-amber-700 px-4 text-white font-bold text-lg leading-relaxed tracking-widest">
         <span>आओ लौट चलें प्रकृति की ओर</span>
       </div>
