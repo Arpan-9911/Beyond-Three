@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaLeaf, FaBars, FaTimes } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
@@ -17,6 +17,8 @@ const text = {
     contact: "CONTACT",
     appointment: "APPOINTMENT",
     login: "LOGIN",
+    memberLogin: "Member Login",
+    adminLogin: "Admin Login",
     langBtn: "हिंदी",
   },
   hi: {
@@ -32,6 +34,8 @@ const text = {
     contact: "संपर्क",
     appointment: "अपॉइंटमेंट",
     login: "लॉगिन",
+    memberLogin: "सदस्य लॉगिन",
+    adminLogin: "एडमिन लॉगिन",
     langBtn: "EN",
   },
 };
@@ -40,6 +44,17 @@ const Header = () => {
   const { lang, toggleLang } = useLanguage();
   const t = text[lang];
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const navClass = ({ isActive }) =>
     `relative transition-all duration-300 
@@ -64,7 +79,7 @@ const Header = () => {
   );
 
   return (
-    <header className="sticky top-0 left-0 w-full z-50 transition duration-300 bg-white shadow-lg">
+    <header className={`${menuOpen ? "fixed" : "sticky"} top-0 left-0 w-full z-50 transition duration-300 bg-white shadow-lg`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:py-3 py-2">
         <div className="flex items-center gap-2 text-lg font-bold">
           <div className="sm:w-9 w-5 sm:h-9 h-5 p-1 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-md">
@@ -85,9 +100,36 @@ const Header = () => {
           <Link to="/appointment" className="cursor-pointer bg-yellow-400 text-black px-3 py-1 rounded-full font-semibold hover:bg-yellow-300 shadow-md">
             {t.appointment}
           </Link>
-          <button className="cursor-pointer bg-amber-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-amber-600 shadow-md">
-            {t.login}
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setLoginOpen(!loginOpen)}
+              className="cursor-pointer bg-amber-700 text-white px-3 py-1 rounded-full font-semibold hover:bg-amber-600 shadow-md"
+            >
+              {t.login}
+            </button>
+            {loginOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg text-xs z-50">
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 rounded-lg hover:bg-amber-100 text-amber-700"
+                  onClick={() => setLoginOpen(false)}
+                >
+                  {t.memberLogin}
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 rounded-lg hover:bg-amber-100 text-amber-700"
+                  onClick={() => setLoginOpen(false)}
+                >
+                  {t.adminLogin}
+                </a>
+              </div>
+            )}
+          </div>
         </nav>
         <div className="lg:hidden flex items-center gap-3">
           <button
@@ -111,12 +153,30 @@ const Header = () => {
       >
         <div className="flex flex-col items-start gap-3 px-6 text-xs font-semibold">
           {navLinks}
-          <button className="bg-yellow-400 text-black px-5 py-1 rounded-full font-semibold shadow-md">
+          <Link to="/appointment" className="block bg-yellow-400 text-black px-5 py-1 rounded-full font-semibold shadow-md">
             {t.appointment}
-          </button>
-          <button className="bg-amber-700 text-white px-5 py-1 rounded-full font-semibold shadow-md">
-            {t.login}
-          </button>
+          </Link>
+          <div className="">
+            <p className="text-amber-700 font-bold mb-1">{t.login}</p>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="block bg-yellow-400 text-black px-5 py-1 rounded-full font-semibold shadow-md mb-2"
+            >
+              {t.memberLogin}
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="block bg-amber-700 text-white px-5 py-1 rounded-full font-semibold shadow-md"
+            >
+              {t.adminLogin}
+            </a>
+          </div>
         </div>
       </div>
     </header>

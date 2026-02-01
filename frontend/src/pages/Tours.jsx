@@ -71,14 +71,26 @@ const Tours = () => {
     gallery: { en: "Gallery:", hi: "गैलरी:" },
   };
 
+  useEffect(() => {
+    if (selectedTour) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedTour]);
+
   return (
     <div className="bg-amber-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
+      <main className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:gap-8 gap-4">
           {tours.map((tour) => (
             <div
               key={tour.id}
@@ -126,7 +138,7 @@ const Tours = () => {
             >
               ✕
             </Link>
-            <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
+            <div className="bg-white rounded-4xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={activeImage}
                 alt={selectedTour.title[lang]}
@@ -147,15 +159,15 @@ const Tours = () => {
                   {selectedTour.content[lang]}
                 </p>
                 {selectedTour.images && selectedTour.images.length > 0 && (
-                  <div className="mt-8 border-t pt-6">
+                  <div className="md:mt-8 mt-4 border-t md:pt-8 pt-4">
                     <h4 className="text-lg font-bold text-amber-700 mb-4">
                       {t.gallery[lang]}
                     </h4>
-                    <div className="flex gap-2 pb-2 flex-wrap justify-evenly">
+                    <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
                       {selectedTour.images.map((img, idx) => (
                         <div
                           key={idx}
-                          className={`max-w-40 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                          className={`w-full rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${
                             activeImage === img
                               ? "border-amber-600 scale-95"
                               : "border-transparent hover:border-amber-200"

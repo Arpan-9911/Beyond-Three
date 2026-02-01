@@ -21,15 +21,15 @@ const AboutUs = () => {
   return (
     <div className='bg-amber-100'>
       <Header />
-      <div className='max-w-7xl mx-auto px-4 py-10 min-h-dvh'>
-        <h1 className='border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8'>
+      <div className='max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh'>
+        <h1 className='border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4'>
           {lang === "hi" ? "हमारे बारे में" : "About Us"}
         </h1>
-        <div className='flex flex-wrap gap-2 items-center mb-8'>
+        <div className='flex flex-wrap gap-2 max-md:text-xs items-center md:mb-8 mb-4'>
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`px-3 py-1 rounded-full cursor-pointer ${activeTab === index ? "bg-amber-700 text-white" : "hover:bg-yellow-200"}`}
+              className={`px-3 py-1 rounded-full cursor-pointer font-medium ${activeTab === index ? "bg-amber-700 text-white" : "hover:bg-yellow-200"}`}
               onClick={() => setActiveTab(index)}
             >
               {lang === "hi" ? tab.hi : tab.en}

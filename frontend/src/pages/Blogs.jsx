@@ -54,7 +54,7 @@ const Blogs = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const t = {
     title: { en: "Our Blogs", hi: "हमारे ब्लॉग" },
-    readMore: { en: "Read More →", hi: "और पढ़ें →" },
+    readMore: { en: "Read More", hi: "और पढ़ें" },
     author: { en: "By", hi: "द्वारा" },
     postedOn: { en: "Posted on", hi: "प्रकाशित" },
   };
@@ -69,14 +69,26 @@ const Blogs = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (selectedBlog) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedBlog]);
+
   return (
     <div className="bg-amber-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
+      <main className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:gap-8 gap-4">
           {blogs.map((blog) => (
             <article
               key={blog.id}
@@ -120,7 +132,7 @@ const Blogs = () => {
             >
               ✕
             </Link>
-            <div className="bg-white rounded-xl overflow-y-auto max-h-[90vh] hide-scrollbar">
+            <div className="bg-white rounded-4xl overflow-y-auto max-h-[90vh] hide-scrollbar">
               <img
                 src={selectedBlog.image}
                 alt={selectedBlog.title[lang]}

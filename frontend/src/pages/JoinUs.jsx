@@ -67,14 +67,14 @@ const JoinUs = () => {
   return (
     <div className="bg-amber-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
+      <main className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap max-md:text-xs gap-2 md:mb-8 mb-4">
           <button
             onClick={() => setActiveTab("volunteer")}
-            className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
+            className={`px-4 py-1 rounded-full font-medium cursor-pointer ${
               activeTab === 'volunteer'
                 ? "bg-amber-700 text-white"
                 : "bg-white hover:bg-yellow-200"
@@ -93,8 +93,8 @@ const JoinUs = () => {
             {t.memberTab[lang]}
           </button>
         </div>
-        <div className="flex flex-col-reverse lg:flex-row gap-6 items-start">
-          <div className="w-full lg:w-3/5 bg-white sm:p-8 p-4 rounded-2xl shadow-xl border border-amber-100">
+        <div className="flex flex-col-reverse lg:flex-row md:gap-8 gap-4 items-start">
+          <div className="w-full lg:w-3/5 bg-white sm:p-8 p-4 rounded-4xl shadow-xl border border-amber-100">
             <h2 className="text-2xl font-bold text-amber-800 mb-8">
               {activeContent.formTitle}
             </h2>
@@ -104,7 +104,7 @@ const JoinUs = () => {
                   <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.name[lang]}</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -112,7 +112,7 @@ const JoinUs = () => {
                   <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.email[lang]}</label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -122,7 +122,7 @@ const JoinUs = () => {
                 <label className="text-sm font-semibold text-amber-700 px-1">{t.fields.mobile[lang]}</label>
                 <input
                   type="tel"
-                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                   placeholder="..."
                 />
               </div>
@@ -131,7 +131,7 @@ const JoinUs = () => {
                   <label className="text-sm font-semibold text-amber-900 px-1">{t.fields.reason[lang]}</label>
                   <textarea
                     rows="4"
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   ></textarea>
                 </div>
@@ -140,7 +140,7 @@ const JoinUs = () => {
                   <label className="text-sm font-semibold text-amber-900 px-1">{t.fields.password[lang]}</label>
                   <input
                     type="password"
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -166,7 +166,7 @@ const JoinUs = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-white sm:p-8 p-4 rounded-2xl shadow-lg border border-amber-50">
+            <div className="bg-white sm:p-8 p-4 rounded-4xl shadow-lg border border-amber-50">
               <h4 className="text-amber-800 font-bold mb-4 text-lg border-b border-amber-50 flex items-center gap-2">
                 <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
                 {t.benefitsTitle[activeTab][lang]}

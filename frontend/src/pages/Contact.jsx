@@ -76,19 +76,92 @@ const Contact = () => {
   return (
     <div className="bg-amber-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-2">
+      <main className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <p className="text-gray-600 mb-8 pl-5">{t.subtitle[lang]}</p>
+        <div className="grid lg:grid-cols-5 lg:gap-8 gap-4">
+          <div className="bg-amber-800 text-white lg:col-span-2 p-4 md:p-8 rounded-4xl shadow-xl">
+            <h2 className="text-2xl font-bold mb-4">
+              {t.contactInfo[lang]}
+            </h2>
+            <div className="space-y-3">
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-900 p-3 rounded-full shrink-0">
+                  <FaMapMarkerAlt className="text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="font-bold">{t.address.label[lang]}</h4>
+                  <p className="text-gray-300 text-sm">
+                    {t.address.value[lang]}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-900 p-3 rounded-full shrink-0">
+                  <FaPhoneAlt className="text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="font-bold">{t.phoneNumber.label[lang]}</h4>
+                  <p className="text-gray-300 text-sm">{t.phoneNumber.value}</p>
+                </div>
+              </div>
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Contact Form */}
-          <div className="lg:col-span-3 bg-white p-6 md:p-8 rounded-3xl shadow-xl">
-            <h2 className="text-2xl font-bold text-amber-800 mb-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-900 p-3 rounded-full shrink-0">
+                  <FaEnvelope className="text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="font-bold">{t.emailAddress.label[lang]}</h4>
+                  <p className="text-gray-300 text-sm">{t.emailAddress.value}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-900 p-3 rounded-full shrink-0">
+                  <FaClock className="text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="font-bold">{t.timing.label[lang]}</h4>
+                  <p className="text-gray-300 text-sm">{t.timing.value[lang]}</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-yellow-400">
+              <h4 className="font-bold mb-4">{t.followUs[lang]}</h4>
+              <div className="flex gap-3">
+                <a
+                  href="#"
+                  className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
+                >
+                  <FaFacebookF />
+                </a>
+                <a
+                  href="#"
+                  className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
+                >
+                  <FaInstagram />
+                </a>
+                <a
+                  href="#"
+                  className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
+                >
+                  <FaYoutube />
+                </a>
+                <a
+                  href="#"
+                  className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
+                >
+                  <FaWhatsapp />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-3 bg-white p-4 sm:p-8 rounded-4xl shadow-xl">
+            <h2 className="text-2xl font-bold text-amber-800 mb-4">
               {t.formTitle[lang]}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-amber-700">
@@ -100,7 +173,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -114,12 +187,11 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
               </div>
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-amber-700">
@@ -130,7 +202,7 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -144,12 +216,11 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
               </div>
-
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-amber-700">
                   {t.message[lang]}
@@ -160,115 +231,30 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows="5"
-                  className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition resize-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none"
                   placeholder="..."
                 ></textarea>
               </div>
-
               <button
                 type="submit"
-                className="w-full cursor-pointer bg-amber-700 text-white py-3 rounded-xl font-bold text-lg hover:bg-amber-800 transition-all shadow-lg active:scale-95"
+                className="w-full cursor-pointer bg-amber-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-amber-800 transition-all shadow-lg active:scale-90"
               >
                 {t.submit[lang]}
               </button>
             </form>
           </div>
-
-          {/* Contact Info */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-amber-800 text-white p-6 md:p-8 rounded-3xl shadow-xl">
-              <h2 className="text-2xl font-bold mb-6">
-                {t.contactInfo[lang]}
-              </h2>
-              <div className="space-y-5">
-                <div className="flex items-start gap-4">
-                  <div className="bg-amber-900 p-3 rounded-full shrink-0">
-                    <FaMapMarkerAlt className="text-yellow-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-1">{t.address.label[lang]}</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {t.address.value[lang]}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-amber-900 p-3 rounded-full shrink-0">
-                    <FaPhoneAlt className="text-yellow-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-1">{t.phoneNumber.label[lang]}</h4>
-                    <p className="text-gray-300 text-sm">{t.phoneNumber.value}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-amber-900 p-3 rounded-full shrink-0">
-                    <FaEnvelope className="text-yellow-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-1">{t.emailAddress.label[lang]}</h4>
-                    <p className="text-gray-300 text-sm">{t.emailAddress.value}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-amber-900 p-3 rounded-full shrink-0">
-                    <FaClock className="text-yellow-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-1">{t.timing.label[lang]}</h4>
-                    <p className="text-gray-300 text-sm">{t.timing.value[lang]}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-amber-700">
-                <h4 className="font-bold mb-4">{t.followUs[lang]}</h4>
-                <div className="flex gap-3">
-                  <a
-                    href="#"
-                    className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition-colors"
-                  >
-                    <FaFacebookF />
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition-colors"
-                  >
-                    <FaInstagram />
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition-colors"
-                  >
-                    <FaYoutube />
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition-colors"
-                  >
-                    <FaWhatsapp />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Map Placeholder */}
-            <div className="bg-white rounded-3xl shadow-xl overflow-hidden h-64">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789!2d78.267!3d30.086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDA1JzA5LjYiTiA3OMKwMTYnMDEuMiJF!5e0!3m2!1sen!2sin!4v1234567890"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Location Map"
-              ></iframe>
-            </div>
-          </div>
+        </div>
+        <div className="bg-white rounded-4xl shadow-xl md:mt-8 mt-4 overflow-hidden h-64">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789!2d78.267!3d30.086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDA1JzA5LjYiTiA3OMKwMTYnMDEuMiJF!5e0!3m2!1sen!2sin!4v1234567890"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Location Map"
+          ></iframe>
         </div>
       </main>
       <Footer />

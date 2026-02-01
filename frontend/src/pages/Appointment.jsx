@@ -117,15 +117,12 @@ const Appointment = () => {
   return (
     <div className="bg-amber-100">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-2">
+      <main className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <p className="text-gray-600 mb-8 pl-5">{t.subtitle[lang]}</p>
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Service Selection */}
-          <div className="space-y-6">
+        <div className="grid lg:grid-cols-2 lg:gap-8 gap-4">
+          <div className="space-y-4">
             <h2 className="text-xl font-bold text-amber-800 flex items-center gap-2">
               <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
               {t.selectService[lang]}
@@ -135,7 +132,7 @@ const Appointment = () => {
                 <div
                   key={service.id}
                   onClick={() => setSelectedService(service.id)}
-                  className={`bg-white p-5 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 border-2 ${selectedService === service.id
+                  className={`bg-white p-4 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 border-2 ${selectedService === service.id
                       ? "border-amber-500 bg-amber-50 scale-[1.02]"
                       : "border-transparent hover:border-yellow-300 hover:shadow-xl"
                     }`}
@@ -150,7 +147,7 @@ const Appointment = () => {
                       {service.icon}
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center justify-between">
                         <h3 className="font-bold text-gray-800">
                           {service.name[lang]}
                         </h3>
@@ -158,11 +155,11 @@ const Appointment = () => {
                           <FaCheckCircle className="text-amber-600 text-xl" />
                         )}
                       </div>
-                      <p className="text-gray-500 text-sm mb-2">
+                      <p className="text-gray-500 text-sm mb-1">
                         {service.desc[lang]}
                       </p>
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
-                        <FaClock className="text-[10px]" />
+                        <FaClock className="text-xs" />
                         {service.duration[lang]}
                       </span>
                     </div>
@@ -171,17 +168,14 @@ const Appointment = () => {
               ))}
             </div>
           </div>
-
-          {/* Booking Form */}
-          <div className="bg-white p-6 md:p-8 rounded-3xl shadow-xl h-fit">
-            <h2 className="text-xl font-bold text-amber-800 mb-6 flex items-center gap-2">
+          <div className="bg-white p-4 md:p-8 rounded-3xl shadow-xl h-fit">
+            <h2 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
               <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
               {t.yourDetails[lang]}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-amber-700 flex items-center gap-2">
-                  <FaUser className="text-amber-500" />
+                <label className="text-sm font-semibold text-amber-700">
                   {t.name[lang]}
                 </label>
                 <input
@@ -190,15 +184,13 @@ const Appointment = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                   placeholder="..."
                 />
               </div>
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-amber-700 flex items-center gap-2">
-                    <FaEnvelope className="text-amber-500" />
+                  <label className="text-sm font-semibold text-amber-700">
                     {t.email[lang]}
                   </label>
                   <input
@@ -212,8 +204,7 @@ const Appointment = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-amber-700 flex items-center gap-2">
-                    <FaPhone className="text-amber-500" />
+                  <label className="text-sm font-semibold text-amber-700">
                     {t.phone[lang]}
                   </label>
                   <input
@@ -222,16 +213,14 @@ const Appointment = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                     placeholder="..."
                   />
                 </div>
               </div>
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-amber-700 flex items-center gap-2">
-                    <FaCalendarAlt className="text-amber-500" />
+                  <label className="text-sm font-semibold text-amber-700">
                     {t.date[lang]}
                   </label>
                   <input
@@ -241,12 +230,11 @@ const Appointment = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split("T")[0]}
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-amber-700 flex items-center gap-2">
-                    <FaClock className="text-amber-500" />
+                  <label className="text-sm font-semibold text-amber-700">
                     {t.time[lang]}
                   </label>
                   <select
@@ -254,7 +242,7 @@ const Appointment = () => {
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition cursor-pointer"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
                   >
                     <option value="">--</option>
                     {t.timeSlots.map((slot) => (
@@ -265,7 +253,6 @@ const Appointment = () => {
                   </select>
                 </div>
               </div>
-
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-amber-700">
                   {t.message[lang]}
@@ -275,20 +262,17 @@ const Appointment = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition resize-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none resize-none"
                   placeholder="..."
                 ></textarea>
               </div>
-
               <p className="text-xs text-orange-600 font-medium italic">
                 {t.note[lang]}
               </p>
-
               <button
                 type="submit"
-                className="w-full cursor-pointer bg-amber-700 text-white py-3 rounded-xl font-bold text-lg hover:bg-amber-800 transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"
+                className="w-full cursor-pointer bg-amber-700 text-white py-3 rounded-2xl font-bold text-lg hover:bg-amber-800 transition-all shadow-lg active:scale-90"
               >
-                <FaCalendarAlt />
                 {t.submit[lang]}
               </button>
             </form>

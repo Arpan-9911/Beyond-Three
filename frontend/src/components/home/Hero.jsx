@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
 import SwamiJi from "../../assets/swamiji.jpeg";
@@ -33,6 +33,24 @@ const Hero = () => {
   const { lang } = useLanguage();
   const [index, setIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const heroRef = useRef(null);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const element = heroRef.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {setInView(entry.isIntersecting)},
+      {threshold: 0.4,}
+    );
+    observer.observe(element);
+    return () => {
+      observer.unobserve(element);
+      observer.disconnect();
+    };
+  }, []);
 
   const handleSlideChange = useCallback((i) => {
     if (animating || i === index) return;
@@ -44,12 +62,13 @@ const Hero = () => {
   }, [animating, index]);
 
   useEffect(() => {
+    if (paused || touched || !inView) return;
     const timer = setInterval(() => {
       const nextIndex = (index + 1) % slides.length;
       handleSlideChange(nextIndex);
     }, 5000);
     return () => clearInterval(timer);
-  }, [handleSlideChange, index]);
+  }, [handleSlideChange, index, paused, touched, inView]);
   
   const slide = slides[index];
 
@@ -58,7 +77,14 @@ const Hero = () => {
       <div className="py-1 text-center bg-amber-700 px-4 text-white font-bold text-lg leading-relaxed tracking-widest">
         <span>आओ लौट चलें प्रकृति की ओर</span>
       </div>
-      <div className="grid md:grid-cols-2 border-4 border-amber-700">
+      <div
+        className="grid md:grid-cols-2 border-4 border-amber-700"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onTouchStart={() => setTouched(true)}
+        onTouchEnd={() => setTouched(false)}
+        ref={heroRef}
+      >
         <div className="h-80 md:h-120 overflow-hidden md:border-r-4 max-md:border-b-4 border-amber-700">
           <img
             src={slide.image}

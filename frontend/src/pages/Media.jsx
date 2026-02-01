@@ -41,12 +41,11 @@ const Media = () => {
   return (
     <div className="bg-amber-100">
       <Header />
-
-      <div className="max-w-7xl mx-auto px-4 py-10 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 mb-8">
+      <div className="max-w-7xl mx-auto px-4 md:py-10 py-4 min-h-dvh">
+        <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {lang === "hi" ? "मीडिया" : "Media"}
         </h1>
-        <div className="flex flex-wrap gap-2 mb-8 text-sm font-medium">
+        <div className="flex flex-wrap gap-2 md:mb-8 mb-4 max-md:text-xs">
           <button
             onClick={() => setActiveTab("images")}
             className={`px-4 py-1 rounded-full font-medium cursor-pointer ${
@@ -69,13 +68,13 @@ const Media = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 gap-4">
           {filteredMedia.map((item, index) => {
             if (item.type === "image") {
               return (
                 <div
                   key={index}
-                  className="overflow-hidden rounded-xl shadow-md group bg-black relative cursor-pointer"
+                  className="overflow-hidden rounded-4xl shadow-md group bg-black relative cursor-pointer"
                 >
                   <img
                     src={item.src}
@@ -89,7 +88,7 @@ const Media = () => {
             return (
               <div
                 key={index}
-                className="relative cursor-pointer group rounded-xl overflow-hidden shadow-md bg-white"
+                className="relative cursor-pointer group rounded-4xl overflow-hidden shadow-md bg-white"
                 onClick={() => {
                   setActiveMedia(item);
                   setShowModal(true);
