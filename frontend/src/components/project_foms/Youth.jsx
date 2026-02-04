@@ -76,7 +76,7 @@ const Youth = () => {
           en: "I declare that all the information given above is correct to the best of my knowledge and I will follow the rules and discipline of Beyond Three Youth Transformation Campaign.",
           hi: "मैं यह घोषणा करता/करती हूँ कि उपरोक्त दी गई सभी जानकारी मेरी जानकारी के अनुसार सही है और मैं Beyond Three युवा परिवर्तन अभियान के नियमों एवं अनुशासन का पालन करूँगा/करूँगी।",
         },
-        signature: { en: "Applicant's Signature:", hi: "आवेदक के हस्ताक्षर:" },
+        signature: { en: "Place:", hi: "स्थान:" },
         date: { en: "Date:", hi: "तिथि:" },
       },
       footer: {
@@ -257,38 +257,47 @@ const Youth = () => {
         <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
           {content.sections.declaration.title[lang]}
         </h3>
-        <p className="text-gray-700 italic mb-8">
+        <p className="text-gray-700 italic mb-4">
           {content.sections.declaration.text[lang]}
         </p>
-        <div className="flex flex-col sm:flex-row justify-between gap-8">
-          <div className="flex gap-2 items-baseline max-w-xs w-full">
+        <div className="flex items-center gap-2 mb-4">
+          <input type="checkbox" id="declaration-check" className="accent-amber-600 w-4 h-4 cursor-pointer" />
+          <label htmlFor="declaration-check" className="cursor-pointer">
+            {lang === "hi" ? "मैं उपरोक्त घोषणा से सहमत हूँ" : "I agree to the above declaration"}
+          </label>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-2 items-baseline flex-1">
             <label className="font-semibold whitespace-nowrap">{content.sections.declaration.signature[lang]}</label>
-            <div className="grow border-b border-black"></div>
+            <input type="text" placeholder={lang === "hi" ? "स्थान" : "Place"} className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
-          <div className="flex gap-2 items-baseline max-w-xs w-full">
+          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold whitespace-nowrap">{content.sections.declaration.date[lang]}</label>
-            <input type="date" className="grow border-b border-black outline-none bg-transparent" />
+            <input type="date" className="border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
         </div>
       </div>
 
       <hr className="border-t-4 border-gray-300 my-8" />
 
-      {/* Footer Contact */}
+      {/* Footer Contact - Submission Section */}
       <div className="bg-amber-50 p-4 rounded-lg">
         <h4 className="flex items-center gap-2 text-xl font-bold text-amber-800 mb-4">
           <span className="text-2xl">📞</span> {content.sections.footer.contact[lang]}
         </h4>
-        <div className="space-y-2">
+        <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-40">{content.sections.footer.mobile[lang]}</label>
-            <span className="grow border-b border-black h-6"></span>
+            <input type="tel" placeholder={lang === "hi" ? "अपना मोबाइल नंबर दर्ज करें" : "Enter your mobile number"} className="grow border border-gray-300 focus:border-amber-600 outline-none px-3 py-2 rounded bg-white" />
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-40">{content.sections.footer.email[lang]}</label>
-            <span className="grow border-b border-black h-6"></span>
+            <input type="email" placeholder={lang === "hi" ? "अपना ईमेल दर्ज करें" : "Enter your email"} className="grow border border-gray-300 focus:border-amber-600 outline-none px-3 py-2 rounded bg-white" />
           </div>
         </div>
+        <button className="mt-6 w-full bg-amber-700 text-white py-3 rounded-lg font-semibold hover:bg-amber-800 transition cursor-pointer">
+          {lang === "hi" ? "फॉर्म जमा करें" : "Submit Form"}
+        </button>
       </div>
 
     </div>

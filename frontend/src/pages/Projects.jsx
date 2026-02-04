@@ -3,6 +3,8 @@ import { useLanguage } from "../context/LanguageContext";
 import Img from "../assets/HeroBG.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import Youth from "../components/project_foms/Youth";
+import Other from "../components/project_foms/Other";
 
 const truncateText = (text, limit = 90) => {
   return text.length > limit ? text.substring(0, limit) + "..." : text;
@@ -206,8 +208,9 @@ This project is not just for earning money, but an effort to bring positive chan
   ];
   const [activeTab, setActiveTab] = useState(0);
   const [activeProject, setActiveProject] = useState(null);
+  const [showFormFor, setShowFormFor] = useState(null);
   useEffect(() => {
-    if (activeProject) {
+    if (activeProject || showFormFor) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -215,7 +218,7 @@ This project is not just for earning money, but an effort to bring positive chan
     return () => {
       document.body.style.overflow = "";
     };
-  }, [activeProject]);
+  }, [activeProject, showFormFor]);
 
   return (
     <div className="bg-amber-100">
@@ -230,8 +233,8 @@ This project is not just for earning money, but an effort to bring positive chan
               key={cat.id}
               onClick={() => setActiveTab(index)}
               className={`px-4 py-1 rounded-full cursor-pointer font-medium ${activeTab === index
-                  ? "bg-amber-700 text-white"
-                  : "bg-white hover:bg-yellow-200"
+                ? "bg-amber-700 text-white"
+                : "bg-white hover:bg-yellow-200"
                 }`}
             >
               {lang === "hi" ? cat.title.hi : cat.title.en}
@@ -258,12 +261,20 @@ This project is not just for earning money, but an effort to bring positive chan
                 <p className="text-gray-600 text-sm mb-4 grow">
                   {truncateText(project.desc[lang])}
                 </p>
-                <button
-                  onClick={() => setActiveProject(project)}
-                  className="text-amber-700 font-medium hover:underline text-sm self-start cursor-pointer"
-                >
-                  {lang === "hi" ? "और पढ़ें" : "Read More"}
-                </button>
+                <div className="flex flex-wrap gap-3 items-center">
+                  <button
+                    onClick={() => setActiveProject(project)}
+                    className="text-amber-700 font-medium hover:underline text-sm cursor-pointer"
+                  >
+                    {lang === "hi" ? "और पढ़ें" : "Read More"}
+                  </button>
+                  <button
+                    onClick={() => setShowFormFor(project)}
+                    className="bg-amber-700 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-amber-800 transition cursor-pointer"
+                  >
+                    {lang === "hi" ? "अभी आवेदन करें" : "Apply Now"}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -294,6 +305,23 @@ This project is not just for earning money, but an effort to bring positive chan
                   {activeProject.desc[lang]}
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Form Modal */}
+      {showFormFor && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="relative w-full max-w-4xl">
+            <button
+              onClick={() => setShowFormFor(null)}
+              className="absolute top-4 right-4 bg-white text-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 hover:text-white transition z-20 cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="bg-amber-100 rounded-4xl overflow-y-auto max-h-[90vh] hide-scrollbar">
+              {showFormFor.id === 101 ? <Youth /> : <Other />}
             </div>
           </div>
         </div>
