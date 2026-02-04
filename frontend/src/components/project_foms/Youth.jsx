@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLanguage } from "../../context/LanguageContext";
 
 const Youth = () => {
@@ -110,7 +110,7 @@ const Youth = () => {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-32">{content.sections.personal.name[lang]}</label>
-            <input type="text" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-6 items-baseline">
@@ -138,7 +138,7 @@ const Youth = () => {
 
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-48">{content.sections.personal.parentName[lang]}</label>
-            <input type="text" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
         </div>
       </div>
@@ -153,15 +153,15 @@ const Youth = () => {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-48">{content.sections.contact.mobile[lang]}</label>
-            <input type="tel" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="tel" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-32">{content.sections.contact.email[lang]}</label>
-            <input type="email" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="email" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-32">{content.sections.contact.address[lang]}</label>
-            <textarea className="flex-grow border border-gray-300 focus:border-amber-600 outline-none px-2 py-1 rounded h-20 resize-none"></textarea>
+            <textarea className="grow border border-gray-300 focus:border-amber-600 outline-none px-2 py-1 rounded h-20 resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -176,11 +176,11 @@ const Youth = () => {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-48">{content.sections.education.class[lang]}</label>
-            <input type="text" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-48">{content.sections.education.school[lang]}</label>
-            <input type="text" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
+            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-center">
             <label className="font-semibold min-w-48">{content.sections.education.status[lang]}</label>
@@ -195,7 +195,7 @@ const Youth = () => {
                 <input type="radio" name="status" className="accent-amber-600" /> {content.sections.education.statusOptions.other[lang]}
               </label>
             </div>
-            <input type="text" className="flex-grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent ml-2" />
+            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent ml-2" />
           </div>
         </div>
       </div>
@@ -263,11 +263,11 @@ const Youth = () => {
         <div className="flex flex-col sm:flex-row justify-between gap-8">
           <div className="flex gap-2 items-baseline max-w-xs w-full">
             <label className="font-semibold whitespace-nowrap">{content.sections.declaration.signature[lang]}</label>
-            <div className="flex-grow border-b border-black"></div>
+            <div className="grow border-b border-black"></div>
           </div>
           <div className="flex gap-2 items-baseline max-w-xs w-full">
             <label className="font-semibold whitespace-nowrap">{content.sections.declaration.date[lang]}</label>
-            <input type="date" className="flex-grow border-b border-black outline-none bg-transparent" />
+            <input type="date" className="grow border-b border-black outline-none bg-transparent" />
           </div>
         </div>
       </div>
@@ -282,11 +282,11 @@ const Youth = () => {
         <div className="space-y-2">
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-40">{content.sections.footer.mobile[lang]}</label>
-            <span className="flex-grow border-b border-black h-6"></span>
+            <span className="grow border-b border-black h-6"></span>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-baseline">
             <label className="font-semibold min-w-40">{content.sections.footer.email[lang]}</label>
-            <span className="flex-grow border-b border-black h-6"></span>
+            <span className="grow border-b border-black h-6"></span>
           </div>
         </div>
       </div>
