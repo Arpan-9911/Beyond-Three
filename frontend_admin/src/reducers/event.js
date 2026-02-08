@@ -3,7 +3,7 @@ const eventsReducer = (state = [], action) => {
     case 'ALL_EVENTS':
       return action.payload
     case 'ADD_EVENT':
-      return [...state, action.payload]
+      return [action.payload, ...state]
     case 'DELETE_EVENT':
       return state.filter((event) => event._id !== action.payload)
     case 'UPDATE_EVENT':
