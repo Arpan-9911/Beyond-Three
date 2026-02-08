@@ -4,21 +4,22 @@ import MobileHeader from '../components/layout/MobileHeader'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { addEvent, deleteEvent, updateEvent } from '../functions/event'
 
 const Events = () => {
-
-  const [items, setItems] = useState([])
-
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.events)
   const emptyForm = {
     image: "",
+    preview: "",
     title: { en: "", hi: "" },
     description: { en: "", hi: "" },
     date: "",
     time: "",
-    location: { en: "", hi: "" },
-    status: "upcoming"
+    location: { en: "", hi: "" }
   }
-
   const [showModal, setShowModal] = useState(false)
   const [editIndex, setEditIndex] = useState(null)
   const [form, setForm] = useState(emptyForm)
@@ -31,30 +32,62 @@ const Events = () => {
 
   const openEdit = (index) => {
     setForm(items[index])
-    setEditIndex(index)
+    setEditIndex(items[index]._id)
     setShowModal(true)
   }
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const preview = URL.createObjectURL(file)
-    setForm({ ...form, image: preview })
-  }
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm((prev) => ({
+      ...prev,
+      image: file,
+      preview: URL.createObjectURL(file),
+    }));
+  };
 
-  const handleSave = () => {
-    if (editIndex !== null) {
-      const updated = [...items]
-      updated[editIndex] = form
-      setItems(updated)
-    } else {
-      setItems([...items, form])
+  const handleSave = async () => {
+      if(!form.image) return toast.error("Please select an image");
+      if(!form.title.en && !form.title.hi) return toast.error("Please enter title");
+      if(!form.description.en && !form.description.hi) return toast.error("Please enter content");
+      if(!form.date) return toast.error("Please enter date");
+      if(!form.time) return toast.error("Please enter time");
+      if(!form.location.en && !form.location.hi) return toast.error("Please enter location");
+
+      const formData = new FormData();
+      formData.append("image", form.image);
+      formData.append("title", JSON.stringify(form.title));
+      formData.append("description", JSON.stringify(form.description));
+      formData.append("date", form.date);
+      formData.append("time", form.time);
+      formData.append("location", JSON.stringify(form.location));
+      if (editIndex !== null) {
+        try {
+          await dispatch(updateEvent(editIndex, formData))
+        } catch (error) {
+          toast.error(error?.response?.data?.msg || "Failed to update news");
+        } finally {
+          setShowModal(false)
+          setForm(emptyForm)
+        }
+      } else {
+        try {
+          await dispatch(addEvent(formData))
+        } catch (error) {
+          toast.error(error?.response?.data?.msg || "Failed to add news");
+        } finally {
+          setShowModal(false)
+          setForm(emptyForm)
+        }
+      }
     }
-    setShowModal(false)
-  }
 
-  const handleDelete = (index) => {
-    setItems(items.filter((_, i) => i !== index))
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteEvent(id))
+    } catch (error) {
+      toast.error(error.response.data.msg || "Failed to delete news");
+    }
   }
 
   const formatDate = (dateString) => {
@@ -63,7 +96,7 @@ const Events = () => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   }
 
-  const truncateText = (text, limit = 100) => {
+  const truncateText = (text, limit = 90) => {
     return text.length > limit ? text.substring(0, limit) + "..." : text
   }
 
@@ -96,31 +129,28 @@ const Events = () => {
 
           {/* Events Grid */}
           <div className='mt-6 grid sm:grid-cols-2 xl:grid-cols-3 gap-6'>
-            {items.map((item, index) => (
-              <div key={index} className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition'>
+            {items.map((item) => (
+              <div key={item._id} className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition'>
                 <div className='h-40 w-full overflow-hidden relative'>
-                  <img src={item.image} className='w-full h-full object-cover' alt={item.title.en} />
-                  <span className={`absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-full ${item.status === 'upcoming' ? 'bg-green-500 text-white' :
-                      item.status === 'ongoing' ? 'bg-amber-500 text-white' : 'bg-gray-500 text-white'
-                    }`}>
-                    {item.status.toUpperCase()}
-                  </span>
+                  <img src={import.meta.env.VITE_UPLOADS + item.image} className='w-full h-full object-cover' alt={item.title.en} />
                 </div>
                 <div className='p-4'>
                   <div className='flex items-start justify-between gap-2'>
-                    <h2 className='font-bold text-lg text-gray-800'>{item.title.en}</h2>
-                    <div className='flex gap-2 flex-shrink-0'>
-                      <button onClick={() => openEdit(index)} className='text-blue-600 hover:text-blue-800 cursor-pointer'>
+                    <div className='text-sm'>
+                      <h2 className='font-bold text-lg text-gray-800'>{item.title.en}</h2>
+                      <h2 className='font-bold text-lg text-gray-800'>{item.title.hi}</h2>
+                    </div>
+                    <div className='flex gap-2 shrink-0'>
+                      <button onClick={() => openEdit(items.indexOf(item))} className='text-blue-600 hover:text-blue-800 cursor-pointer'>
                         <FaEdit size={14} />
                       </button>
-                      <button onClick={() => handleDelete(index)} className='text-red-600 hover:text-red-800 cursor-pointer'>
+                      <button onClick={() => handleDelete(item._id)} className='text-red-600 hover:text-red-800 cursor-pointer'>
                         <FaTrash size={14} />
                       </button>
                     </div>
                   </div>
-                  <p className='text-gray-600 text-sm mt-2 line-clamp-2'>
-                    {truncateText(item.description.en)}
-                  </p>
+                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.en)}</p>
+                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.hi)}</p>
                   <div className='mt-3 space-y-1 text-sm text-gray-500'>
                     <div className='flex items-center gap-2'>
                       <FaCalendarAlt size={12} className='text-amber-600' />
@@ -170,8 +200,8 @@ const Events = () => {
                 className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
                 onChange={handleImageChange} />
             </div>
-            {form.image && (
-              <img src={form.image} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
+            {form.preview && (
+              <img src={form.preview} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
             )}
 
             <div className='grid grid-cols-2 gap-3'>
@@ -189,18 +219,6 @@ const Events = () => {
                   value={form.time}
                   onChange={(e) => setForm({ ...form, time: e.target.value })} />
               </div>
-            </div>
-
-            <div>
-              <label className='text-sm text-gray-600 mb-1 block'>Status</label>
-              <select
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value })}>
-                <option value="upcoming">Upcoming</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="completed">Completed</option>
-              </select>
             </div>
 
             <div>

@@ -4,13 +4,16 @@ import MobileHeader from '../components/layout/MobileHeader'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
+import { addNews, deleteNews, updateNews } from '../functions/news'
+import { toast } from 'react-toastify'
 
 const News = () => {
-
-  const [items, setItems] = useState([])
-
+  const dispatch = useDispatch()
+  const items = useSelector((state) => state.news)
   const emptyForm = {
     image: "",
+    preview: "",
     title: { en: "", hi: "" },
     content: { en: "", hi: "" },
     date: ""
@@ -28,30 +31,62 @@ const News = () => {
 
   const openEdit = (index) => {
     setForm(items[index])
-    setEditIndex(index)
+    setEditIndex(items[index]._id)
     setShowModal(true)
   }
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const preview = URL.createObjectURL(file)
-    setForm({ ...form, image: preview })
-  }
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm((prev) => ({
+      ...prev,
+      image: file,
+      preview: URL.createObjectURL(file),
+    }));
+  };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if(!form.image) return toast.error("Please select an image");
+    if(!form.title.en && !form.title.hi) return toast.error("Please enter title");
+    if(!form.content.en && !form.content.hi) return toast.error("Please enter content");
+    if(!form.date) return toast.error("Please enter date");
     if (editIndex !== null) {
-      const updated = [...items]
-      updated[editIndex] = form
-      setItems(updated)
+      const formData = new FormData();
+      formData.append("image", form.image);
+      formData.append("title", JSON.stringify(form.title));
+      formData.append("content", JSON.stringify(form.content));
+      formData.append("date", form.date);
+      try {
+        await dispatch(updateNews(editIndex, formData))
+      } catch (error) {
+        toast.error(error?.response?.data?.msg || "Failed to update news");
+      } finally {
+        setShowModal(false)
+        setForm(emptyForm)
+      }
     } else {
-      setItems([...items, form])
+      const formData = new FormData();
+      formData.append("image", form.image);
+      formData.append("title", JSON.stringify(form.title));
+      formData.append("content", JSON.stringify(form.content));
+      formData.append("date", form.date);
+      try {
+        await dispatch(addNews(formData))
+      } catch (error) {
+        toast.error(error?.response?.data?.msg || "Failed to add news");
+      } finally {
+        setShowModal(false)
+        setForm(emptyForm)
+      }
     }
-    setShowModal(false)
   }
 
-  const handleDelete = (index) => {
-    setItems(items.filter((_, i) => i !== index))
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteNews(id))
+    } catch (error) {
+      toast.error(error.response.data.msg || "Failed to delete news");
+    }
   }
 
   const formatDate = (dateString) => {
@@ -60,7 +95,7 @@ const News = () => {
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase()
   }
 
-  const truncateText = (text, limit = 100) => {
+  const truncateText = (text, limit = 90) => {
     return text.length > limit ? text.substring(0, limit) + "..." : text
   }
 
@@ -90,27 +125,28 @@ const News = () => {
               <span>Create News Post</span>
             </button>
           </div>
-
-          {/* News Cards Grid */}
           <div className='mt-6 grid sm:grid-cols-2 xl:grid-cols-3 gap-6'>
-            {items.map((item, index) => (
-              <div key={index} className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition'>
+            {items.map((item) => (
+              <div key={item._id} className='bg-white rounded-4xl shadow-lg overflow-hidden hover:shadow-xl transition'>
                 <div className='flex gap-4 p-4'>
-                  {/* Image Thumbnail */}
-                  <div className='w-28 h-24 min-w-28 rounded-xl overflow-hidden'>
-                    <img src={item.image} className='w-full h-full object-cover' alt={item.title.en} />
+                  <div className='w-28 h-24 min-w-28 rounded-2xl overflow-hidden'>
+                    <img src={import.meta.env.VITE_UPLOADS + item.image} className='w-full h-full object-cover' alt={item.title.en} />
                   </div>
-                  {/* Content */}
                   <div className='flex-1 min-w-0'>
                     <div className='flex items-start justify-between gap-2'>
-                      <h2 className='font-bold text-gray-800 truncate' title={item.title.en}>
-                        {item.title.en.length > 20 ? item.title.en.substring(0, 20) + "..." : item.title.en}
-                      </h2>
-                      <div className='flex gap-2 flex-shrink-0'>
-                        <button onClick={() => openEdit(index)} className='text-blue-600 hover:text-blue-800 cursor-pointer'>
+                      <div className='text-sm'>
+                        <h2 className='font-bold text-gray-800 truncate'>
+                          {item.title.en.length > 20 ? item.title.en.substring(0, 20) + "..." : item.title.en}
+                        </h2>
+                        <h2 className='font-bold text-gray-800 truncate'>
+                          {item.title.hi.length > 20 ? item.title.hi.substring(0, 20) + "..." : item.title.hi}
+                        </h2>
+                      </div>
+                      <div className='flex gap-2 shrink-0'>
+                        <button onClick={() => openEdit(items.indexOf(item))} className='text-blue-600 hover:text-blue-800 cursor-pointer'>
                           <FaEdit size={14} />
                         </button>
-                        <button onClick={() => handleDelete(index)} className='text-red-600 hover:text-red-800 cursor-pointer'>
+                        <button onClick={() => handleDelete(item._id)} className='text-red-600 hover:text-red-800 cursor-pointer'>
                           <FaTrash size={14} />
                         </button>
                       </div>
@@ -118,8 +154,11 @@ const News = () => {
                     <p className='text-amber-600 text-xs font-medium mt-1'>
                       {formatDate(item.date)}
                     </p>
-                    <p className='text-gray-600 text-sm mt-2 line-clamp-3'>
+                    <p className='text-gray-600 text-xs mt-1'>
                       {truncateText(item.content.en)}
+                    </p>
+                    <p className='text-gray-600 text-xs mt-1'>
+                      {truncateText(item.content.hi)}
                     </p>
                   </div>
                 </div>
@@ -141,7 +180,7 @@ const News = () => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
-          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto'>
+          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto hide-scrollbar'>
             <h2 className='font-bold text-lg'>
               {editIndex !== null ? "Edit News Post" : "Create News Post"}
             </h2>
@@ -156,11 +195,9 @@ const News = () => {
                 onChange={handleImageChange}
               />
             </div>
-            {form.image && (
-              <img src={form.image} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
+            {form.preview && (
+              <img src={form.preview} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
             )}
-
-            {/* Date */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Date</label>
               <input
@@ -170,8 +207,6 @@ const News = () => {
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
               />
             </div>
-
-            {/* Title English */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Title (English)</label>
               <input
@@ -183,8 +218,6 @@ const News = () => {
                 }
               />
             </div>
-
-            {/* Title Hindi */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Title (Hindi)</label>
               <input
@@ -196,8 +229,6 @@ const News = () => {
                 }
               />
             </div>
-
-            {/* Content English */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content (English)</label>
               <textarea
@@ -210,8 +241,6 @@ const News = () => {
                 }
               />
             </div>
-
-            {/* Content Hindi */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content (Hindi)</label>
               <textarea
@@ -224,8 +253,6 @@ const News = () => {
                 }
               />
             </div>
-
-            {/* Action Buttons */}
             <div className='flex justify-end gap-3 pt-2'>
               <button onClick={() => setShowModal(false)} className='px-4 py-2 border rounded-2xl cursor-pointer hover:bg-gray-200 transition'>
                 Cancel

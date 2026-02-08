@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LanguageProvider from "./context/LanguageProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -16,26 +18,43 @@ import Media from './pages/Media';
 import Contact from './pages/Contact';
 import Appointments from './pages/Appointments';
 import Profile from './pages/Profile';
+import ProtectedRoute from './ProtectedRoute';
+import { useDispatch } from 'react-redux';
+import { getProfile } from './functions/auth';
+import { allHeroCarousel } from './functions/heroCarousel';
+import { allNews } from './functions/news';
+import { allEvents } from './functions/event';
+import { allProjectCategories, allProjects } from './functions/projects';
 
 const App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getProfile())
+    dispatch(allHeroCarousel())
+    dispatch(allNews())
+    dispatch(allEvents())
+    dispatch(allProjectCategories())
+    dispatch(allProjects())
+  }, [dispatch])
   return (
     <BrowserRouter>
+      <ToastContainer position="top-right" autoClose={2000} />
       <LanguageProvider>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path='/hero-carousel' element={<HeroCarousel />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/join-us" element={<Join />} />
-          <Route path="/tours" element={<Tours />} />
-          <Route path="/media" element={<Media />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/hero-carousel" element={<ProtectedRoute><HeroCarousel /></ProtectedRoute>} />
+          <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
+          <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+          <Route path="/about-us" element={<ProtectedRoute><About /></ProtectedRoute>} />
+          <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
+          <Route path="/blogs" element={<ProtectedRoute><Blogs /></ProtectedRoute>} />
+          <Route path="/join-us" element={<ProtectedRoute><Join /></ProtectedRoute>} />
+          <Route path="/tours" element={<ProtectedRoute><Tours /></ProtectedRoute>} />
+          <Route path="/media" element={<ProtectedRoute><Media /></ProtectedRoute>} />
+          <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+          <Route path="/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </LanguageProvider>

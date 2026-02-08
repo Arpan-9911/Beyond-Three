@@ -1,44 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DesktopHeader from '../components/layout/DesktopHeader'
 import MobileHeader from '../components/layout/MobileHeader'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { FaPlus, FaEdit, FaTrash, FaFolder } from 'react-icons/fa'
 import { HiViewGrid } from 'react-icons/hi'
+import { toast } from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux'
+import { addProjectCategory, deleteProjectCategory, addProject, deleteProject, updateProject } from '../functions/projects'
 
 const Projects = () => {
-
-  // Categories state
-  const [categories, setCategories] = useState([
-    { id: 1, name: { en: "Education", hi: "शिक्षा" }, icon: "📚" },
-    { id: 2, name: { en: "Environment", hi: "पर्यावरण" }, icon: "🌿" },
-    { id: 3, name: { en: "Social Welfare", hi: "समाज कल्याण" }, icon: "🤝" },
-  ])
-
-  const [activeCategory, setActiveCategory] = useState(1)
-
-  // Projects state
-  const [projects, setProjects] = useState([])
+  const dispatch = useDispatch()
+  const categories = useSelector(state => state.projectCategories)
+  const projects = useSelector(state => state.projects)
+  const [activeCategory, setActiveCategory] = useState(null)
+  useEffect(() => {
+    if (categories.length > 0 && !activeCategory) {
+      setActiveCategory(categories[0]._id)
+    }
+  }, [categories, activeCategory])
 
   // Modal states
   const [showProjectModal, setShowProjectModal] = useState(false)
   const [showCategoryModal, setShowCategoryModal] = useState(false)
   const [editIndex, setEditIndex] = useState(null)
-  const [editCategoryIndex, setEditCategoryIndex] = useState(null)
 
   // Form states
   const emptyProjectForm = {
     image: "",
+    preview: "",
     title: { en: "", hi: "" },
     description: { en: "", hi: "" },
-    categoryId: 1,
-    status: "ongoing",
     featured: false
   }
 
   const emptyCategoryForm = {
-    name: { en: "", hi: "" },
-    icon: "📁"
+    name: { en: "", hi: "" }
   }
 
   const [projectForm, setProjectForm] = useState(emptyProjectForm)
@@ -52,63 +49,81 @@ const Projects = () => {
   }
 
   const openEditProject = (index) => {
-    const projectsInCategory = projects.filter(p => p.categoryId === activeCategory)
-    const project = projectsInCategory[index]
-    const actualIndex = projects.findIndex(p => p === project)
+    const project = projects[index]
     setProjectForm(project)
-    setEditIndex(actualIndex)
+    setEditIndex(project._id)
     setShowProjectModal(true)
   }
 
-  const handleProjectImageChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const preview = URL.createObjectURL(file)
-    setProjectForm({ ...projectForm, image: preview })
-  }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setProjectForm(prev => ({
+      ...prev,
+      image: file,
+      preview: URL.createObjectURL(file),
+    }));
+  };
 
-  const handleSaveProject = () => {
-    if (editIndex !== null) {
-      const updated = [...projects]
-      updated[editIndex] = projectForm
-      setProjects(updated)
-    } else {
-      setProjects([...projects, projectForm])
+  const handleSaveProject = async () => {
+    if(!projectForm.title.en.trim() && !projectForm.title.hi.trim()) return toast.error("Either English or Hindi title is required");
+    if(!projectForm.description.en.trim() && !projectForm.description.hi.trim()) return toast.error("Either English or Hindi description is required");
+    if(!projectForm.image) return toast.error("Project image is required");
+    if(!activeCategory) return toast.error("Project category is required");
+    try {
+      const formData = new FormData();
+      formData.append("title", JSON.stringify(projectForm.title));
+      formData.append("description", JSON.stringify(projectForm.description));
+      formData.append("category", activeCategory);
+      formData.append("featured", projectForm.featured);
+      if (projectForm.image instanceof File) {
+        formData.append("image", projectForm.image);
+      }
+      if (editIndex !== null) {
+        await dispatch(updateProject(editIndex, formData))
+      }
+      else {
+        await dispatch(addProject(formData))
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.msg || "Failed to save project")
+    } finally {
+      setShowProjectModal(false)
     }
-    setShowProjectModal(false)
   }
 
-  const handleDeleteProject = (index) => {
-    const projectsInCategory = projects.filter(p => p.categoryId === activeCategory)
-    const project = projectsInCategory[index]
-    setProjects(projects.filter(p => p !== project))
+  const handleDeleteProject = async (id) => {
+    try {
+      await dispatch(deleteProject(id))
+    } catch (err) {
+      toast.error(err.response?.data?.msg || "Failed to delete project")
+    }
   }
 
   // Category handlers
   const openAddCategory = () => {
     setCategoryForm(emptyCategoryForm)
-    setEditCategoryIndex(null)
     setShowCategoryModal(true)
   }
 
-  const handleSaveCategory = () => {
-    if (editCategoryIndex !== null) {
-      const updated = [...categories]
-      updated[editCategoryIndex] = { ...categoryForm, id: categories[editCategoryIndex].id }
-      setCategories(updated)
-    } else {
-      const newId = Math.max(...categories.map(c => c.id), 0) + 1
-      setCategories([...categories, { ...categoryForm, id: newId }])
+  const handleSaveCategory = async () => {
+    try {
+      if (!categoryForm.name.en.trim() || !categoryForm.name.hi.trim()) return toast.error("Both English and Hindi names are required")
+      const name = JSON.stringify({ en: categoryForm.name.en.trim(), hi: categoryForm.name.hi.trim() })
+      await dispatch(addProjectCategory({ name }))
+    } catch (err) {
+      toast.error(err.response?.data?.msg || "Failed to add category")
+    } finally {
+      setShowCategoryModal(false)
     }
-    setShowCategoryModal(false)
   }
 
   const truncateText = (text, limit = 120) => {
     return text.length > limit ? text.substring(0, limit) + "..." : text
   }
 
-  const currentCategoryProjects = projects.filter(p => p.categoryId === activeCategory)
-  const currentCategory = categories.find(c => c.id === activeCategory)
+  const currentCategoryProjects = projects.filter(p => p.category === activeCategory)
+  const currentCategory = categories.find(c => c._id === activeCategory)
 
   return (
     <div className='min-h-dvh flex bg-amber-100'>
@@ -126,7 +141,7 @@ const Projects = () => {
           <div className='flex gap-6 max-lg:flex-col'>
 
             {/* Categories Sidebar */}
-            <div className='lg:w-64 flex-shrink-0'>
+            <div className='lg:w-64 shrink-0'>
               <div className='flex items-center justify-between mb-4'>
                 <h2 className='text-amber-700 font-semibold uppercase tracking-wide text-sm'>Categories</h2>
                 <button onClick={openAddCategory} className='text-amber-700 hover:text-amber-800 cursor-pointer'>
@@ -136,18 +151,31 @@ const Projects = () => {
               <div className='space-y-2'>
                 {categories.map((cat) => (
                   <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition cursor-pointer ${activeCategory === cat.id
+                    key={cat._id}
+                    onClick={() => setActiveCategory(cat._id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition cursor-pointer ${activeCategory === cat._id
                         ? 'bg-amber-600 text-white shadow-lg'
                         : 'bg-white hover:bg-amber-50 text-gray-700'
                       }`}
                   >
-                    <span className='text-lg'>{cat.icon}</span>
-                    <span className='font-medium'>{cat.name.en}</span>
-                    {activeCategory === cat.id && (
-                      <span className='ml-auto w-2 h-2 bg-white rounded-full'></span>
-                    )}
+                    <FaFolder size={18} />
+                    <div className='flex flex-col text-xs text-left'>
+                      <span className='font-medium'>{cat.name.en}</span>
+                      <span className='font-medium'>{cat.name.hi}</span>
+                    </div>
+                    <div className='ml-auto flex items-center gap-2'>
+                      {activeCategory === cat._id && (
+                        <span className='w-2 h-2 bg-white rounded-full'></span>
+                      )}
+
+                      <FaTrash
+                        size={14}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(deleteProjectCategory(cat._id))
+                        }}
+                      />
+                    </div>
                   </button>
                 ))}
               </div>
@@ -169,46 +197,41 @@ const Projects = () => {
               {/* Projects List */}
               <div className='space-y-4'>
                 {currentCategoryProjects.map((project, index) => (
-                  <div key={index} className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition'>
+                  <div key={index} className='bg-white rounded-4xl shadow-lg overflow-hidden hover:shadow-xl transition'>
                     <div className='flex gap-4 p-4 max-sm:flex-col'>
                       {/* Image Thumbnail */}
-                      <div className='w-40 h-28 min-w-40 max-sm:w-full max-sm:h-40 rounded-xl overflow-hidden'>
-                        <img src={project.image} className='w-full h-full object-cover' alt={project.title.en} />
+                      <div className='w-40 h-28 min-w-40 max-sm:w-full max-sm:h-40 rounded-2xl overflow-hidden'>
+                        <img src={import.meta.env.VITE_UPLOADS + project.image} className='w-full h-full object-cover' alt={project.title.en} />
                       </div>
                       {/* Content */}
                       <div className='flex-1 min-w-0'>
                         <div className='flex items-start justify-between gap-2'>
-                          <h2 className='font-bold text-lg text-gray-800'>
-                            {project.title.en}
-                          </h2>
-                          <div className='flex gap-3 flex-shrink-0'>
+                          <div className='flex items-start gap-2'>
+                            <div>
+                              <h2 className='font-bold text-gray-800'>{project.title.en}</h2>
+                              <h2 className='font-bold text-gray-800'>{project.title.hi}</h2>
+                            </div>
+
+                            {project.featured && (
+                              <span className='px-2 py-0.5 text-[10px] font-semibold rounded-md border text-amber-700 border-amber-200 bg-amber-50 whitespace-nowrap'>
+                                FEATURED
+                              </span>
+                            )}
+                          </div>
+                          <div className='flex gap-3 shrink-0'>
                             <button className='text-gray-400 hover:text-gray-600 cursor-pointer'>
                               <HiViewGrid size={18} />
                             </button>
                             <button onClick={() => openEditProject(index)} className='text-gray-400 hover:text-blue-600 cursor-pointer'>
                               <FaEdit size={16} />
                             </button>
-                            <button onClick={() => handleDeleteProject(index)} className='text-gray-400 hover:text-red-600 cursor-pointer'>
+                            <button onClick={() => handleDeleteProject(project._id)} className='text-gray-400 hover:text-red-600 cursor-pointer'>
                               <FaTrash size={16} />
                             </button>
                           </div>
                         </div>
-                        <p className='text-gray-600 text-sm mt-2 line-clamp-2'>
-                          {truncateText(project.description.en)}
-                        </p>
-                        <div className='flex gap-2 mt-3'>
-                          <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${project.status === 'ongoing'
-                              ? 'text-amber-700 border-amber-300 bg-amber-50'
-                              : 'text-green-700 border-green-300 bg-green-50'
-                            }`}>
-                            {project.status === 'ongoing' ? 'ONGOING' : 'COMPLETED'}
-                          </span>
-                          {project.featured && (
-                            <span className='px-3 py-1 text-xs font-semibold rounded-full border text-gray-600 border-gray-300 bg-gray-50'>
-                              FEATURED
-                            </span>
-                          )}
-                        </div>
+                        <p className='text-gray-600 text-sm mt-1'>{truncateText(project.description.en)}</p>
+                        <p className='text-gray-600 text-sm mt-1'>{truncateText(project.description.hi)}</p>
                       </div>
                     </div>
                   </div>
@@ -232,11 +255,10 @@ const Projects = () => {
       {/* Project Modal */}
       {showProjectModal && (
         <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
-          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto'>
+          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto hide-scrollbar'>
             <h2 className='font-bold text-lg'>
               {editIndex !== null ? "Edit Project" : "Add Project"}
             </h2>
-
             {/* Image Upload */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Project Image</label>
@@ -244,26 +266,12 @@ const Projects = () => {
                 type="file"
                 accept="image/*"
                 className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                onChange={handleProjectImageChange}
+                onChange={handleImageChange}
               />
             </div>
-            {projectForm.image && (
-              <img src={projectForm.image} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
+            {projectForm.preview && (
+              <img src={projectForm.preview} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
             )}
-
-            {/* Category */}
-            <div>
-              <label className='text-sm text-gray-600 mb-1 block'>Category</label>
-              <select
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                value={projectForm.categoryId}
-                onChange={(e) => setProjectForm({ ...projectForm, categoryId: parseInt(e.target.value) })}
-              >
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name.en}</option>
-                ))}
-              </select>
-            </div>
 
             {/* Title English */}
             <div>
@@ -320,28 +328,15 @@ const Projects = () => {
             </div>
 
             {/* Status and Featured */}
-            <div className='flex gap-4'>
-              <div className='flex-1'>
-                <label className='text-sm text-gray-600 mb-1 block'>Status</label>
-                <select
-                  className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                  value={projectForm.status}
-                  onChange={(e) => setProjectForm({ ...projectForm, status: e.target.value })}
-                >
-                  <option value="ongoing">Ongoing</option>
-                  <option value="completed">Completed</option>
-                </select>
-              </div>
-              <div className='flex items-center gap-2 pt-6'>
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={projectForm.featured}
-                  onChange={(e) => setProjectForm({ ...projectForm, featured: e.target.checked })}
-                  className='w-4 h-4 accent-amber-600 cursor-pointer'
-                />
-                <label htmlFor="featured" className='text-sm text-gray-700 cursor-pointer'>Featured</label>
-              </div>
+            <div className='flex items-center gap-2'>
+              <input
+                type="checkbox"
+                id="featured"
+                checked={projectForm.featured}
+                onChange={(e) => setProjectForm({ ...projectForm, featured: e.target.checked })}
+                className='w-4 h-4 accent-amber-600 cursor-pointer'
+              />
+              <label htmlFor="featured" className='text-sm text-gray-700 cursor-pointer'>Featured</label>
             </div>
 
             {/* Action Buttons */}
@@ -362,21 +357,7 @@ const Projects = () => {
       {showCategoryModal && (
         <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
           <div className='bg-white rounded-4xl p-6 w-full max-w-md space-y-3'>
-            <h2 className='font-bold text-lg'>
-              {editCategoryIndex !== null ? "Edit Category" : "Add Category"}
-            </h2>
-
-            {/* Icon */}
-            <div>
-              <label className='text-sm text-gray-600 mb-1 block'>Icon (Emoji)</label>
-              <input
-                placeholder='📁'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none text-2xl'
-                value={categoryForm.icon}
-                onChange={(e) => setCategoryForm({ ...categoryForm, icon: e.target.value })}
-              />
-            </div>
-
+            <h2 className='font-bold text-lg'>Add Categor</h2>
             {/* Name English */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Name (English)</label>
@@ -389,7 +370,6 @@ const Projects = () => {
                 }
               />
             </div>
-
             {/* Name Hindi */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Name (Hindi)</label>
@@ -410,7 +390,7 @@ const Projects = () => {
               </button>
               <button onClick={handleSaveCategory}
                 className='cursor-pointer bg-amber-700 text-white px-4 py-2 rounded-2xl hover:bg-amber-800 transition active:scale-95'>
-                {editCategoryIndex !== null ? "Update" : "Create"}
+                Create
               </button>
             </div>
           </div>

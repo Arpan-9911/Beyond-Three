@@ -15,8 +15,13 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../functions/auth";
 
 const Sidebar = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const tabs = [
     { name: "Dashboard", link: "/dashboard", icon: <FaTachometerAlt /> },
     { name: "Hero Carousel", link: "/hero-carousel", icon: <FaImages /> },
@@ -64,7 +69,10 @@ const Sidebar = ({ onClose }) => {
       </nav>
       <hr className="my-4 border-yellow-400/40" />
       <button
-        onClick={onClose}
+        onClick={() => {
+          dispatch(logout(navigate));
+          onClose;
+        }}
         className="w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-semibold transition text-white hover:bg-red-800/30 hover:text-yellow-400"
       >
         <span className="text-lg">
