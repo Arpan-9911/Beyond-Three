@@ -20,6 +20,7 @@ const About = () => {
         hi: "बियॉन्ड थ्री एक पहल है जो शिक्षा, संस्कृति और नवाचार के माध्यम से समाज के विकास, जागरूकता और सशक्तिकरण पर केंद्रित है।",
       },
       img: About1,
+      cta: { en: "Join Our Mission", hi: "हमारे मिशन में शामिल हों", link: "/join-us" },
     },
     {
       id: 2,
@@ -38,6 +39,7 @@ const About = () => {
         hi: "हमारी पद्धति अनुशासन, मूल्यों और व्यावहारिक शिक्षा पर आधारित है। हम परंपरा और आधुनिक दृष्टिकोण को मिलाकर सार्थक प्रभाव पैदा करते हैं।",
       },
       img: About3,
+      cta: { en: "Learn Our Methods", hi: "हमारी विधियाँ जानें", link: "/about" },
     },
   ];
 
@@ -65,12 +67,22 @@ const About = () => {
                 <p className="text-gray-600 mb-4">
                   {truncateText(item.desc[lang])}
                 </p>
-                <Link
-                  to="/about"
-                  className="inline-block px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
-                >
-                  {lang === "hi" ? "और पढ़ें →" : "Read More →"}
-                </Link>
+                <div className="flex justify-between items-center mt-4">
+                  <Link
+                    to="/about"
+                    className="inline-block px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
+                  >
+                    {lang === "hi" ? "और पढ़ें →" : "Read More →"}
+                  </Link>
+                  {item.cta && (
+                    <Link
+                      to={item.cta.link}
+                      className="inline-block px-4 py-2 bg-amber-800 text-white font-semibold rounded-lg hover:bg-amber-900 transition"
+                    >
+                      {item.cta[lang]}
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           ))}
