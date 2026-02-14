@@ -33,7 +33,7 @@ const Sidebar = ({ onClose }) => {
     { name: "Join Us Requests", link: "/join-us", icon: <FaUserPlus /> },
     { name: "Tours", link: "/tours", icon: <FaRoute /> },
     { name: "Media Library", link: "/media", icon: <FaPhotoVideo /> },
-    { name: "Contact & Socials", link: "/contact", icon: <FaAddressBook /> },
+    { name: "Reviews", link: "/reviews", icon: <FaAddressBook /> },
     { name: "Appointments", link: "/appointments", icon: <FaCalendarCheck /> },
     { name: "Profile", link: "/profile", icon: <FaUserCircle /> },
   ];

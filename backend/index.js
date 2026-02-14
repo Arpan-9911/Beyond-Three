@@ -11,6 +11,9 @@ import heroCarousel from "./routes/heroCarousel.js";
 import news from "./routes/news.js";
 import event from "./routes/event.js";
 import projects from "./routes/projects.js";
+import blogs from "./routes/blogs.js";
+import tours from "./routes/tours.js";
+import media from "./routes/media.js";
 
 dotenv.config();
 const app = express();
@@ -30,6 +33,9 @@ app.use("/api/hero-carousel", heroCarousel);
 app.use("/api/news", news);
 app.use("/api/events", event);
 app.use("/api/projects", projects);
+app.use("/api/blogs", blogs);
+app.use("/api/tours", tours);
+app.use("/api/media", media);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

@@ -83,6 +83,7 @@ const Events = () => {
     }
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
     try {
       await dispatch(deleteEvent(id))
     } catch (error) {

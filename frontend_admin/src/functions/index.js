@@ -32,3 +32,18 @@ export const allProjects = () => API.get("/projects");
 export const addProject = (data) => API.post("/projects/add?folder=projects", data);
 export const deleteProject = (id) => API.delete(`/projects/delete/${id}`);
 export const updateProject = (id, data) => API.put(`/projects/update/${id}?folder=projects`, data);
+
+export const allBlogs = () => API.get("/blogs");
+export const addBlog = (data) => API.post("/blogs/add?folder=blogs", data);
+export const deleteBlog = (id) => API.delete(`/blogs/delete/${id}`);
+export const updateBlog = (id, data) => API.put(`/blogs/update/${id}?folder=blogs`, data);
+export const toggleStatusBlog = (id, data) => API.patch(`/blogs/status/${id}`, data);
+
+export const allTours = () => API.get("/tours");
+export const addTour = (data) => API.post("/tours/add?folder=tours", data);
+export const deleteTour = (id) => API.delete(`/tours/delete/${id}`);
+export const updateTour = (id, data) => API.put(`/tours/update/${id}?folder=tours`, data);
+
+export const allMedia = () => API.get("/media");
+export const addMedia = (data) => API.post("/media/add?folder=media", data);
+export const deleteMedia = (id) => API.delete(`/media/delete/${id}`);

@@ -4,13 +4,16 @@ import MobileHeader from '../components/layout/MobileHeader'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { FaPlus, FaEdit, FaTrash, FaMapMarkerAlt, FaClock, FaRupeeSign } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTour, deleteTour, updateTour } from '../functions/tours'
+import { toast } from 'react-toastify'
 
 const Tours = () => {
-
-  const [items, setItems] = useState([])
-
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.tours)
   const emptyForm = {
     image: "",
+    preview: "",
     title: { en: "", hi: "" },
     description: { en: "", hi: "" },
     location: { en: "", hi: "" },
@@ -31,30 +34,59 @@ const Tours = () => {
 
   const openEdit = (index) => {
     setForm(items[index])
-    setEditIndex(index)
+    setEditIndex(items[index]._id)
     setShowModal(true)
   }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
-    const preview = URL.createObjectURL(file)
-    setForm({ ...form, image: preview })
+    setForm(prev => ({
+      ...prev,
+      image: file,
+      preview: URL.createObjectURL(file)
+    }))
   }
 
-  const handleSave = () => {
-    if (editIndex !== null) {
-      const updated = [...items]
-      updated[editIndex] = form
-      setItems(updated)
-    } else {
-      setItems([...items, form])
+  const handleSave = async () => {
+    if(!form.title.en && !form.title.hi) return toast.error("Title is required in at least one language.");
+    if(!form.description.en && !form.description.hi) return toast.error("Description is required in at least one language.");
+    if(!form.location.en && !form.location.hi) return toast.error("Location is required in at least one language.");
+    if(!form.highlights.en && !form.highlights.hi) return toast.error("Highlights are required in at least one language.");
+    if(!form.duration) return toast.error("Duration is required.");
+    if(!form.price) return toast.error("Price is required.");
+    if(!form.image && editIndex === null) return toast.error("Image is required.");
+
+    const formData = new FormData();
+    formData.append("duration", form.duration)
+    formData.append("price", form.price)
+    formData.append("title", JSON.stringify(form.title))
+    formData.append("description", JSON.stringify(form.description))
+    formData.append("location", JSON.stringify(form.location))
+    formData.append("highlights", JSON.stringify(form.highlights))
+    if(form.image instanceof File) formData.append("image", form.image);
+
+    try {
+      if (editIndex !== null) {
+        await dispatch(updateTour(editIndex, formData))
+      } else {
+        await dispatch(addTour(formData))
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.msg || "Failed to update tour");
+    } finally {
+      setShowModal(false)
+      setForm(emptyForm)
     }
-    setShowModal(false)
   }
 
-  const handleDelete = (index) => {
-    setItems(items.filter((_, i) => i !== index))
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this tour package?")) return;
+    try {
+      await dispatch(deleteTour(id))
+    } catch (error) {
+      toast.error(error?.response?.data?.msg || "Failed to delete tour");
+    }
   }
 
   const truncateText = (text, limit = 100) => {
@@ -93,7 +125,7 @@ const Tours = () => {
             {items.map((item, index) => (
               <div key={index} className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition'>
                 <div className='h-44 w-full overflow-hidden relative'>
-                  <img src={item.image} className='w-full h-full object-cover' alt={item.title.en} />
+                  <img src={import.meta.env.VITE_UPLOADS + item.image} className='w-full h-full object-cover' alt={item.title.en} />
                   {item.price && (
                     <span className='absolute bottom-3 right-3 px-3 py-1 bg-amber-600 text-white text-sm font-semibold rounded-full flex items-center gap-1'>
                       <FaRupeeSign size={12} />{item.price}
@@ -102,24 +134,27 @@ const Tours = () => {
                 </div>
                 <div className='p-4'>
                   <div className='flex items-start justify-between gap-2'>
-                    <h2 className='font-bold text-lg text-gray-800'>{item.title.en}</h2>
-                    <div className='flex gap-2 flex-shrink-0'>
+                    <div>
+                      <h2 className='font-bold text-lg text-gray-800'>{item.title.en}</h2>
+                      <h2 className='font-bold text-lg text-gray-800'>{item.title.hi}</h2>
+                    </div>
+                    <div className='flex gap-2 shrink-0'>
                       <button onClick={() => openEdit(index)} className='text-blue-600 hover:text-blue-800 cursor-pointer'>
                         <FaEdit size={14} />
                       </button>
-                      <button onClick={() => handleDelete(index)} className='text-red-600 hover:text-red-800 cursor-pointer'>
+                      <button onClick={() => handleDelete(item._id)} className='text-red-600 hover:text-red-800 cursor-pointer'>
                         <FaTrash size={14} />
                       </button>
                     </div>
                   </div>
-                  <p className='text-gray-600 text-sm mt-2 line-clamp-2'>
-                    {truncateText(item.description.en)}
-                  </p>
+                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.en)}</p>
+                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.hi)}</p>
                   <div className='mt-3 flex items-center gap-4 text-sm text-gray-500'>
                     {item.location.en && (
                       <div className='flex items-center gap-1'>
                         <FaMapMarkerAlt size={12} className='text-amber-600' />
                         <span>{item.location.en}</span>
+                        <span>| {item.location.hi}</span>
                       </div>
                     )}
                     {item.duration && (
@@ -160,8 +195,8 @@ const Tours = () => {
                 className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
                 onChange={handleImageChange} />
             </div>
-            {form.image && (
-              <img src={form.image} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
+            {form.preview && (
+              <img src={form.preview} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
             )}
 
             <div className='grid grid-cols-2 gap-3'>

@@ -1,172 +1,280 @@
-import React, { useState } from 'react'
-import DesktopHeader from '../components/layout/DesktopHeader'
-import MobileHeader from '../components/layout/MobileHeader'
-import Sidebar from '../components/layout/Sidebar'
-import Footer from '../components/layout/Footer'
-import { FaPlus, FaTrash, FaImage, FaVideo, FaPlay } from 'react-icons/fa'
+import React, { useState } from "react";
+import DesktopHeader from "../components/layout/DesktopHeader";
+import MobileHeader from "../components/layout/MobileHeader";
+import Sidebar from "../components/layout/Sidebar";
+import Footer from "../components/layout/Footer";
+import {
+  FaPlus,
+  FaTrash,
+  FaFolder,
+  FaImage,
+  FaVideo,
+  FaPlay,
+  FaShareAlt,
+} from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addMedia, deleteMedia } from "../functions/media";
 
 const Media = () => {
+  const dispatch = useDispatch();
+  const tabs = [
+    { id: "image", name: "Images", icon: <FaImage /> },
+    { id: "video", name: "Videos", icon: <FaVideo /> },
+    { id: "social", name: "Social", icon: <FaShareAlt /> },
+  ];
+  const [activeTab, setActiveTab] = useState("image");
+  const items = useSelector((state) => state.media);
+  const [showModal, setShowModal] = useState(false);
 
-  const [items, setItems] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [form, setForm] = useState({ file: "", type: "image", title: "" })
+  const [form, setForm] = useState({
+    file: "",
+    preview: "",
+    type: "image",
+    title: "",
+    url: "",
+    platform: "",
+  });
 
   const openAdd = () => {
-    setForm({ file: "", type: "image", title: "" })
-    setShowModal(true)
-  }
+    setForm({
+      file: "",
+      preview: "",
+      type: activeTab,
+      title: "",
+      url: "",
+      platform: "",
+    });
+    setShowModal(true);
+  };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const preview = URL.createObjectURL(file)
-    const isVideo = file.type.startsWith('video/')
-    setForm({ ...form, file: preview, type: isVideo ? 'video' : 'image' })
-  }
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm({
+      ...form,
+      file,
+      preview: URL.createObjectURL(file),
+      type: file.type.startsWith("video/") ? "video" : "image",
+    });
+  };
 
-  const handleSave = () => {
-    if (form.file) {
-      setItems([...items, { ...form, id: Date.now() }])
+  const handleSave = async () => {
+    if (activeTab !== "social" && !form.file)
+      return toast.error("Please select a file.");
+    if (activeTab === "social" && (!form.url || !form.platform))
+      return toast.error("Please fill in all fields.");
+    const formData = new FormData();
+    formData.append("file", form.file);
+    formData.append("type", form.type);
+    formData.append("title", form.title);
+    formData.append("url", form.url);
+    formData.append("platform", form.platform);
+    try {
+      await dispatch(addMedia(formData));
+    } catch (err) {
+      toast.error(err?.response?.data?.msg || "Failed to add media.");
+    } finally {
+      setShowModal(false);
     }
-    setShowModal(false)
-  }
+  };
 
-  const handleDelete = (id) => {
-    setItems(items.filter(item => item.id !== id))
-  }
-
-  const images = items.filter(item => item.type === 'image')
-  const videos = items.filter(item => item.type === 'video')
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this media?")) return;
+    try {
+      await dispatch(deleteMedia(id));
+    } catch (err) {
+      toast.error(err?.response?.data?.msg || "Failed to delete media.");
+    }
+  };
+  const currentItems = items.filter((i) => i.type === activeTab);
 
   return (
-    <div className='min-h-dvh flex bg-amber-100'>
-      <div className='h-dvh sticky top-0 w-64 overflow-hidden max-md:hidden'>
+    <div className="min-h-dvh flex bg-amber-100">
+      <div className="h-dvh sticky top-0 w-64 overflow-hidden max-md:hidden">
         <Sidebar />
       </div>
-      <div className='flex-1'>
-        <div className='max-md:hidden'>
+      <div className="flex-1">
+        <div className="max-md:hidden">
           <DesktopHeader heading={"Media Library"} />
         </div>
-        <div className='md:hidden'>
+        <div className="md:hidden">
           <MobileHeader heading={"Media Library"} />
         </div>
-        <div className='min-h-[92.5dvh] p-4'>
-          <div className='md:flex gap-4 justify-between items-center'>
-            <div>
-              <h1 className='text-xl font-bold'>Media Library</h1>
-              <span className='text-amber-700'>
-                Upload and manage images and videos for your website.
-              </span>
+        <div className="min-h-[92.5dvh] p-4">
+          <div className="flex gap-6 max-lg:flex-col">
+            <div className="lg:w-64 shrink-0">
+              <h2 className="text-amber-700 font-semibold uppercase tracking-wide text-sm mb-4">
+                Media Type
+              </h2>
+              <div className="space-y-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition cursor-pointer ${
+                      activeTab === tab.id
+                        ? "bg-amber-600 text-white shadow-lg"
+                        : "bg-white hover:bg-amber-50 text-gray-700"
+                    }`}
+                  >
+                    {tab.icon}
+                    <span className="font-medium">{tab.name}</span>
+                    {activeTab === tab.id && (
+                      <span className="ml-auto w-2 h-2 bg-white rounded-full"></span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
-            <button onClick={openAdd}
-              className='cursor-pointer flex gap-2 items-center bg-amber-700 text-white px-3 py-2 rounded-lg hover:bg-amber-800 transition max-md:mt-3'>
-              <FaPlus />
-              <span>Upload Media</span>
-            </button>
-          </div>
-
-          {/* Images Section */}
-          <div className='mt-6'>
-            <h2 className='text-lg font-bold flex items-center gap-2 mb-4'>
-              <FaImage className='text-amber-600' /> Images ({images.length})
-            </h2>
-            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
-              {images.map((item) => (
-                <div key={item.id} className='relative group rounded-xl overflow-hidden shadow-lg bg-white'>
-                  <img src={item.file} className='w-full h-32 object-cover' alt={item.title || 'Image'} />
-                  <div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center'>
-                    <button onClick={() => handleDelete(item.id)}
-                      className='bg-red-500 text-white p-2 rounded-full hover:bg-red-600 cursor-pointer'>
-                      <FaTrash size={14} />
+            <div className="flex-1">
+              <div className="flex flex-wrap gap-4 justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold capitalize">
+                  {activeTab} Library
+                </h1>
+                <button
+                  onClick={openAdd}
+                  className="cursor-pointer flex gap-2 items-center bg-amber-700 text-white px-4 py-2 rounded-lg hover:bg-amber-800 transition"
+                >
+                  <FaPlus />
+                  Add Media
+                </button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+                {currentItems.map((item) => (
+                  <div
+                    key={item._id}
+                    className="relative bg-white rounded-3xl overflow-hidden shadow hover:shadow-lg transition"
+                  >
+                    {/* DELETE BUTTON — TOP RIGHT (NO OVERLAY) */}
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="absolute cursor-pointer top-2 right-2 z-10 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow"
+                    >
+                      <FaTrash size={12} />
                     </button>
-                  </div>
-                  {item.title && (
-                    <p className='p-2 text-xs text-gray-600 truncate'>{item.title}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-            {images.length === 0 && (
-              <p className='text-gray-400 text-sm'>No images uploaded yet.</p>
-            )}
-          </div>
 
-          {/* Videos Section */}
-          <div className='mt-8'>
-            <h2 className='text-lg font-bold flex items-center gap-2 mb-4'>
-              <FaVideo className='text-amber-600' /> Videos ({videos.length})
-            </h2>
-            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'>
-              {videos.map((item) => (
-                <div key={item.id} className='relative group rounded-xl overflow-hidden shadow-lg bg-white'>
-                  <div className='relative h-32 bg-gray-900'>
-                    <video src={item.file} className='w-full h-full object-cover' />
-                    <div className='absolute inset-0 flex items-center justify-center'>
-                      <FaPlay className='text-white text-2xl opacity-70' />
+                    <div className="aspect-square overflow-hidden">
+                      {/* IMAGE */}
+                      {item.type === "image" && (
+                        <img
+                          src={import.meta.env.VITE_UPLOADS + item.file}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+
+                      {/* VIDEO — FULLY PLAYABLE */}
+                      {item.type === "video" && (
+                        <video
+                          src={import.meta.env.VITE_UPLOADS + item.file}
+                          className="w-full h-full object-cover"
+                          controls
+                        />
+                      )}
+
+                      {/* SOCIAL CARD */}
+                      {item.type === "social" && (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-amber-50 text-center p-3 gap-1">
+                          <FaShareAlt className="text-xl text-amber-600" />
+
+                          {/* PLATFORM */}
+                          <p className="text-xs font-semibold text-gray-800">
+                            {item.platform}
+                          </p>
+
+                          {/* TITLE */}
+                          {item.title && (
+                            <p className="text-xs text-gray-700 font-medium">
+                              {item.title}
+                            </p>
+                          )}
+
+                          {/* LINK */}
+                          {item.url && (
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              className="text-[10px] text-blue-600 break-all"
+                            >
+                              {item.url}
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center'>
-                    <button onClick={() => handleDelete(item.id)}
-                      className='bg-red-500 text-white p-2 rounded-full hover:bg-red-600 cursor-pointer'>
-                      <FaTrash size={14} />
-                    </button>
-                  </div>
-                  {item.title && (
-                    <p className='p-2 text-xs text-gray-600 truncate'>{item.title}</p>
-                  )}
+                ))}
+              </div>
+
+              {currentItems.length === 0 && (
+                <div className="mt-12 text-center text-gray-500">
+                  <FaFolder size={48} className="mx-auto text-gray-300 mb-4" />
+                  <p className="text-lg">No media in this section.</p>
                 </div>
-              ))}
+              )}
             </div>
-            {videos.length === 0 && (
-              <p className='text-gray-400 text-sm'>No videos uploaded yet.</p>
-            )}
           </div>
         </div>
+
         <Footer />
       </div>
 
-      {/* Upload Modal */}
+      {/* MODAL — SAME STYLE AS BLOGS */}
       {showModal && (
-        <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
-          <div className='bg-white rounded-4xl p-6 w-full max-w-md space-y-4'>
-            <h2 className='font-bold text-lg'>Upload Media</h2>
-
-            <div>
-              <label className='text-sm text-gray-600 mb-1 block'>Select File (Image or Video)</label>
-              <input type="file" accept="image/*,video/*"
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                onChange={handleFileChange} />
-            </div>
-
-            {form.file && form.type === 'image' && (
-              <img src={form.file} className='h-40 w-full object-cover rounded-2xl' alt="Preview" />
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-4xl p-6 w-full max-w-lg space-y-3">
+            <h2 className="font-bold text-lg">Add Media</h2>
+            {activeTab !== "social" && (
+              <input
+                type="file"
+                className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"
+                onChange={handleFileChange}
+              />
             )}
-            {form.file && form.type === 'video' && (
-              <video src={form.file} className='h-40 w-full object-cover rounded-2xl' controls />
+            {activeTab === "social" && (
+              <>
+                <input
+                  placeholder="Platform"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"
+                  value={form.platform}
+                  onChange={(e) =>
+                    setForm({ ...form, platform: e.target.value })
+                  }
+                />
+                <input
+                  placeholder="URL"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"
+                  value={form.url}
+                  onChange={(e) => setForm({ ...form, url: e.target.value })}
+                />
+                <input
+                  placeholder="Title"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                />
+              </>
             )}
 
-            <div>
-              <label className='text-sm text-gray-600 mb-1 block'>Title (Optional)</label>
-              <input placeholder='Enter file title'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })} />
-            </div>
-
-            <div className='flex justify-end gap-3 pt-2'>
-              <button onClick={() => setShowModal(false)} className='px-4 py-2 border rounded-2xl cursor-pointer hover:bg-gray-200 transition'>
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 border rounded-2xl"
+              >
                 Cancel
               </button>
-              <button onClick={handleSave}
-                className='cursor-pointer bg-amber-700 text-white px-4 py-2 rounded-2xl hover:bg-amber-800 transition active:scale-95'>
-                Upload
+              <button
+                onClick={handleSave}
+                className="bg-amber-700 text-white px-4 py-2 rounded-2xl"
+              >
+                Save
               </button>
             </div>
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Media
+export default Media;

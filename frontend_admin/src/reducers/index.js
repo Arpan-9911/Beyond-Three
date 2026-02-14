@@ -5,5 +5,8 @@ import news from './news';
 import events from './event';
 import projectCategories from './projectCategories';
 import projects from './projects';
+import blogs from './blogs';
+import tours from './tours';
+import media from './media';
 
-export default combineReducers({ auth, hero, news, events, projectCategories, projects });
+export default combineReducers({ auth, hero, news, events, projectCategories, projects, blogs, tours, media });

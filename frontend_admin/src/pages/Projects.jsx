@@ -93,6 +93,7 @@ const Projects = () => {
   }
 
   const handleDeleteProject = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this project?")) return;
     try {
       await dispatch(deleteProject(id))
     } catch (err) {
@@ -172,7 +173,9 @@ const Projects = () => {
                         size={14}
                         onClick={(e) => {
                           e.stopPropagation();
-                          dispatch(deleteProjectCategory(cat._id))
+                          if (window.confirm("Are you sure you want to delete this category?")) {
+                            dispatch(deleteProjectCategory(cat._id))
+                          }
                         }}
                       />
                     </div>

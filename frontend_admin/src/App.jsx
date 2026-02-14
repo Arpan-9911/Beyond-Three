@@ -15,7 +15,7 @@ import Blogs from './pages/Blogs';
 import Join from './pages/Join';
 import Tours from './pages/Tours';
 import Media from './pages/Media';
-import Contact from './pages/Contact';
+import Reviews from './pages/Reviews';
 import Appointments from './pages/Appointments';
 import Profile from './pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
@@ -25,6 +25,9 @@ import { allHeroCarousel } from './functions/heroCarousel';
 import { allNews } from './functions/news';
 import { allEvents } from './functions/event';
 import { allProjectCategories, allProjects } from './functions/projects';
+import { allBlogs } from './functions/blogs';
+import { allTours } from './functions/tours';
+import { allMedia } from './functions/media';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -35,6 +38,9 @@ const App = () => {
     dispatch(allEvents())
     dispatch(allProjectCategories())
     dispatch(allProjects())
+    dispatch(allBlogs())
+    dispatch(allTours())
+    dispatch(allMedia())
   }, [dispatch])
   return (
     <BrowserRouter>
@@ -52,7 +58,7 @@ const App = () => {
           <Route path="/join-us" element={<ProtectedRoute><Join /></ProtectedRoute>} />
           <Route path="/tours" element={<ProtectedRoute><Tours /></ProtectedRoute>} />
           <Route path="/media" element={<ProtectedRoute><Media /></ProtectedRoute>} />
-          <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+          <Route path="/reviews" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
           <Route path="/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />

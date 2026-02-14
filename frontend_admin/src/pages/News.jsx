@@ -82,6 +82,7 @@ const News = () => {
   }
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this news post?")) return;
     try {
       await dispatch(deleteNews(id))
     } catch (error) {
