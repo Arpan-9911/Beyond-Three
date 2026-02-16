@@ -23,11 +23,12 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const isImage = file.mimetype.startsWith("image/");
   const isVideo = file.mimetype.startsWith("video/");
-
-  if (isImage || isVideo) {
+  const isPdf = file.mimetype === "application/pdf";
+  
+  if (isImage || isVideo || isPdf) {
     cb(null, true);
   } else {
-    cb(new Error("Only images and videos allowed"), false);
+    cb(new Error("Only images, videos and PDF files are allowed"), false);
   }
 };
 

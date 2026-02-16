@@ -1,39 +1,13 @@
 import React from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { FaFileAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const LegalDocuments = () => {
+  const about = useSelector((state) => state.about);
   const { lang } = useLanguage();
-  const documents = [
-    {
-      title: {
-        en: "Trust Registration Certificate",
-        hi: "ट्रस्ट पंजीकरण प्रमाण पत्र",
-      },
-      file: "/docs/trust-registration.pdf",
-    },
-    {
-      title: {
-        en: "PAN Card",
-        hi: "पैन कार्ड",
-      },
-      file: "/docs/pan-card.pdf",
-    },
-    {
-      title: {
-        en: "12A Certificate",
-        hi: "12A प्रमाण पत्र",
-      },
-      file: "/docs/12a-certificate.pdf",
-    },
-    {
-      title: {
-        en: "80G Certificate",
-        hi: "80G प्रमाण पत्र",
-      },
-      file: "/docs/80g-certificate.pdf",
-    },
-  ];
+  if(!about) return null
+  const documents = about.documents;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -49,7 +23,7 @@ const LegalDocuments = () => {
             {lang === "hi" ? doc.title.hi : doc.title.en}
           </h3>
           <a
-            href={doc.file}
+            href={ import.meta.env.VITE_UPLOADS + doc.url }
             target="_blank"
             rel="noopener noreferrer"
             className="text-amber-700 text-sm font-medium hover:underline"

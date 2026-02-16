@@ -74,8 +74,8 @@ const JoinUs = () => {
         <div className="flex flex-wrap max-md:text-xs gap-2 md:mb-8 mb-4">
           <button
             onClick={() => setActiveTab("volunteer")}
-            className={`px-4 py-1 rounded-full font-medium cursor-pointer ${
-              activeTab === 'volunteer'
+            className={`px-4 py-1 rounded-full cursor-pointer font-medium ${
+              activeTab === "volunteer"
                 ? "bg-amber-700 text-white"
                 : "bg-white hover:bg-yellow-200"
             }`}
@@ -84,8 +84,8 @@ const JoinUs = () => {
           </button>
           <button
             onClick={() => setActiveTab("member")}
-            className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer ${
-              activeTab === 'member'
+            className={`px-4 py-1 rounded-full cursor-pointer font-medium ${
+              activeTab === "member"
                 ? "bg-amber-700 text-white"
                 : "bg-white hover:bg-yellow-200"
             }`}

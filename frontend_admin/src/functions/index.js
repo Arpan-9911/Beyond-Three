@@ -9,10 +9,10 @@ export const login = (authData) => API.post("/admin/auth/login", authData);
 export const logout = () => API.get("/admin/auth/logout");
 export const getProfile = () => API.get("/admin/auth/me");
 
-export const allHeroCarousel = () => API.get("/hero-carousel");
-export const addHeroCarousel = (data) => API.post("/hero-carousel/add?folder=hero" , data);
-export const deleteHeroCarousel = (id) => API.delete(`/hero-carousel/delete/${id}`);
-export const updateHeroCarousel = (id, data) => API.put(`/hero-carousel/update/${id}?folder=hero`, data);
+export const getHeroSection = () => API.get("/hero");
+export const saveHeading = (data) => API.post("/hero/heading", data);
+export const saveImages = (formData) => API.post("/hero/images?folder=hero", formData);
+export const saveQuotes = (data) => API.post("/hero/quotes", data);
 
 export const allNews = () => API.get("/news");
 export const addNews = (data) => API.post("/news/add?folder=news", data);
@@ -47,3 +47,13 @@ export const updateTour = (id, data) => API.put(`/tours/update/${id}?folder=tour
 export const allMedia = () => API.get("/media");
 export const addMedia = (data) => API.post("/media/add?folder=media", data);
 export const deleteMedia = (id) => API.delete(`/media/delete/${id}`);
+
+export const getAbout = () => API.get("/about");
+export const updateFounder = (formData) => API.post("/about/founder?folder=founder", formData);
+export const updateWhoWeAre = (data) => API.post("/about/who-we-are", data);
+export const updateMissionVision = (data) => API.post("/about/mission-vision", data);
+export const addDocument = (formData) => API.post("/about/documents?folder=documents", formData);
+export const deleteDocument = (index) => API.delete(`/about/documents/${index}`);
+export const addFaq = (data) => API.post("/about/faqs", data);
+export const updateFaq = (index, data) => API.put(`/about/faqs/${index}`, data);
+export const deleteFaq = (index) => API.delete(`/about/faqs/${index}`);

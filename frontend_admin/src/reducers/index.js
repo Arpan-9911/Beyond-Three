@@ -8,5 +8,6 @@ import projects from './projects';
 import blogs from './blogs';
 import tours from './tours';
 import media from './media';
+import about from './about';
 
-export default combineReducers({ auth, hero, news, events, projectCategories, projects, blogs, tours, media });
+export default combineReducers({ auth, hero, news, events, projectCategories, projects, blogs, tours, media, about });

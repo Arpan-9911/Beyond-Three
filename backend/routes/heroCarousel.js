@@ -1,13 +1,18 @@
 import express from "express";
-import { addHeroCarousel, allHeroCarousel, deleteHeroCarousel, updateHeroCarousel } from "../controllers/heroCarousel.js";
+import {
+  getHeroSection,
+  saveHeading,
+  saveImages,
+  saveQuotes,
+} from "../controllers/heroCarousel.js";
 import { protect } from "../middlewares/auth.js";
 import { upload } from "../middlewares/upload.js";
 
 const router = express.Router();
 
-router.get("/", allHeroCarousel);
-router.post("/add", protect, upload.single("image"), addHeroCarousel);
-router.put("/update/:id", protect, upload.single("image"), updateHeroCarousel);
-router.delete("/delete/:id", protect, deleteHeroCarousel);
+router.get("/", getHeroSection);
+router.post("/heading", protect, saveHeading);
+router.post("/images", protect, upload.array("images", 5), saveImages);
+router.post("/quotes", protect, saveQuotes);
 
 export default router;

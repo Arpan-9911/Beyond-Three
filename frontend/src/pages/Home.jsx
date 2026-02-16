@@ -5,7 +5,6 @@ import About from '../components/home/About'
 import Footer from '../components/layout/Footer'
 import Resolution from '../components/home/Resolution'
 import Youth from '../components/home/Youth'
-import Media from '../components/home/Media'
 import Testimonials from '../components/home/Testimonials'
 import NewsEvents from '../components/home/NewsEvents'
 
@@ -18,7 +17,6 @@ const Home = () => {
       <About />
       <Resolution />
       <Youth />
-      <Media />
       <Testimonials />
       <Footer />
     </div>

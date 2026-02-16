@@ -41,9 +41,9 @@ const Resolution = () => {
   ];
 
   return (
-    <section className="bg-amber-100">
+    <section className="bg-amber-700">
       <section className="max-w-7xl mx-auto px-4 text-center py-10">
-        <h2 className="md:text-4xl text-3xl font-bold text-amber-700 mb-8">
+        <h2 className="md:text-4xl text-3xl font-bold text-amber-100 mb-8">
           {lang === "hi" ? "हमारा संकल्प" : "Our Resolution"}
         </h2>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-4">

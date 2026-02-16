@@ -21,19 +21,20 @@ import Profile from './pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import { useDispatch } from 'react-redux';
 import { getProfile } from './functions/auth';
-import { allHeroCarousel } from './functions/heroCarousel';
+import { getHeroSection } from './functions/heroCarousel';
 import { allNews } from './functions/news';
 import { allEvents } from './functions/event';
 import { allProjectCategories, allProjects } from './functions/projects';
 import { allBlogs } from './functions/blogs';
 import { allTours } from './functions/tours';
 import { allMedia } from './functions/media';
+import { getAbout } from './functions/about';
 
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProfile())
-    dispatch(allHeroCarousel())
+    dispatch(getHeroSection())
     dispatch(allNews())
     dispatch(allEvents())
     dispatch(allProjectCategories())
@@ -41,7 +42,9 @@ const App = () => {
     dispatch(allBlogs())
     dispatch(allTours())
     dispatch(allMedia())
+    dispatch(getAbout())
   }, [dispatch])
+
   return (
     <BrowserRouter>
       <ToastContainer position="top-right" autoClose={2000} />

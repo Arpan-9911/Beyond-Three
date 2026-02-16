@@ -20,7 +20,7 @@ const About = () => {
         hi: "बियॉन्ड थ्री एक पहल है जो शिक्षा, संस्कृति और नवाचार के माध्यम से समाज के विकास, जागरूकता और सशक्तिकरण पर केंद्रित है।",
       },
       img: About1,
-      cta: { en: "Join Our Mission", hi: "हमारे मिशन में शामिल हों", link: "/join-us" },
+      cta: { en: "Join Our Mission", hi: "हमारे मिशन में शामिल हों", link: "/join" },
     },
     {
       id: 2,
@@ -72,7 +72,7 @@ const About = () => {
                     to="/about"
                     className="inline-block px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
                   >
-                    {lang === "hi" ? "और पढ़ें →" : "Read More →"}
+                    {lang === "hi" ? "और पढ़ें" : "Read More"}
                   </Link>
                   {item.cta && (
                     <Link

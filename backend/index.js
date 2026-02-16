@@ -14,6 +14,7 @@ import projects from "./routes/projects.js";
 import blogs from "./routes/blogs.js";
 import tours from "./routes/tours.js";
 import media from "./routes/media.js";
+import about from "./routes/about.js";
 
 dotenv.config();
 const app = express();
@@ -28,14 +29,19 @@ app.use(cors({
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
+app.get("/", (req, res) => {
+  res.send("Server working");
+});
+
 app.use("/api/admin/auth", adminAuth);
-app.use("/api/hero-carousel", heroCarousel);
+app.use("/api/hero", heroCarousel);
 app.use("/api/news", news);
 app.use("/api/events", event);
 app.use("/api/projects", projects);
 app.use("/api/blogs", blogs);
 app.use("/api/tours", tours);
 app.use("/api/media", media);
+app.use("/api/about", about);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

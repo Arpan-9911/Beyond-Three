@@ -1,41 +1,41 @@
 import * as api from './index.js';
 import { toast } from 'react-toastify';
 
-export const addHeroCarousel = (formData) => async (dispatch) => {
+export const getHeroSection = () => async (dispatch) => {
   try {
-    const { data } = await api.addHeroCarousel(formData);
-    dispatch({ type: "ADD_HERO_CAROUSEL", payload: data.slide });
-    toast.success("Hero Carousel added successfully");
-  } catch (error) {
-    toast.error(error.response.data.msg || "Failed to add hero carousel");
+    const { data } = await api.getHeroSection();
+    dispatch({ type: 'GET_HERO_SECTION', payload: data.hero });
+  } catch (err) {
+    toast.error(err.response?.data?.msg || 'Failed to fetch hero section');
   }
 };
 
-export const allHeroCarousel = () => async (dispatch) => {
+export const saveHeading = (heading) => async (dispatch) => {
   try {
-    const { data } = await api.allHeroCarousel();
-    dispatch({ type: "ALL_HERO_CAROUSEL", payload: data.slides });
-  } catch (error) {
-    toast.error(error.response.data.msg || "Failed to fetch hero carousel");
+    const { data } = await api.saveHeading(heading);
+    dispatch({ type: 'SAVE_HEADING', payload: data.hero });
+    toast.success(data.msg);
+  } catch (err) {
+    toast.error(err.response?.data?.msg || 'Failed to save heading');
   }
 };
 
-export const deleteHeroCarousel = (id) => async (dispatch) => {
+export const saveImages = (formData) => async (dispatch) => {
   try {
-    await api.deleteHeroCarousel(id);
-    dispatch({ type: "DELETE_HERO_CAROUSEL", payload: id });
-    toast.success("Hero Carousel deleted successfully");
-  } catch (error) {
-    toast.error(error.response.data.msg || "Failed to delete hero carousel");
+    const { data } = await api.saveImages(formData);
+    dispatch({ type: 'SAVE_IMAGES', payload: data.hero });
+    toast.success(data.msg);
+  } catch (err) {
+    toast.error(err.response?.data?.msg || 'Failed to save images');
   }
 };
 
-export const updateHeroCarousel = (id, formData) => async (dispatch) => {
+export const saveQuotes = (quotes) => async (dispatch) => {
   try {
-    const { data } = await api.updateHeroCarousel(id, formData);
-    dispatch({ type: "UPDATE_HERO_CAROUSEL", payload: data.slide });
-    toast.success("Hero Carousel updated successfully");
-  } catch (error) {
-    toast.error(error.response.data.msg || "Failed to update hero carousel");
+    const { data } = await api.saveQuotes(quotes);
+    dispatch({ type: 'SAVE_QUOTES', payload: data.hero });
+    toast.success(data.msg);
+  } catch (err) {
+    toast.error(err.response?.data?.msg || 'Failed to save quotes');
   }
 };

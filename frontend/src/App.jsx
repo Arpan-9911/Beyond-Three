@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LanguageProvider from "./context/LanguageProvider";
 
@@ -14,8 +14,22 @@ import Tours from "./pages/Tours";
 import Media from "./pages/Media";
 import Contact from "./pages/Contact";
 import Appointment from "./pages/Appointment";
+import { useDispatch } from "react-redux";
+import { allProjectCategories, allProjects, allEvents, allBlogs, allNews, allTours, allMedia, getHeroSection, getAbout } from "./functions";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(allProjects());
+    dispatch(allEvents());
+    dispatch(allProjectCategories());
+    dispatch(allBlogs());
+    dispatch(allNews());
+    dispatch(allTours());
+    dispatch(allMedia());
+    dispatch(getHeroSection());
+    dispatch(getAbout());
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <LanguageProvider>

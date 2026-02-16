@@ -1,99 +1,100 @@
-import HeroCarousel from "../models/heroCarousel.js";
+import HeroSection from "../models/hero.js";
 import fs from "fs";
 import path from "path";
 
-export const addHeroCarousel = async (req, res) => {
+// ================= GET HERO SECTION =================
+export const getHeroSection = async (req, res) => {
   try {
-    const name = JSON.parse(req.body.name);
-    const quote = JSON.parse(req.body.quote);
-    const nameEn = name.en?.trim();
-    const nameHi = name.hi?.trim();
-    const quoteEn = quote.en?.trim();
-    const quoteHi = quote.hi?.trim();
+    const hero = await HeroSection.findOne();
+    if (!hero) return res.status(404).json({ msg: "Hero section not found", hero: null });
+    res.status(200).json({ msg: "Hero section fetched", hero });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error", hero: null });
+  }
+};
 
-    if (!nameEn && !nameHi) return res.status(400).json({ success: false, msg: "Either English or Hindi name must be provided" });
-    if (!quoteEn && !quoteHi) return res.status(400).json({ success: false, msg: "Either English or Hindi quote must be provided" });
-    if (!req.file) return res.status(400).json({ success: false, msg: "Image is required" });
+// ================= SAVE / UPDATE HEADING =================
+export const saveHeading = async (req, res) => {
+  try {
+    const { heading } = req.body; // { en: "", hi: "" }
+    if (!heading || !heading.en || !heading.hi) {
+      return res.status(400).json({ msg: "Heading is required", hero: null });
+    }
+    let hero = await HeroSection.findOne();
+    if (hero) {
+      hero.heading = heading;
+      await hero.save();
+      return res.status(200).json({ msg: "Heading updated", hero });
+    }
+    hero = new HeroSection({ heading, images: [], quotes: [] });
+    await hero.save();
+    res.status(201).json({ msg: "Heading created", hero });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error", hero: null });
+  }
+};
 
-    const newHero = await HeroCarousel.create({
-      image: req.file.path.replace(/\\/g, "/"),
-      name: {
-        en: nameEn || "",
-        hi: nameHi || "",
-      },
-      quote: {
-        en: quoteEn || "",
-        hi: quoteHi || "",
-      },
+// ================= SAVE / UPDATE IMAGES =================
+export const saveImages = async (req, res) => {
+  try {
+    let hero = await HeroSection.findOne();
+    if (!hero) {
+      hero = new HeroSection({ heading: { en: "", hi: "" }, quotes: [], images: Array(5).fill(null) });
+    }
+
+    // Ensure hero.images has 5 slots
+    hero.images = hero.images || Array(5).fill(null);
+    while (hero.images.length < 5) hero.images.push(null);
+
+    // Parse existing images
+    const existingImages = req.body.existingImages ? JSON.parse(req.body.existingImages) : [];
+    existingImages.forEach((img, idx) => {
+      if (img) hero.images[idx] = img; // overwrite existing slot
     });
-    res.status(201).json({ success: true, slide: newHero });
-  } catch (err) {
-    res.status(500).json({ success: false, msg: "Server Error" });
-  }
-};
 
-export const allHeroCarousel = async (req, res) => {
-  try {
-    const slides = await HeroCarousel.find({});
-    res.status(200).json({ success: true, slides });
-  } catch (err) {
-    res.status(500).json({ success: false, msg: "Server Error" });
-  }
-};
-
-export const deleteHeroCarousel = async (req, res) => {
-  try {
-    const slide = await HeroCarousel.findById(req.params.id);
-    if (!slide) return res.status(404).json({ success: false, msg: "Slide not found" });
-    // delete file if exists
-    if (slide.image) {
-      const filePath = path.join(process.cwd(), slide.image);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+    // Parse uploaded files and their indexes
+    const files = req.files || [];
+    const indexes = req.body.imageIndexes ? JSON.parse(req.body.imageIndexes) : [];
+    files.forEach((file, i) => {
+      const idx = parseInt(indexes[i]);
+      if (!isNaN(idx)) {
+        hero.images[idx] = `uploads/hero/${file.filename}`;
       }
-    }
-    await HeroCarousel.findByIdAndDelete(req.params.id);
-    res.status(200).json({ success: true, msg: "Slide deleted successfully" });
+    });
+
+    await hero.save();
+    res.status(200).json({ msg: "Images updated", hero });
   } catch (err) {
-    res.status(500).json({ success: false, msg: "Server Error" });
+    console.error(err);
+    res.status(500).json({ msg: "Server error", hero: null });
   }
 };
 
-export const updateHeroCarousel = async (req, res) => {
+
+// ================= SAVE / UPDATE QUOTES =================
+export const saveQuotes = async (req, res) => {
   try {
-    const slide = await HeroCarousel.findById(req.params.id);
-    if (!slide) return res.status(404).json({ success: false, msg: "Slide not found" });
-
-    const name = JSON.parse(req.body.name);
-    const quote = JSON.parse(req.body.quote);
-    const nameEn = name.en?.trim();
-    const nameHi = name.hi?.trim();
-    const quoteEn = quote.en?.trim();
-    const quoteHi = quote.hi?.trim();
-
-    if (!nameEn && !nameHi) return res.status(400).json({ success: false, msg: "Either English or Hindi name must be provided" });
-    if (!quoteEn && !quoteHi) return res.status(400).json({ success: false, msg: "Either English or Hindi quote must be provided" });
-
-    if (req.file) {
-      if (slide.image) {
-        const filePath = path.join(process.cwd(), slide.image);
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
-        }
-      }
-      slide.image = req.file.path.replace(/\\/g, "/");
+    let { quotes } = req.body;
+    if (!quotes) return res.status(400).json({ msg: "Quotes required", hero: null });
+    if (typeof quotes === "string") {
+      quotes = JSON.parse(quotes);
     }
-    slide.name = {
-      en: nameEn || "",
-      hi: nameHi || "",
-    };
-    slide.quote = {
-      en: quoteEn || "",
-      hi: quoteHi || "",
-    };
-    await slide.save();
-    res.status(200).json({ success: true, slide });
+    if (!Array.isArray(quotes)) {
+      return res.status(400).json({ msg: "Quotes must be an array", hero: null });
+    }
+    let hero = await HeroSection.findOne();
+    if (!hero) {
+      hero = new HeroSection({ heading: { en: "", hi: "" }, images: [], quotes });
+      await hero.save();
+      return res.status(201).json({ msg: "Quotes added", hero });
+    }
+    hero.quotes = quotes;
+    await hero.save();
+    res.status(200).json({ msg: "Quotes updated", hero });
   } catch (err) {
-    res.status(500).json({ success: false, msg: "Server Error" });
+    console.error(err);
+    res.status(500).json({ msg: "Server error", hero: null });
   }
 };

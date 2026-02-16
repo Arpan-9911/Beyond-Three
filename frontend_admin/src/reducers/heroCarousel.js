@@ -1,13 +1,23 @@
-const heroReducer = (state = [], action) => {
+const initialState = {
+  heading: { en: "", hi: "" },
+  images: [],
+  quotes: [],
+};
+
+const heroReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ALL_HERO_CAROUSEL":
-      return action.payload;
-    case "ADD_HERO_CAROUSEL":
-      return [...state, action.payload];
-    case "DELETE_HERO_CAROUSEL":
-      return state.filter((slide) => slide._id !== action.payload);
-    case "UPDATE_HERO_CAROUSEL":
-      return state.map((slide) => (slide._id === action.payload._id ? action.payload : slide));
+    case "GET_HERO_SECTION":
+      return { ...state, ...action.payload };
+
+    case "SAVE_HEADING":
+      return { ...state, heading: action.payload.heading };
+
+    case "SAVE_IMAGES":
+      return { ...state, images: action.payload.images };
+
+    case "SAVE_QUOTES":
+      return { ...state, quotes: action.payload.quotes };
+
     default:
       return state;
   }
