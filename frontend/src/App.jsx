@@ -16,6 +16,7 @@ import Contact from "./pages/Contact";
 import Appointment from "./pages/Appointment";
 import { useDispatch } from "react-redux";
 import { allProjectCategories, allProjects, allEvents, allBlogs, allNews, allTours, allMedia, getHeroSection, getAbout } from "./functions";
+import FloatingSocials from "./components/layout/FloatingSocials";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <LanguageProvider>
+        <FloatingSocials />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
