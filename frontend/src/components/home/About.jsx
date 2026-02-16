@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import About1 from "../../assets/about_bt.jpeg";
-import About2 from "../../assets/swamiji_about.jpeg";
+import About2 from "../../assets/swamiji.jpeg";
 import About3 from "../../assets/about_approach.jpeg";
 
 const truncateText = (text, limit = 120) => {
