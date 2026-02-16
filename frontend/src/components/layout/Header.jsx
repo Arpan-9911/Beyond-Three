@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaLeaf, FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+import logoBT from "../../../logo_bt.png";
 import { useLanguage } from "../../context/LanguageContext";
 
 const text = {
@@ -82,9 +83,7 @@ const Header = () => {
     <header className={`${menuOpen ? "fixed" : "sticky"} top-0 left-0 w-full z-50 transition duration-300 bg-white shadow-lg`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:py-3 py-2">
         <div className="flex items-center gap-2 text-lg font-bold">
-          <div className="sm:w-9 w-5 sm:h-9 h-5 p-1 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-md">
-            <FaLeaf />
-          </div>
+          <img src={logoBT} alt="Beyond Three Logo" className="sm:h-10 h-7 w-auto object-contain" />
           <span className="text-amber-700">
             {lang === "en" ? "Beyond Three" : "बियॉन्ड थ्री"}
           </span>
