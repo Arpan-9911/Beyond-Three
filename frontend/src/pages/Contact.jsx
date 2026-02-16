@@ -131,7 +131,9 @@ const Contact = () => {
               <h4 className="font-bold mb-4">{t.followUs[lang]}</h4>
               <div className="flex gap-3">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/groups/669434656870727"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
                 >
                   <FaFacebookF />
@@ -143,7 +145,9 @@ const Contact = () => {
                   <FaInstagram />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.youtube.com/@beyondthreeofficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
                 >
                   <FaYoutube />

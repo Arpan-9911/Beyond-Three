@@ -29,13 +29,13 @@ const Footer = () => {
               : "A new healthy life in the lap of nature."}
           </p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-yellow-400 transition-colors">
+            <a href="https://www.facebook.com/groups/669434656870727" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">
               <FaFacebookF size={20} />
             </a>
             <a href="#" className="hover:text-yellow-400 transition-colors">
               <FaInstagram size={20} />
             </a>
-            <a href="#" className="hover:text-yellow-400 transition-colors">
+            <a href="https://www.youtube.com/@beyondthreeofficial" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">
               <FaYoutube size={20} />
             </a>
           </div>
