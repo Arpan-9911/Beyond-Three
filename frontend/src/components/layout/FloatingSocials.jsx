@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 
 const FloatingSocials = () => {
   const socialLinks = [
@@ -8,6 +8,8 @@ const FloatingSocials = () => {
     { icon: <FaInstagram />, url: "#", color: "bg-pink-600" },
     { icon: <FaLinkedin />, url: "https://www.linkedin.com/in/beyond-three-1311231a0/", color: "bg-blue-700" },
     { icon: <FaYoutube />, url: "https://www.youtube.com/@beyondthreeofficial", color: "bg-red-600" },
+    { icon: <FaWhatsapp />, url: "https://wa.me/917018149221", color: "bg-green-500" },
+    { icon: <FaPhoneAlt />, url: "tel:+917018149221", color: "bg-amber-600" },
   ];
 
   return (

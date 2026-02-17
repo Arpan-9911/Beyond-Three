@@ -8,10 +8,11 @@ const Footer = () => {
 
   const contactData = {
     address: {
-      hi: "शांति आश्रम, ऋषिकेश",
-      en: "Shanti Ashram, Rishikesh",
+      hi: "प्राचीन सनातन शिव मंदिर, मोती बाग नॉर्थ वेस्ट फेस 1, दिल्ली",
+      en: "Prachin Sanatan Shiv Mandir, Moti Bagh North West Phase 1, Delhi",
     },
-    phone: "+91 9990001111",
+    mapsLink: "https://www.google.com/maps/dir//Shri+Panch+Dashnam+Juna+Akhara+Prachin+Shivmandir+North+West+Moti+Bagh,+Moti+Bagh+1,+Block+G,+North+West+Moti+Bagh,+Moti+Bagh,+New+Delhi,+Delhi+110021/@28.5212193,77.2290188,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x390d1dcbbfa58fc7:0xb9e7fb2658eb37c2!2m2!1d77.1745351!2d28.5845721?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D",
+    phone: "+917018149221",
     email: "info@beyondthree.org",
   };
 
@@ -45,8 +46,8 @@ const Footer = () => {
             {lang === "hi" ? "संपर्क" : "Contact"}
           </h3>
           <div className="space-y-2 text-gray-400">
-            <p>{contactData.address[lang]}</p>
-            <p>{contactData.phone}</p>
+            <a href={contactData.mapsLink} target="_blank" rel="noopener noreferrer" className="block hover:text-yellow-400 transition-colors">{contactData.address[lang]}</a>
+            <a href={`tel:${contactData.phone}`} className="block hover:text-yellow-400 transition-colors">{contactData.phone}</a>
             <p>{contactData.email}</p>
           </div>
         </div>

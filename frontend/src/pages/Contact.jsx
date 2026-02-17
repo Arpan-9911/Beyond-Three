@@ -40,13 +40,14 @@ const Contact = () => {
     address: {
       label: { en: "Address", hi: "पता" },
       value: {
-        en: "Beyond Three Ashram, Near River Ganga, Rishikesh, Uttarakhand - 249201",
-        hi: "बियॉन्ड थ्री आश्रम, गंगा नदी के निकट, ऋषिकेश, उत्तराखंड - 249201",
+        en: "Prachin Sanatan Shiv Mandir, Moti Bagh North West Phase 1, Delhi - 110021",
+        hi: "प्राचीन सनातन शिव मंदिर, मोती बाग नॉर्थ वेस्ट फेस 1, दिल्ली - 110021",
       },
+      mapsLink: "https://www.google.com/maps/dir//Shri+Panch+Dashnam+Juna+Akhara+Prachin+Shivmandir+North+West+Moti+Bagh,+Moti+Bagh+1,+Block+G,+North+West+Moti+Bagh,+Moti+Bagh,+New+Delhi,+Delhi+110021/@28.5212193,77.2290188,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x390d1dcbbfa58fc7:0xb9e7fb2658eb37c2!2m2!1d77.1745351!2d28.5845721?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D",
     },
     phoneNumber: {
       label: { en: "Phone", hi: "फ़ोन" },
-      value: "+91 98765 43210",
+      value: "+917018149221",
     },
     emailAddress: {
       label: { en: "Email", hi: "ईमेल" },
@@ -86,7 +87,7 @@ const Contact = () => {
               {t.contactInfo[lang]}
             </h2>
             <div className="space-y-3">
-              <div className="flex items-start gap-4">
+              <a href={t.address.mapsLink} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 hover:opacity-80 transition-opacity">
                 <div className="bg-amber-900 p-3 rounded-full shrink-0">
                   <FaMapMarkerAlt className="text-yellow-400" />
                 </div>
@@ -96,8 +97,8 @@ const Contact = () => {
                     {t.address.value[lang]}
                   </p>
                 </div>
-              </div>
-              <div className="flex items-start gap-4">
+              </a>
+              <a href={`tel:${t.phoneNumber.value}`} className="flex items-start gap-4 hover:opacity-80 transition-opacity">
                 <div className="bg-amber-900 p-3 rounded-full shrink-0">
                   <FaPhoneAlt className="text-yellow-400" />
                 </div>
@@ -105,7 +106,7 @@ const Contact = () => {
                   <h4 className="font-bold">{t.phoneNumber.label[lang]}</h4>
                   <p className="text-gray-300 text-sm">{t.phoneNumber.value}</p>
                 </div>
-              </div>
+              </a>
 
               <div className="flex items-start gap-4">
                 <div className="bg-amber-900 p-3 rounded-full shrink-0">
@@ -153,7 +154,9 @@ const Contact = () => {
                   <FaYoutube />
                 </a>
                 <a
-                  href="#"
+                  href="https://wa.me/917018149221"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-amber-900 p-3 rounded-full hover:bg-yellow-400 hover:text-amber-900 transition duration-300"
                 >
                   <FaWhatsapp />
@@ -250,14 +253,14 @@ const Contact = () => {
         </div>
         <div className="bg-white rounded-4xl shadow-xl md:mt-8 mt-4 overflow-hidden h-64">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789!2d78.267!3d30.086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDA1JzA5LjYiTiA3OMKwMTYnMDEuMiJF!5e0!3m2!1sen!2sin!4v1234567890"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.123!2d77.1723464!3d28.5845721!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1dcbbfa58fc7%3A0xb9e7fb2658eb37c2!2sShri%20Panch%20Dashnam%20Juna%20Akhara%20Prachin%20Shivmandir%20North%20West%20Moti%20Bagh!5e0!3m2!1sen!2sin!4v1708000000000"
             width="100%"
             height="100%"
             style={{ border: 0 }}
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Location Map"
+            title="Prachin Sanatan Shiv Mandir Location"
           ></iframe>
         </div>
       </main>
