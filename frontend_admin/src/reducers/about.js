@@ -1,5 +1,6 @@
 const initialState = {
   founder: null,
+  methodology: null,
   whoWeAre: null,
   missionVision: null,
   documents: [],
@@ -14,6 +15,7 @@ const aboutReducer = (state = initialState, action) => {
       return {
         ...state,
         founder: action.payload.founder || null,
+        methodology: action.payload.methodology || null,
         whoWeAre: action.payload.whoWeAre || null,
         missionVision: action.payload.missionVision || null,
         documents: action.payload.documents || [],
@@ -23,6 +25,9 @@ const aboutReducer = (state = initialState, action) => {
     // ================= UPDATE MAIN SECTIONS =================
     case "UPDATE_FOUNDER":
       return { ...state, founder: action.payload };
+
+    case "UPDATE_METHODOLOGY":
+      return { ...state, methodology: action.payload };
 
     case "UPDATE_WHO_WE_ARE":
       return { ...state, whoWeAre: action.payload };

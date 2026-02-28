@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   updateFounder,
+  updateMethodology,
   updateWhoWeAre,
   updateMissionVision,
   addDocument,
@@ -31,9 +32,10 @@ import RichTextEditor from "../components/editor/RichTextEditor";
 const categories = [
   { _id: "1", name: { en: "Founder", hi: "संस्थापक" } },
   { _id: "2", name: { en: "Who We Are", hi: "हमारे बारे में" } },
-  { _id: "3", name: { en: "Mission & Vision", hi: "मिशन और दृष्टिकोण" } },
-  { _id: "4", name: { en: "Legal Documents", hi: "कानूनी दस्तावेज़" } },
-  { _id: "5", name: { en: "FAQs", hi: "सामान्य प्रश्न" } },
+  { _id: "3", name: { en: "Methodology", hi: "पद्धधती" } },
+  { _id: "4", name: { en: "Mission & Vision", hi: "मिशन और दृष्टिकोण" } },
+  { _id: "5", name: { en: "Legal Documents", hi: "कानूनी दस्तावेज़" } },
+  { _id: "6", name: { en: "FAQs", hi: "सामान्य प्रश्न" } },
 ];
 
 const About = () => {
@@ -50,6 +52,9 @@ const About = () => {
     backendImage: "",
   });
   const [whoWeAreData, setWhoWeAreData] = useState({
+    description: { en: "", hi: "" },
+  });
+  const [methodologyData, setMethodologyData] = useState({
     description: { en: "", hi: "" },
   });
   const [missionVisionData, setMissionVisionData] = useState({
@@ -76,6 +81,12 @@ const About = () => {
         description: {
           en: about.founder?.description?.en || "",
           hi: about.founder?.description?.hi || "",
+        },
+      });
+      setMethodologyData({
+        description: {
+          en: about.methodology?.description?.en || "",
+          hi: about.methodology?.description?.hi || "",
         },
       });
       setWhoWeAreData({
@@ -213,6 +224,9 @@ const About = () => {
         await dispatch(updateWhoWeAre(whoWeAreData));
       }
       if (activeCategory === "3") {
+        await dispatch(updateMethodology(methodologyData));
+      }
+      if (activeCategory === "4") {
         await dispatch(updateMissionVision(missionVisionData));
       }
     } catch (error) {
@@ -232,10 +246,12 @@ const About = () => {
       case "2":
         return renderWhoWeAre();
       case "3":
-        return renderMissionVision();
+        return renderMethodology();
       case "4":
-        return renderLegalDocuments();
+        return renderMissionVision();
       case "5":
+        return renderLegalDocuments();
+      case "6":
         return renderFaqs();
       default:
         return renderCustomCategory();
@@ -467,6 +483,51 @@ const About = () => {
               setWhoWeAreData({
                 ...whoWeAreData,
                 description: { ...whoWeAreData.description, hi: html },
+              })
+            }
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderMethodology = () => (
+    <div className="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <div className="flex justify-between items-center border-b pb-2">
+        <h2 className="font-bold text-lg">Values</h2>
+        <button
+          onClick={handleSave}
+          className="cursor-pointer flex gap-2 items-center bg-amber-700 text-white px-4 py-2 rounded-lg hover:bg-amber-800 transition text-sm"
+        >
+          <FaSave size={14} />
+          <span>Save</span>
+        </button>
+      </div>
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <div>
+          <label className="text-sm text-gray-600 mb-1 block">
+            Description (English)
+          </label>
+          <RichTextEditor
+            value={methodologyData.description.en}
+            onChange={(html) =>
+              setMethodologyData({
+                ...methodologyData,
+                description: { ...methodologyData.description, en: html },
+              })
+            }
+          />
+        </div>
+        <div>
+          <label className="text-sm text-gray-600 mb-1 block">
+            Description (Hindi)
+          </label>
+          <RichTextEditor
+            value={methodologyData.description.hi}
+            onChange={(html) =>
+              setMethodologyData({
+                ...methodologyData,
+                description: { ...methodologyData.description, hi: html },
               })
             }
           />

@@ -24,6 +24,16 @@ export const updateFounder = (formData) => async (dispatch) => {
   }
 };
 
+// ================= UPDATE METHODOLOGY =================
+export const updateMethodology = (body) => async (dispatch) => {
+  try {
+    const { data } = await api.updateMethodology(body);
+    dispatch({ type: "UPDATE_METHODOLOGY", payload: data.methodology });
+    toast.success(data.message);
+  } catch (err) {
+    toast.error(err.response?.data?.msg || "Failed to update methodology");
+  }
+};
 
 // ================= UPDATE WHO WE ARE =================
 export const updateWhoWeAre = (body) => async (dispatch) => {

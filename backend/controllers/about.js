@@ -13,6 +13,7 @@ const getAboutDoc = async () => {
         description: { en: "", hi: "" },
         image: "",
       },
+      methodology: { description: { en: "", hi: "" } },
       whoWeAre: { description: { en: "", hi: "" } },
       missionVision: { mission: { en: "", hi: "" }, vision: { en: "", hi: "" } },
       documents: [],
@@ -59,6 +60,22 @@ export const updateFounder = async (req, res) => {
     }
     await about.save();
     res.status(200).json({ message: "Founder updated successfully", founder: about.founder });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// -----------------------------
+// Update Methodology
+// -----------------------------
+export const updateMethodology = async (req, res) => {
+  try {
+    let { description } = req.body;
+    const about = await getAboutDoc();
+    if (typeof description === "string") description = JSON.parse(description);
+    about.methodology.description = description;
+    await about.save();
+    res.status(200).json({ message: "Methodology updated successfully", methodology: about.methodology });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

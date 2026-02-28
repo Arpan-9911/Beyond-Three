@@ -36,20 +36,23 @@ const About = () => {
   };
 
   return (
-    <section className="bg-amber-50 text-gray-800">
+    <section className="relative overflow-hidden bg-linear-to-br from-amber-100 via-yellow-50 to-amber-200">
+    {/* Subtle background glow */}
+    <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-300/20 rounded-full blur-3xl"></div>
+    <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl"></div>
       <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
 
         {/* Who We Are */}
         <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-amber-700">
-            {lang === "hi" ? "हम कौन हैं" : "Who We Are"}
+          <h2 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent">
+            {lang === "hi" ? "बिऑन्ड थ्री" : "Beyond Three"}
           </h2>
-          <p className="text-gray-700 text-lg md:text-xl leading-relaxed whitespace-pre-line">
+          <p className="text-gray-800/90 text-lg md:text-xl leading-relaxed whitespace-pre-line">
             {truncateText(stripHtml(getText(about.whoWeAre.description)))}
           </p>
           <Link
             to={"/join"}
-            className="inline-block px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-800 transition"
+            className="inline-block px-6 py-2 bg-linear-to-r from-amber-700 to-yellow-600 text-white font-semibold rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
           >
             { lang === "hi" ? "जोड़ें" : "Join Us"}
           </Link>
@@ -61,44 +64,34 @@ const About = () => {
             <img
               src={import.meta.env.VITE_UPLOADS + about.founder.image}
               alt={getText(about.founder.name)}
-              className="w-full md:min-w-80 md:max-w-100 rounded-3xl shadow-lg object-cover mx-auto"
+              className="w-full md:min-w-80 md:max-w-100 rounded-3xl shadow-xl ring-4 ring-amber-300/30 object-cover mx-auto"
             />
           </div>
           <div className="space-y-2 text-center md:text-left">
-            <h3 className="text-2xl md:text-3xl font-bold text-amber-700">
+            <h3 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent">
               {getText(about.founder.name)}
             </h3>
             <p className="text-amber-600 font-semibold">{getText(about.founder.title)}</p>
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line text-lg md:text-base">
+            <p className="text-gray-800/90 text-lg md:text-xl leading-relaxed whitespace-pre-line">
               {truncateText(stripHtml(getText(about.founder.description)))}
             </p>
             <Link
               to={"/about"}
-              className="inline-block mt-2 px-6 py-2 bg-amber-800 text-white font-semibold rounded-lg hover:bg-amber-900 transition"
+              className="inline-block mt-2 px-6 py-2 bg-linear-to-r from-amber-800 to-yellow-700 text-white font-semibold rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
             >
               {lang === "hi" ? "जानें" : "Learn More"}
             </Link>
           </div>
         </div>
 
-        {/* Mission & Vision */}
-        <div className="grid md:grid-cols-2 gap-12 text-center md:text-left">
-          <div className="bg-white md:p-8 p-4 rounded-3xl shadow-md space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-700">
-              {lang === "hi" ? "हमारा मिशन" : "Our Mission"}
-            </h3>
-            <p className="text-gray-700 whitespace-pre-line">
-              {truncateText(getText(about.missionVision.mission))}
-            </p>
-          </div>
-          <div className="bg-white md:p-8 p-4 rounded-3xl shadow-md space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-700">
-              {lang === "hi" ? "हमारी दृष्टि" : "Our Vision"}
-            </h3>
-            <p className="text-gray-700 whitespace-pre-line">
-              {truncateText(getText(about.missionVision.vision))}
-            </p>
-          </div>
+        {/* Methodology */}
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent">
+            {lang === "hi" ? "मेथोडोलॉजी" : "Methodology"}
+          </h2>
+          <p className="text-gray-800/90 text-lg md:text-xl leading-relaxed whitespace-pre-line">
+            {truncateText(stripHtml(getText(about.methodology.description)))}
+          </p>
         </div>
       </div>
     </section>

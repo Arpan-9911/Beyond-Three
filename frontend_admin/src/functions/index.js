@@ -50,6 +50,7 @@ export const deleteMedia = (id) => API.delete(`/media/delete/${id}`);
 
 export const getAbout = () => API.get("/about");
 export const updateFounder = (formData) => API.post("/about/founder?folder=founder", formData);
+export const updateMethodology = (data) => API.post("/about/methodology", data);
 export const updateWhoWeAre = (data) => API.post("/about/who-we-are", data);
 export const updateMissionVision = (data) => API.post("/about/mission-vision", data);
 export const addDocument = (formData) => API.post("/about/documents?folder=documents", formData);

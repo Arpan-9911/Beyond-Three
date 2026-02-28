@@ -1,6 +1,6 @@
-import React from 'react';
-import { FaHeartbeat, FaUsers, FaSun } from 'react-icons/fa';
-import { useLanguage } from '../../context/LanguageContext';
+import React from "react";
+import { FaHeartbeat, FaUsers, FaSun } from "react-icons/fa";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Resolution = () => {
   const { lang } = useLanguage();
@@ -9,62 +9,63 @@ const Resolution = () => {
       icon: <FaHeartbeat className="text-4xl text-amber-700" />,
       title: {
         en: "Pure Health",
-        hi: "शुद्ध स्वास्थ्य"
+        hi: "शुद्ध स्वास्थ्य",
       },
       description: {
         en: "Rejuvenation of the body without chemicals.",
-        hi: "रसायनों के बिना शरीर का कायाकल्प।"
-      }
+        hi: "रसायनों के बिना शरीर का कायाकल्प।",
+      },
     },
     {
       icon: <FaUsers className="text-4xl text-amber-700" />,
       title: {
         en: "Empowered Society",
-        hi: "सशक्त समाज"
+        hi: "सशक्त समाज",
       },
       description: {
         en: "A community dedicated to mutual help.",
-        hi: "आपसी मदद के लिए समर्पित एक समुदाय।"
-      }
+        hi: "आपसी मदद के लिए समर्पित एक समुदाय।",
+      },
     },
     {
       icon: <FaSun className="text-4xl text-amber-700" />,
       title: {
         en: "Natural Joy",
-        hi: "प्राकृतिक आनंद"
+        hi: "प्राकृतिक आनंद",
       },
       description: {
         en: "Mental peace in the presence of nature.",
-        hi: "प्रकृति की उपस्थिति में मानसिक शांति।"
-      }
-    }
+        hi: "प्रकृति की उपस्थिति में मानसिक शांति।",
+      },
+    },
   ];
 
   return (
-    <section className="bg-amber-700">
-      <section className="max-w-7xl mx-auto px-4 text-center py-10">
-        <h2 className="md:text-4xl text-3xl font-bold text-amber-100 mb-8">
+    <section className="relative bg-linear-to-b from-amber-800 via-amber-700 to-amber-900 py-12">
+      <div className="max-w-6xl mx-auto px-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-yellow-300 mb-10 tracking-wide">
           {lang === "hi" ? "हमारा संकल्प" : "Our Resolution"}
         </h2>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {resolutions.map((res, index) => (
             <div
               key={index}
-              className="bg-white rounded-4xl p-6 shadow-xl hover:shadow-2xl flex flex-col items-center transition duration-300 border border-gray-200"
+              className="group bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border border-amber-200 hover:-translate-y-1"
             >
-              <div className="p-3 rounded-full">
+              <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-linear-to-br from-amber-500 to-yellow-500 text-white shadow-md group-hover:scale-110 transition">
                 {res.icon}
               </div>
-              <h3 className="text-xl font-bold text-gray-800">
+
+              <h3 className="mt-4 text-lg font-bold text-amber-800">
                 {res.title[lang]}
               </h3>
-              <p className="text-gray-500 max-w-60 text-sm mt-2">
+              <p className="mt-2 text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
                 {res.description[lang]}
               </p>
             </div>
           ))}
         </div>
-      </section>
+      </div>
     </section>
   );
 };

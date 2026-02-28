@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAbout,
   updateFounder,
+  updateMethodology,
   updateWhoWeAre,
   updateMissionVision,
   addDocument,
@@ -21,6 +22,11 @@ router.post(
   protect,
   upload.single("image"),
   updateFounder
+);
+router.post(
+  "/methodology",
+  protect,
+  updateMethodology
 );
 router.post(
   "/who-we-are",

@@ -60,8 +60,8 @@ const Testimonials = () => {
 
   return (
     <>
-      <section className="bg-amber-100">
-        <div className="max-w-7xl mx-auto px-4 py-10">
+      <section className="bg-linear-to-b from-amber-50 to-amber-100 py-8">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-3xl md:text-4xl font-bold text-amber-700">
               {testimonialData.title[lang]}

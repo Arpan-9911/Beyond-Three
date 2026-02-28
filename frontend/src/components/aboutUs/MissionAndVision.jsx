@@ -17,7 +17,7 @@ const MissionAndVision = () => {
     <div className="grid md:grid-cols-2 gap-8">
       
       {/* Mission */}
-      <div className="bg-amber-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
+      <div className="bg-amber-50 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
         <h2 className="md:text-3xl text-2xl font-bold text-amber-700 mb-4">
           {lang === "en" ? "Mission" : "मिशन"}
         </h2>
@@ -27,7 +27,7 @@ const MissionAndVision = () => {
       </div>
 
       {/* Vision */}
-      <div className="bg-yellow-200 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
+      <div className="bg-yellow-50 rounded-4xl shadow-xl p-4 md:p-8 hover:shadow-2xl transition">
         <h2 className="md:text-3xl text-2xl font-bold text-amber-700 mb-4">
           {lang === "en" ? "Vision" : "दृष्टिकोण"}
         </h2>

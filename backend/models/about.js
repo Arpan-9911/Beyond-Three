@@ -17,6 +17,9 @@ const AboutSchema = new mongoose.Schema(
     whoWeAre: {
       description: { type: LocalizedStringSchema },
     },
+    methodology: {
+      description: { type: LocalizedStringSchema },
+    },
     missionVision: {
       mission: { type: LocalizedStringSchema },
       vision: { type: LocalizedStringSchema },
