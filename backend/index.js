@@ -15,6 +15,7 @@ import blogs from "./routes/blogs.js";
 import tours from "./routes/tours.js";
 import media from "./routes/media.js";
 import about from "./routes/about.js";
+import review from "./routes/review.js";
 
 dotenv.config();
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/blogs", blogs);
 app.use("/api/tours", tours);
 app.use("/api/media", media);
 app.use("/api/about", about);
+app.use("/api/reviews", review);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

@@ -1,305 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import { submitParticipation } from "../../functions";
+import { toast } from "react-toastify";
 
-const Youth = () => {
+const Youth = ({ project, setShowFormFor }) => {
   const { lang } = useLanguage();
+  const [formData, setFormData] = useState({
+    name: "", age: "", gender: "", gotra: "", bloodGroup: "",
+    fatherName: "", motherName: "",
+    mobile: "", email: "", address: "",
+    education: "", occupation: "",
+    approval: "", reason: "", declaration: false,
+  });
 
-  const content = {
-    title: {
-      en: "BEYOND THREE : PARTICIPATION FORM",
-      hi: "BEYOND THREE : PARTICIPATION FORM",
-    },
-    subtitle: {
-      en: "(Youth Transformation Campaign)",
-      hi: "(युवा परिवर्तन अभियान)",
-    },
-    instruction: {
-      en: "Instruction: Please fill this form in block letters. All information is mandatory.",
-      hi: "निर्देश: कृपया यह फॉर्म साफ अक्षरों में भरें। सभी जानकारी अनिवार्य है।",
-    },
-    sections: {
-      personal: {
-        title: { en: "1. Personal Information", hi: "1. व्यक्तिगत जानकारी" },
-        name: { en: "Full Name:", hi: "पूरा नाम:" },
-        age: { en: "Age:", hi: "आयु:" },
-        year: { en: "Years", hi: "वर्ष" },
-        gender: { en: "Gender:", hi: "लिंग:" },
-        genderOptions: {
-          male: { en: "Male", hi: "पुरुष" },
-          female: { en: "Female", hi: "महिला" },
-          other: { en: "Other", hi: "अन्य" },
-        },
-        parentName: { en: "Father's / Mother's Name:", hi: "पिता / माता का नाम:" },
-      },
-      contact: {
-        title: { en: "2. Contact Details", hi: "2. संपर्क विवरण" },
-        mobile: { en: "Mobile Number (WhatsApp):", hi: "मोबाइल नंबर (WhatsApp):" },
-        email: { en: "Email ID:", hi: "ईमेल आईडी:" },
-        address: { en: "Full Address:", hi: "पूरा पता:" },
-      },
-      education: {
-        title: { en: "3. Educational Information", hi: "3. शैक्षणिक जानकारी" },
-        class: { en: "Last Passed Class:", hi: "अंतिम उत्तीर्ण कक्षा:" },
-        school: { en: "School / College Name:", hi: "विद्यालय / कॉलेज का नाम:" },
-        status: { en: "Current Status:", hi: "वर्तमान स्थिति:" },
-        statusOptions: {
-          student: { en: "Student", hi: "छात्र" },
-          job: { en: "Job", hi: "नौकरी" },
-          other: { en: "Other", hi: "अन्य" },
-        },
-      },
-      consent: {
-        title: { en: "4. Consent for Program", hi: "4. कार्यक्रम के लिए सहमति" },
-        q1: {
-          en: "Are you ready to give 3 hours daily for 15 days of training?",
-          hi: "क्या आप 15 दिन की ट्रेनिंग में प्रतिदिन 3 घंटे देने के लिए तैयार हैं?",
-        },
-        q2: {
-          en: "Are you ready for 3 hours of daily community participation for 6 months?",
-          hi: "क्या आप 6 महीने तक प्रतिदिन 3 घंटे सामुदायिक सहभागिता के लिए तैयार हैं?",
-        },
-        options: {
-          yes: { en: "Yes", hi: "हाँ" },
-          no: { en: "No", hi: "नहीं" },
-        },
-      },
-      shortAnswer: {
-        title: { en: "5. Short Answer", hi: "5. संक्षिप्त उत्तर" },
-        question: {
-          en: "Why do you want to join Beyond Three Youth Transformation Campaign?",
-          hi: "आप Beyond Three युवा परिवर्तन अभियान से क्यों जुड़ना चाहते हैं?",
-        },
-      },
-      declaration: {
-        title: { en: "6. Declaration", hi: "6. घोषणा (Declaration)" },
-        text: {
-          en: "I declare that all the information given above is correct to the best of my knowledge and I will follow the rules and discipline of Beyond Three Youth Transformation Campaign.",
-          hi: "मैं यह घोषणा करता/करती हूँ कि उपरोक्त दी गई सभी जानकारी मेरी जानकारी के अनुसार सही है और मैं Beyond Three युवा परिवर्तन अभियान के नियमों एवं अनुशासन का पालन करूँगा/करूँगी।",
-        },
-        signature: { en: "Place:", hi: "स्थान:" },
-        date: { en: "Date:", hi: "तिथि:" },
-      },
-      footer: {
-        contact: { en: "Contact to submit form:", hi: "फॉर्म जमा करने हेतु संपर्क करें:" },
-        mobile: { en: "Mobile / WhatsApp:", hi: "मोबाइल / WhatsApp:" },
-        email: { en: "Email:", hi: "ईमेल:" },
-      },
-    },
+  const labels = {
+    name: { en: "Full Name", hi: "पूरा नाम" },
+    age: { en: "Age", hi: "आयु" },
+    gender: { en: "Gender", hi: "लिंग" },
+    gotra: { en: "Gotra", hi: "गौत्र" },
+    bloodGroup: { en: "Blood Group", hi: "रक्त समूह" },
+    fatherName: { en: "Father's Name", hi: "पिता का नाम" },
+    motherName: { en: "Mother's Name", hi: "माता का नाम" },
+    mobile: { en: "Mobile Number", hi: "मोबाइल नंबर" },
+    email: { en: "Email", hi: "ईमेल" },
+    address: { en: "Address", hi: "पूरा पता" },
+    education: { en: "Education", hi: "शिक्षा" },
+    occupation: { en: "Occupation", hi: "व्यवसाय" },
+    approval: { en: "Do you approve to participate?", hi: "क्या आप भाग लेने के लिए सहमति देते हैं?" },
+    reason: { en: "Reason for joining", hi: "जुड़ने का कारण" },
+    declaration: { en: "I declare that all information is correct", hi: "मैं घोषणा करता/करती हूँ कि सभी जानकारी सही है" },
+    submit: { en: "Submit Form", hi: "फॉर्म जमा करें" },
+    yes: { en: "Yes", hi: "हाँ" },
+    no: { en: "No", hi: "नहीं" },
   };
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+  };
+
+  const isFormValid = Object.values(formData).every((val) => val !== "" && val !== false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isFormValid) return toast.error("Please fill all the fields!");
+    try {
+      await submitParticipation({
+        ...formData,
+        projectId: project?._id,
+      });
+      setFormData({
+        name: "", age: "", gender: "", gotra: "", bloodGroup: "",
+        fatherName: "", motherName: "",
+        mobile: "", email: "", address: "",
+        education: "", occupation: "",
+        approval: "", reason: "", declaration: false,
+      });
+      setShowFormFor(null);
+    } catch (error) {
+      toast.error(error.response.data.msg || "Form submission failed!");
+    }
+  };
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-2xl border border-gray-200 my-8 font-sans">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-amber-900 border-b-2 border-amber-500 inline-block pb-1 mb-2">
-          {content.title[lang]}
-        </h1>
-        <h2 className="text-xl font-semibold text-amber-700">
-          {content.subtitle[lang]}
-        </h2>
-        <p className="mt-4 text-gray-700 italic border-t border-b border-gray-300 py-2">
-          {content.instruction[lang]}
-        </p>
-      </div>
-
-      {/* 1. Personal Information */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.personal.title[lang]}
-        </h3>
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-32">{content.sections.personal.name[lang]}</label>
-            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-6 items-baseline">
-            <div className="flex gap-2 items-baseline">
-              <label className="font-semibold">{content.sections.personal.age[lang]}</label>
-              <input type="number" className="w-16 border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 text-center" />
-              <span>{content.sections.personal.year[lang]}</span>
-            </div>
-
-            <div className="flex gap-4 items-center">
-              <label className="font-semibold">{content.sections.personal.gender[lang]}</label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="gender" className="accent-amber-600" /> {content.sections.personal.genderOptions.male[lang]}
-                </label>
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="gender" className="accent-amber-600" /> {content.sections.personal.genderOptions.female[lang]}
-                </label>
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="gender" className="accent-amber-600" /> {content.sections.personal.genderOptions.other[lang]}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-48">{content.sections.personal.parentName[lang]}</label>
-            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-xl border border-gray-200 my-8 font-sans">
+      <h1 className="text-2xl font-bold text-amber-900 text-center">
+        BEYOND THREE : PARTICIPATION FORM
+      </h1>
+      {project && (
+        <div className="mb-4 text-center border-b pb-1">
+          <h2 className="text-xl font-bold text-amber-700">
+            {project.title?.[lang] || project.title?.en || "Project Title"}
+          </h2>
         </div>
-      </div>
-
-      <hr className="border-t-2 border-gray-200 my-6" />
-
-      {/* 2. Contact Details */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.contact.title[lang]}
-        </h3>
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-48">{content.sections.contact.mobile[lang]}</label>
-            <input type="tel" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-32">{content.sections.contact.email[lang]}</label>
-            <input type="email" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-32">{content.sections.contact.address[lang]}</label>
-            <textarea className="grow border border-gray-300 focus:border-amber-600 outline-none px-2 py-1 rounded h-20 resize-none"></textarea>
-          </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input name="name" value={formData.name} onChange={handleChange} placeholder={labels.name[lang]} className="p-2 border rounded-md" />
+          <input name="age" type="number" value={formData.age} onChange={handleChange} placeholder={labels.age[lang]} className="p-2 border rounded-md" />
+          <input name="fatherName" value={formData.fatherName} onChange={handleChange} placeholder={labels.fatherName[lang]} className="p-2 border rounded-md" />
+          <input name="motherName" value={formData.motherName} onChange={handleChange} placeholder={labels.motherName[lang]} className="p-2 border rounded-md" />
+          <select name="gender" value={formData.gender} onChange={handleChange} className="p-2 border rounded-md">
+            <option value="">{labels.gender[lang]}</option>
+            <option value="Male">{lang === "hi" ? "पुरुष" : "Male"}</option>
+            <option value="Female">{lang === "hi" ? "महिला" : "Female"}</option>
+            <option value="Other">{lang === "hi" ? "अन्य" : "Other"}</option>
+          </select>
+          <input name="gotra" value={formData.gotra} onChange={handleChange} placeholder={labels.gotra[lang]} className="p-2 border rounded-md" />
+          <input name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} placeholder={labels.bloodGroup[lang]} className="p-2 border rounded-md" />
         </div>
-      </div>
-
-      <hr className="border-t-2 border-gray-200 my-6" />
-
-      {/* 3. Educational Information */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.education.title[lang]}
-        </h3>
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-48">{content.sections.education.class[lang]}</label>
-            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-48">{content.sections.education.school[lang]}</label>
-            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-center">
-            <label className="font-semibold min-w-48">{content.sections.education.status[lang]}</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="status" className="accent-amber-600" /> {content.sections.education.statusOptions.student[lang]}
-              </label>
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="status" className="accent-amber-600" /> {content.sections.education.statusOptions.job[lang]}
-              </label>
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="status" className="accent-amber-600" /> {content.sections.education.statusOptions.other[lang]}
-              </label>
-            </div>
-            <input type="text" className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent ml-2" />
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder={labels.mobile[lang]} className="p-2 border rounded-md" />
+          <input name="email" value={formData.email} onChange={handleChange} placeholder={labels.email[lang]} className="p-2 border rounded-md" />
+          <textarea name="address" value={formData.address} onChange={handleChange} placeholder={labels.address[lang]} className="p-2 border rounded-md col-span-2" rows={3} />
         </div>
-      </div>
-
-      <hr className="border-t-2 border-gray-200 my-6" />
-
-      {/* 4. Consent */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.consent.title[lang]}
-        </h3>
-        <div className="space-y-4">
-          <div>
-            <p className="font-medium mb-1">{content.sections.consent.q1[lang]}</p>
-            <div className="flex gap-6">
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="consent1" className="accent-amber-600" /> {content.sections.consent.options.yes[lang]}
-              </label>
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="consent1" className="accent-amber-600" /> {content.sections.consent.options.no[lang]}
-              </label>
-            </div>
-          </div>
-          <div>
-            <p className="font-medium mb-1">{content.sections.consent.q2[lang]}</p>
-            <div className="flex gap-6">
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="consent2" className="accent-amber-600" /> {content.sections.consent.options.yes[lang]}
-              </label>
-              <label className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="consent2" className="accent-amber-600" /> {content.sections.consent.options.no[lang]}
-              </label>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input name="education" value={formData.education} onChange={handleChange} placeholder={labels.education[lang]} className="p-2 border rounded-md" />
+          <input name="occupation" value={formData.occupation} onChange={handleChange} placeholder={labels.occupation[lang]} className="p-2 border rounded-md" />
         </div>
-      </div>
-
-      <hr className="border-t-2 border-gray-200 my-6" />
-
-      {/* 5. Short Answer */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.shortAnswer.title[lang]}
-        </h3>
-        <div>
-          <label className="block font-medium mb-2">{content.sections.shortAnswer.question[lang]}</label>
-          <div className="space-y-2">
-            <input type="text" className="w-full border-b border-gray-400 focus:border-amber-600 outline-none py-1 bg-transparent" />
-            <input type="text" className="w-full border-b border-gray-400 focus:border-amber-600 outline-none py-1 bg-transparent" />
-            <input type="text" className="w-full border-b border-gray-400 focus:border-amber-600 outline-none py-1 bg-transparent" />
-          </div>
-        </div>
-      </div>
-
-      <hr className="border-t-2 border-gray-200 my-6" />
-
-      {/* 6. Declaration */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-amber-800 border-b border-gray-300 mb-4 pb-1">
-          {content.sections.declaration.title[lang]}
-        </h3>
-        <p className="text-gray-700 italic mb-4">
-          {content.sections.declaration.text[lang]}
-        </p>
-        <div className="flex items-center gap-2 mb-4">
-          <input type="checkbox" id="declaration-check" className="accent-amber-600 w-4 h-4 cursor-pointer" />
-          <label htmlFor="declaration-check" className="cursor-pointer">
-            {lang === "hi" ? "मैं उपरोक्त घोषणा से सहमत हूँ" : "I agree to the above declaration"}
+        <div className="flex items-center gap-4">
+          <span>{labels.approval[lang]}</span>
+          <label>
+            <input type="radio" name="approval" value="true" onChange={() => setFormData({ ...formData, approval: true })} /> {labels.yes[lang]}
+          </label>
+          <label>
+            <input type="radio" name="approval" value="false" onChange={() => setFormData({ ...formData, approval: false })} /> {labels.no[lang]}
           </label>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline flex-1">
-            <label className="font-semibold whitespace-nowrap">{content.sections.declaration.signature[lang]}</label>
-            <input type="text" placeholder={lang === "hi" ? "स्थान" : "Place"} className="grow border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold whitespace-nowrap">{content.sections.declaration.date[lang]}</label>
-            <input type="date" className="border-b border-gray-400 focus:border-amber-600 outline-none px-2 py-1 bg-transparent" />
-          </div>
+        <textarea name="reason" value={formData.reason} onChange={handleChange} placeholder={labels.reason[lang]} className="p-2 border rounded-md w-full" rows={3} />
+        <div className="flex items-center gap-2">
+          <input type="checkbox" name="declaration" checked={formData.declaration} onChange={handleChange} />
+          <span>{labels.declaration[lang]}</span>
         </div>
-      </div>
-
-      <hr className="border-t-4 border-gray-300 my-8" />
-
-      {/* Footer Contact - Submission Section */}
-      <div className="bg-amber-50 p-4 rounded-lg">
-        <h4 className="flex items-center gap-2 text-xl font-bold text-amber-800 mb-4">
-          <span className="text-2xl">📞</span> {content.sections.footer.contact[lang]}
-        </h4>
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-40">{content.sections.footer.mobile[lang]}</label>
-            <input type="tel" placeholder={lang === "hi" ? "अपना मोबाइल नंबर दर्ज करें" : "Enter your mobile number"} className="grow border border-gray-300 focus:border-amber-600 outline-none px-3 py-2 rounded bg-white" />
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 items-baseline">
-            <label className="font-semibold min-w-40">{content.sections.footer.email[lang]}</label>
-            <input type="email" placeholder={lang === "hi" ? "अपना ईमेल दर्ज करें" : "Enter your email"} className="grow border border-gray-300 focus:border-amber-600 outline-none px-3 py-2 rounded bg-white" />
-          </div>
-        </div>
-        <button className="mt-6 w-full bg-amber-700 text-white py-3 rounded-lg font-semibold hover:bg-amber-800 transition cursor-pointer">
-          {lang === "hi" ? "फॉर्म जमा करें" : "Submit Form"}
+        <button
+          type="submit"
+          disabled={!isFormValid}
+          className={`w-full py-3 rounded-lg font-semibold transition ${
+            isFormValid
+              ? "bg-amber-700 hover:bg-amber-800 text-white"
+              : "bg-gray-400 cursor-not-allowed text-white"
+          }`}
+        >
+          {labels.submit[lang]}
         </button>
-      </div>
-
+      </form>
     </div>
   );
 };

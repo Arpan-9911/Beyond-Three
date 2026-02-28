@@ -86,3 +86,31 @@ export const getAbout = () => async (dispatch) => {
     toast.error(error.response?.data?.msg || "Failed to fetch About data");
   }
 };
+
+export const getReviews = () => async (dispatch) => {
+  try {
+    const { data } = await API.get("/reviews");
+    dispatch({ type: "GET_REVIEWS", payload: data });
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to fetch reviews");
+  }
+};
+
+export const addReview = (review) => async (dispatch) => {
+  try {
+    const { data } = await API.post("/reviews/add", review);
+    dispatch({ type: "ADD_REVIEW", payload: data });
+    toast.success("Review added successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to add review");
+  }
+};
+
+export const submitParticipation = async (participation) => {
+  try {
+    await API.post("/projects/participation", participation);
+    toast.success("Participation submitted successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to submit participation");
+  }
+};

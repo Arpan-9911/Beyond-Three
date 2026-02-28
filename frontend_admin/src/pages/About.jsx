@@ -25,6 +25,7 @@ import {
   updateFaq,
   deleteFaq,
 } from "../functions/about";
+import RichTextEditor from "../components/editor/RichTextEditor";
 
 
 const categories = [
@@ -219,12 +220,9 @@ const About = () => {
     }
   };
 
-  const inputClass =
-    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none";
-  const textareaClass =
-    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none resize-none";
-  const modalInputClass =
-    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none";
+  const inputClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none";
+  const textareaClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none resize-none";
+  const modalInputClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none";
 
   // --- Render Content for Active Category ---
   const renderContent = () => {
@@ -399,19 +397,17 @@ const About = () => {
       </div>
 
       {/* Description */}
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         <div>
           <label className="text-sm text-gray-600 mb-1 block">
             Description (English)
           </label>
-          <textarea
-            rows={4}
-            className={textareaClass}
+          <RichTextEditor
             value={founderData.description.en}
-            onChange={(e) =>
+            onChange={(html) =>
               setFounderData({
                 ...founderData,
-                description: { ...founderData.description, en: e.target.value },
+                description: { ...founderData.description, en: html },
               })
             }
           />
@@ -420,14 +416,12 @@ const About = () => {
           <label className="text-sm text-gray-600 mb-1 block">
             Description (Hindi)
           </label>
-          <textarea
-            rows={4}
-            className={textareaClass}
+          <RichTextEditor
             value={founderData.description.hi}
-            onChange={(e) =>
+            onChange={(html) =>
               setFounderData({
                 ...founderData,
-                description: { ...founderData.description, hi: e.target.value },
+                description: { ...founderData.description, hi: html },
               })
             }
           />
@@ -448,37 +442,35 @@ const About = () => {
           <span>Save</span>
         </button>
       </div>
-      <div>
-        <label className="text-sm text-gray-600 mb-1 block">
-          Description (English)
-        </label>
-        <textarea
-          rows={5}
-          className={textareaClass}
-          value={whoWeAreData.description.en}
-          onChange={(e) =>
-            setWhoWeAreData({
-              ...whoWeAreData,
-              description: { ...whoWeAreData.description, en: e.target.value },
-            })
-          }
-        />
-      </div>
-      <div>
-        <label className="text-sm text-gray-600 mb-1 block">
-          Description (Hindi)
-        </label>
-        <textarea
-          rows={5}
-          className={textareaClass}
-          value={whoWeAreData.description.hi}
-          onChange={(e) =>
-            setWhoWeAreData({
-              ...whoWeAreData,
-              description: { ...whoWeAreData.description, hi: e.target.value },
-            })
-          }
-        />
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <div>
+          <label className="text-sm text-gray-600 mb-1 block">
+            Description (English)
+          </label>
+          <RichTextEditor
+            value={whoWeAreData.description.en}
+            onChange={(html) =>
+              setWhoWeAreData({
+                ...whoWeAreData,
+                description: { ...whoWeAreData.description, en: html },
+              })
+            }
+          />
+        </div>
+        <div>
+          <label className="text-sm text-gray-600 mb-1 block">
+            Description (Hindi)
+          </label>
+          <RichTextEditor
+            value={whoWeAreData.description.hi}
+            onChange={(html) =>
+              setWhoWeAreData({
+                ...whoWeAreData,
+                description: { ...whoWeAreData.description, hi: html },
+              })
+            }
+          />
+        </div>
       </div>
     </div>
   );

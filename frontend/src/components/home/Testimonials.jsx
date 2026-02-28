@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar, FaQuoteRight } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getReviews, addReview } from "../../functions/index"
+import { toast } from "react-toastify";
 
 const Testimonials = () => {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: { en: "", hi: "" },
+    text: { en: "", hi: "" },
+    stars: 5,
+  });
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getReviews());
+  }, [dispatch]);
+
+  const testimonials = useSelector((state) => state.review)?.filter((review) => review.status === "approved") || [];
   const testimonialData = {
     title: {
       en: "User Experiences",
@@ -15,47 +29,33 @@ const Testimonials = () => {
       en: "Thousands have transformed their lifestyles",
       hi: "हज़ारों ने अपनी जीवनशैली बदली है",
     },
-    testimonials: [
-      {
-        id: 1,
-        stars: 5,
-        text: {
-          en: '"With Swami ji\'s guidance, my 10-year-old back pain vanished."',
-          hi: '"स्वामी जी के मार्गदर्शन से मेरा 10 साल पुराना पीठ दर्द गायब हो गया।"',
-        },
-        name: {
-          en: "Rahul Sharma",
-          hi: "राहुल शर्मा",
-        },
-        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      },
-      {
-        id: 2,
-        stars: 5,
-        text: {
-          en: '"Natural diet has completely transformed my energy levels."',
-          hi: '"प्राकृतिक आहार ने मेरे ऊर्जा स्तर को पूरी तरह से बदल दिया है।"',
-        },
-        name: {
-          en: "Priya Singh",
-          hi: "प्रिया सिंह",
-        },
-        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      },
-      {
-        id: 3,
-        stars: 5,
-        text: {
-          en: '"Beyond Three is the true path to living a stress-free life."',
-          hi: '"बियॉन्ड थ्री तनावमुक्त जीवन जीने का असली रास्ता है।"',
-        },
-        name: {
-          en: "Amit Verma",
-          hi: "अमित वर्मा",
-        },
-        avatar: "https://randomuser.me/api/portraits/men/46.jpg",
-      },
-    ],
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setFormData({
+      name: { en: "", hi: "" },
+      text: { en: "", hi: "" },
+      stars: 5,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!formData.name.en && !formData.name.hi) return toast.error("Please enter name");
+    if(!formData.text.en && !formData.text.hi) return toast.error("Please enter text");
+    if(!formData.stars || (formData.stars < 1 || formData.stars > 5)) return toast.error("Please enter rating");
+    const data = {
+      name: JSON.stringify(formData.name),
+      text: JSON.stringify(formData.text),
+      stars: formData.stars
+    };
+    try {
+      await dispatch(addReview(data));
+      handleClose();
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Failed to add review");
+    }
   };
 
   return (
@@ -73,40 +73,56 @@ const Testimonials = () => {
               + Add
             </button>
           </div>
-          <p className="text-gray-600 mb-8">
-            {testimonialData.subtitle[lang]}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-4">
-            {testimonialData.testimonials.map((item) => (
-              <div
-                key={item.id}
-                className="relative bg-white md:p-8 p-4 rounded-4xl shadow-xl hover:shadow-2xl transition duration-300 text-left flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex justify-between items-start md:mb-6">
-                    <div className="flex gap-1">
-                      {[...Array(item.stars)].map((_, i) => (
-                        <FaStar key={i} className="text-yellow-500 text-lg" />
-                      ))}
+          <p className="text-gray-600 mb-8">{testimonialData.subtitle[lang]}</p>
+          <div
+            className="overflow-x-scroll overflow-y-visible cursor-grab hide-scrollbar"
+            onMouseDown={(e) => {
+              const slider = e.currentTarget;
+              slider.style.cursor = "grabbing";
+              const startX = e.pageX - slider.offsetLeft;
+              const scrollLeft = slider.scrollLeft;
+
+              const onMouseMove = (e) => {
+                const x = e.pageX - slider.offsetLeft;
+                const walk = x - startX;
+                slider.scrollLeft = scrollLeft - walk;
+              };
+
+              const onMouseUp = () => {
+                slider.style.cursor = "grab";
+                window.removeEventListener("mousemove", onMouseMove);
+                window.removeEventListener("mouseup", onMouseUp);
+              };
+
+              window.addEventListener("mousemove", onMouseMove);
+              window.addEventListener("mouseup", onMouseUp);
+            }}
+          >
+            <div className="flex gap-4 md:gap-8 pb-4">
+              {testimonials.map((item) => (
+                <div
+                  key={item._id}
+                  className="min-w-60 md:min-w-80 border-t-3 border-yellow-500 bg-white p-6 rounded-4xl shadow-md hover:shadow-lg transition flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex gap-1">
+                        {[...Array(item.stars)].map((_, i) => (
+                          <FaStar key={i} className="text-yellow-500 text-lg" />
+                        ))}
+                      </div>
+                      <FaQuoteRight className="text-yellow-100 text-4xl" />
                     </div>
-                    <FaQuoteRight className="text-yellow-100 text-4xl" />
+                    <p className="text-gray-700 italic mb-4 leading-relaxed">
+                      {item?.text?.[lang] || item?.text?.en || item?.text?.hi || ""}
+                    </p>
                   </div>
-                  <p className="text-gray-700 italic md:mb-8 mb-4 leading-relaxed">
-                    {item.text[lang]}
-                  </p>
-                </div>
-                <div className="flex items-center gap-4 mt-auto">
-                  <img
-                    src={item.avatar}
-                    alt={item.name[lang]}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-yellow-100"
-                  />
                   <h4 className="font-bold text-amber-800">
-                    {item.name[lang]}
+                    {item?.name?.[lang] || item?.name?.en || item?.name?.hi || ""}
                   </h4>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -118,45 +134,62 @@ const Testimonials = () => {
               Add Testimonial
             </h3>
             <input
+              type="text"
+              value={formData.name.en}
+              onChange={(e) => setFormData({ ...formData, name: { ...formData.name, en: e.target.value } })}
               placeholder="Name (English)"
               className="w-full mb-2 px-4 py-2 border rounded-full"
             />
             <input
+              type="text"
+              value={formData.name.hi}
+              onChange={(e) => setFormData({ ...formData, name: { ...formData.name, hi: e.target.value } })}
               placeholder="नाम (हिंदी)"
               className="w-full mb-3 px-4 py-2 border rounded-full"
             />
             <textarea
+              value={formData.text.en}
+              onChange={(e) => setFormData({ ...formData, text: { ...formData.text, en: e.target.value } })}
               placeholder="Testimonial (English)"
               className="w-full mb-2 px-4 py-2 border rounded-xl"
               rows="3"
             />
             <textarea
+              value={formData.text.hi}
+              onChange={(e) => setFormData({ ...formData, text: { ...formData.text, hi: e.target.value } })}
               placeholder="प्रशंसापत्र (हिंदी)"
               className="w-full mb-3 px-4 py-2 border rounded-xl"
               rows="3"
             />
-            <select className="w-full mb-4 px-4 py-2 border rounded-full">
-              <option value="5">★★★★★ (5)</option>
-              <option value="4">★★★★☆ (4)</option>
-              <option value="3">★★★☆☆ (3)</option>
-              <option value="2">★★☆☆☆ (2)</option>
-              <option value="1">★☆☆☆☆ (1)</option>
+            <select
+              value={formData.stars}
+              onChange={(e) =>
+                setFormData({ ...formData, stars: Number(e.target.value) })
+              }
+              className="w-full mb-4 px-4 py-2 border rounded-full"
+            >
+              {[...Array(5)].map((_, i) => (
+                <option value={i + 1} key={i}>
+                  {i + 1} Stars
+                </option>
+              ))}
             </select>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
                 className="px-4 py-2 rounded-full border"
               >
                 Cancel
               </button>
-              <button className="bg-amber-600 text-white px-5 py-2 rounded-full">
+              <button
+                onClick={handleSubmit}
+                className="bg-amber-600 text-white px-5 py-2 rounded-full">
                 Save
               </button>
             </div>
           </div>
         </div>
       )}
-
     </>
   );
 };

@@ -1,151 +1,205 @@
-import React, { useState } from 'react'
-import DesktopHeader from '../components/layout/DesktopHeader'
-import MobileHeader from '../components/layout/MobileHeader'
-import Sidebar from '../components/layout/Sidebar'
-import Footer from '../components/layout/Footer'
-import { FaUser, FaEnvelope, FaPhone, FaCheck, FaTimes, FaEye } from 'react-icons/fa'
+import React, { useEffect, useState } from "react";
+import DesktopHeader from "../components/layout/DesktopHeader";
+import MobileHeader from "../components/layout/MobileHeader";
+import Sidebar from "../components/layout/Sidebar";
+import Footer from "../components/layout/Footer";
+import {
+  FaUser,
+  FaCheck,
+  FaTimes,
+  FaEye,
+  FaProjectDiagram,
+} from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  allParticipations,
+  approveParticipation,
+  rejectParticipation,
+} from "../functions/projects";
+
+const Detail = ({ label, value }) => (
+  <div>
+    <p className="text-gray-500 m-0 leading-tight">{label}</p>
+    <p className="font-medium wrap-break-words m-0 text-sm">{value || "-"}</p>
+  </div>
+);
 
 const Join = () => {
+  const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState("project");
+  const projectParticipations = useSelector(
+    (state) => state.projectParticipations,
+  );
+  const [volunteers] = useState([]);
+  const [members] = useState([]);
 
-  // Tabs: volunteer, member
-  const [activeTab, setActiveTab] = useState('volunteer')
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
-  // Sample requests (in real app, these would come from API)
-  const [volunteers, setVolunteers] = useState([])
-  const [members, setMembers] = useState([])
+  useEffect(() => {
+    dispatch(allParticipations());
+  }, [dispatch]);
 
-  const [showModal, setShowModal] = useState(false)
-  const [selectedRequest, setSelectedRequest] = useState(null)
+  const currentRequests =
+    activeTab === "project"
+      ? projectParticipations
+      : activeTab === "volunteer"
+        ? volunteers
+        : members;
 
   const viewRequest = (request) => {
-    setSelectedRequest(request)
-    setShowModal(true)
-  }
+    setSelectedRequest(request);
+    setShowModal(true);
+  };
 
-  const approveRequest = (id, type) => {
-    if (type === 'volunteer') {
-      setVolunteers(volunteers.map(v => v.id === id ? { ...v, status: 'approved' } : v))
-    } else {
-      setMembers(members.map(m => m.id === id ? { ...m, status: 'approved' } : m))
-    }
-  }
+  const approveRequest = async (id) => {
+    await dispatch(approveParticipation(id));
+  };
 
-  const rejectRequest = (id, type) => {
-    if (type === 'volunteer') {
-      setVolunteers(volunteers.map(v => v.id === id ? { ...v, status: 'rejected' } : v))
-    } else {
-      setMembers(members.map(m => m.id === id ? { ...m, status: 'rejected' } : m))
-    }
-  }
-
-  const currentRequests = activeTab === 'volunteer' ? volunteers : members
+  const rejectRequest = async (id) => {
+    await dispatch(rejectParticipation(id));
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'approved': return 'bg-green-100 text-green-700 border-green-300'
-      case 'rejected': return 'bg-red-100 text-red-700 border-red-300'
-      default: return 'bg-yellow-100 text-yellow-700 border-yellow-300'
+      case "approved":
+        return "bg-green-100 text-green-700 border-green-300";
+      case "rejected":
+        return "bg-red-100 text-red-700 border-red-300";
+      default:
+        return "bg-yellow-100 text-yellow-700 border-yellow-300";
     }
-  }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
-    <div className='min-h-dvh flex bg-amber-100'>
-      <div className='h-dvh sticky top-0 w-64 overflow-hidden max-md:hidden'>
+    <div className="min-h-dvh flex bg-amber-100">
+      <div className="h-dvh sticky top-0 w-64 max-md:hidden">
         <Sidebar />
       </div>
-      <div className='flex-1'>
-        <div className='max-md:hidden'>
+
+      <div className="flex-1">
+        <div className="max-md:hidden">
           <DesktopHeader heading={"Join Us Requests"} />
         </div>
-        <div className='md:hidden'>
+        <div className="md:hidden">
           <MobileHeader heading={"Join Us Requests"} />
         </div>
-        <div className='min-h-[92.5dvh] p-4'>
-          <div className='md:flex gap-4 justify-between items-center'>
-            <div>
-              <h1 className='text-xl font-bold'>Join Us Requests</h1>
-              <span className='text-amber-700'>
-                Manage volunteer and member registration requests.
-              </span>
-            </div>
-          </div>
 
-          {/* Tabs */}
-          <div className='flex gap-2 mt-6'>
+        <div className="min-h-[92.5dvh] p-6">
+          <h1 className="text-2xl font-bold">Join Us Requests</h1>
+          <p className="text-amber-700 mb-6">
+            Manage project participation, volunteer, and member requests.
+          </p>
+
+          {/* ================= Tabs ================= */}
+          <div className="flex gap-3 flex-wrap mb-6">
             <button
-              onClick={() => setActiveTab('volunteer')}
-              className={`px-4 py-2 rounded-lg font-medium transition cursor-pointer ${activeTab === 'volunteer' ? 'bg-amber-700 text-white' : 'bg-white hover:bg-amber-50'
-                }`}>
+              onClick={() => setActiveTab("project")}
+              className={`px-5 py-2 rounded-xl font-semibold ${
+                activeTab === "project"
+                  ? "bg-amber-700 text-white"
+                  : "bg-white hover:bg-amber-50"
+              }`}
+            >
+              Project Participations ({projectParticipations.length})
+            </button>
+
+            <button
+              onClick={() => setActiveTab("volunteer")}
+              className={`px-5 py-2 rounded-xl font-semibold ${
+                activeTab === "volunteer"
+                  ? "bg-amber-700 text-white"
+                  : "bg-white hover:bg-amber-50"
+              }`}
+            >
               Volunteers ({volunteers.length})
             </button>
+
             <button
-              onClick={() => setActiveTab('member')}
-              className={`px-4 py-2 rounded-lg font-medium transition cursor-pointer ${activeTab === 'member' ? 'bg-amber-700 text-white' : 'bg-white hover:bg-amber-50'
-                }`}>
+              onClick={() => setActiveTab("member")}
+              className={`px-5 py-2 rounded-xl font-semibold ${
+                activeTab === "member"
+                  ? "bg-amber-700 text-white"
+                  : "bg-white hover:bg-amber-50"
+              }`}
+            >
               Members ({members.length})
             </button>
           </div>
 
-          {/* Requests Table */}
-          <div className='mt-6 bg-white rounded-2xl shadow-lg overflow-hidden'>
-            <div className='overflow-x-auto'>
-              <table className='w-full'>
-                <thead className='bg-amber-50 border-b'>
+          {/* ================= Table ================= */}
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-amber-300 border-b">
                   <tr>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Name</th>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Email</th>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Phone</th>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Date</th>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Status</th>
-                    <th className='text-left p-4 font-semibold text-gray-700'>Actions</th>
+                    <th className="py-2 px-4 text-left">Name</th>
+                    <th className="py-2 px-4 text-left">Project</th>
+                    <th className="py-2 px-4 text-left">Email</th>
+                    <th className="py-2 px-4 text-left">Mobile</th>
+                    <th className="py-2 px-4 text-left">Applied On</th>
+                    <th className="py-2 px-4 text-left">Status</th>
+                    <th className="py-2 px-4 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentRequests.map((request) => (
-                    <tr key={request.id} className='border-b hover:bg-gray-50'>
-                      <td className='p-4'>
-                        <div className='flex items-center gap-2'>
-                          <FaUser className='text-amber-600' />
-                          <span>{request.name}</span>
-                        </div>
+                    <tr key={request._id} className="hover:bg-amber-200/60">
+                      <td className="py-2 px-4 flex items-center gap-2">
+                        <FaUser className="text-amber-600" />
+                        {request.name}
                       </td>
-                      <td className='p-4'>
-                        <div className='flex items-center gap-2'>
-                          <FaEnvelope className='text-gray-400' size={12} />
-                          <span className='text-sm'>{request.email}</span>
-                        </div>
+                      <td className="py-2 px-4">
+                        <FaProjectDiagram className="inline mr-2 text-gray-400" />
+                        {request.projectId.title.en ||
+                          request.projectId.title.hi}
                       </td>
-                      <td className='p-4'>
-                        <div className='flex items-center gap-2'>
-                          <FaPhone className='text-gray-400' size={12} />
-                          <span className='text-sm'>{request.phone}</span>
-                        </div>
+                      <td className="py-2 px-4">{request.email}</td>
+                      <td className="py-2 px-4">{request.mobile}</td>
+                      <td className="py-2 px-4">
+                        {formatDate(request.createdAt)}
                       </td>
-                      <td className='p-4 text-sm text-gray-600'>{request.date}</td>
-                      <td className='p-4'>
-                        <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(request.status)}`}>
-                          {request.status?.toUpperCase() || 'PENDING'}
+                      <td className="py-2 px-4">
+                        <span
+                          className={`px-3 py-1 rounded-full border text-xs font-semibold ${getStatusColor(
+                            request.status,
+                          )}`}
+                        >
+                          {request.status.toUpperCase()}
                         </span>
                       </td>
-                      <td className='p-4'>
-                        <div className='flex gap-2'>
-                          <button onClick={() => viewRequest(request)}
-                            className='text-blue-600 hover:text-blue-800 cursor-pointer' title='View'>
-                            <FaEye size={16} />
-                          </button>
-                          {request.status === 'pending' && (
-                            <>
-                              <button onClick={() => approveRequest(request.id, activeTab)}
-                                className='text-green-600 hover:text-green-800 cursor-pointer' title='Approve'>
-                                <FaCheck size={16} />
-                              </button>
-                              <button onClick={() => rejectRequest(request.id, activeTab)}
-                                className='text-red-600 hover:text-red-800 cursor-pointer' title='Reject'>
-                                <FaTimes size={16} />
-                              </button>
-                            </>
-                          )}
-                        </div>
+                      <td className="py-2 px-4 flex gap-3">
+                        <button
+                          onClick={() => viewRequest(request)}
+                          className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                        >
+                          <FaEye />
+                        </button>
+                        {request.status === "new" && (
+                          <>
+                            <button
+                              onClick={() => approveRequest(request._id)}
+                              className="text-green-600 hover:text-green-800 cursor-pointer"
+                            >
+                              <FaCheck />
+                            </button>
+                            <button
+                              onClick={() => rejectRequest(request._id)}
+                              className="text-red-600 hover:text-red-800 cursor-pointer"
+                            >
+                              <FaTimes />
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -154,54 +208,58 @@ const Join = () => {
             </div>
 
             {currentRequests.length === 0 && (
-              <div className='p-8 text-center text-gray-500'>
-                <p>No {activeTab} requests yet.</p>
+              <div className="p-10 text-center text-gray-500">
+                No requests found.
               </div>
             )}
           </div>
         </div>
+
         <Footer />
       </div>
 
-      {/* View Details Modal */}
+      {/* ================= Modal ================= */}
       {showModal && selectedRequest && (
-        <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
-          <div className='bg-white rounded-4xl p-6 w-full max-w-md space-y-4'>
-            <h2 className='font-bold text-lg'>Request Details</h2>
-
-            <div className='space-y-3'>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-2xl space-y-4 max-h-[90vh] overflow-y-auto hide-scrollbar">
+            <h2 className="text-xl font-bold">Project Participation Details</h2>
+            <div className="grid md:grid-cols-2 gap-x-4 gap-y-1">
               <div>
-                <label className='text-sm text-gray-500'>Name</label>
-                <p className='font-medium'>{selectedRequest.name}</p>
+                <p className="text-gray-500 m-0 leading-tight">Project</p>
+                <p className="font-medium m-0 text-sm">
+                  {selectedRequest.projectId?.title?.en ||
+                    selectedRequest.projectId?.title ||
+                    "-"}
+                </p>
               </div>
               <div>
-                <label className='text-sm text-gray-500'>Email</label>
-                <p className='font-medium'>{selectedRequest.email}</p>
+                <p className="text-gray-500 m-0 leading-tight">Applied On</p>
+                <p className="font-medium m-0 text-sm">
+                  {formatDate(selectedRequest.createdAt)}
+                </p>
               </div>
-              <div>
-                <label className='text-sm text-gray-500'>Phone</label>
-                <p className='font-medium'>{selectedRequest.phone}</p>
-              </div>
-              <div>
-                <label className='text-sm text-gray-500'>Date</label>
-                <p className='font-medium'>{selectedRequest.date}</p>
-              </div>
-              {selectedRequest.message && (
-                <div>
-                  <label className='text-sm text-gray-500'>Message</label>
-                  <p className='font-medium'>{selectedRequest.message}</p>
-                </div>
-              )}
-              <div>
-                <label className='text-sm text-gray-500'>Status</label>
-                <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(selectedRequest.status)}`}>
-                  {selectedRequest.status?.toUpperCase() || 'PENDING'}
-                </span>
-              </div>
+              <Detail label="Name" value={selectedRequest.name} />
+              <Detail label="Age" value={selectedRequest.age} />
+              <Detail label="Gender" value={selectedRequest.gender} />
+              <Detail label="Gotra" value={selectedRequest.gotra} />
+              <Detail label="Blood Group" value={selectedRequest.bloodGroup} />
+              <Detail label="Mobile" value={selectedRequest.mobile} />
+              <Detail label="Email" value={selectedRequest.email} />
+              <Detail label="Address" value={selectedRequest.address} />
+              <Detail label="Father Name" value={selectedRequest.fatherName} />
+              <Detail label="Mother Name" value={selectedRequest.motherName} />
+              <Detail label="Education" value={selectedRequest.education} />
+              <Detail label="Occupation" value={selectedRequest.occupation} />
+              <Detail label="Approval" value={selectedRequest.approval ? "Yes" : "No"} />
+              <Detail label="Reason" value={selectedRequest.reason} />
+              <Detail label="Declaration Accepted" value={selectedRequest.declaration ? "Yes" : "No"} />
+              <Detail label="Status" value={selectedRequest.status?.toUpperCase()} />
             </div>
-
-            <div className='flex justify-end gap-3 pt-2'>
-              <button onClick={() => setShowModal(false)} className='px-4 py-2 border rounded-2xl cursor-pointer hover:bg-gray-200 transition'>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 border rounded-xl hover:bg-gray-100 cursor-pointer"
+              >
                 Close
               </button>
             </div>
@@ -209,7 +267,7 @@ const Join = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Join
+export default Join;

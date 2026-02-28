@@ -81,6 +81,15 @@ const about = (state = {}, action) => {
   }
 };
 
+const review = (state = [], action) => {
+  switch (action.type) {
+    case "GET_REVIEWS":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   projectCategories,
   projects,
@@ -90,5 +99,6 @@ export default combineReducers({
   tours,
   media,
   hero,
-  about
+  about,
+  review
 });

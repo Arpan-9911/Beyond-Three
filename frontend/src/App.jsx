@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LanguageProvider from "./context/LanguageProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -33,6 +35,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <BrowserRouter>
+      <ToastContainer position="top-right" autoClose={2000} />
       <LanguageProvider>
         <FloatingSocials />
         <Routes>

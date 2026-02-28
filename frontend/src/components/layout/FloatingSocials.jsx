@@ -20,9 +20,9 @@ const FloatingSocials = () => {
           href={social.url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${social.color} text-white w-10 p-3 transition-all duration-300 flex items-center justify-center rounded-l-md shadow-lg hover:-translate-x-2 hover:scale-110 hover:shadow-xl`}
+          className={`${social.color} text-white sm:w-10 sm:p-3 p-2 transition-all duration-300 flex items-center justify-center rounded-l-md shadow-lg hover:-translate-x-2 hover:scale-110 hover:shadow-xl`}
         >
-          <span className="text-xl">{social.icon}</span>
+          <span className="sm:text-xl">{social.icon}</span>
         </a>
       ))}
     </div>

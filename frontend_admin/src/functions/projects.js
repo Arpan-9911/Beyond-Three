@@ -68,3 +68,32 @@ export const updateProject = (projectId, projectData) => async (dispatch) => {
     toast.error(error.response.data.msg || "Failed to update project");
   }
 };
+
+export const allParticipations = () => async (dispatch) => {
+  try {
+    const { data } = await api.allParticipations();
+    dispatch({ type: 'ALL_PARTICIPATIONS', payload: data });
+  } catch (error) {
+    toast.error(error.response.data.msg || "Failed to fetch participations");
+  }
+};
+
+export const approveParticipation = (id) => async (dispatch) => {
+  try {
+    await api.approveParticipation(id);
+    dispatch({ type: 'APPROVE_PARTICIPATION', payload: id });
+    toast.success("Participation approved successfully");
+  } catch (error) {
+    toast.error(error.response.data.msg || "Failed to approve participation");
+  }
+};
+
+export const rejectParticipation = (id) => async (dispatch) => {
+  try {
+    await api.rejectParticipation(id);
+    dispatch({ type: 'REJECT_PARTICIPATION', payload: id });
+    toast.success("Participation rejected successfully");
+  } catch (error) {
+    toast.error(error.response.data.msg || "Failed to reject participation");
+  }
+};

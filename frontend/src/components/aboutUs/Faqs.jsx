@@ -7,9 +7,13 @@ const Faqs = () => {
   const about = useSelector((state) => state.about);
   const { lang } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(null);
-  
-  if(!about) return null
-  const faqs = about?.faqs;
+
+  if (!about?.faqs?.length) return null;
+
+  const faqs = about.faqs;
+
+  const getLocalized = (obj) =>
+    obj?.[lang] || obj?.en || obj?.hi || "";
 
   const toggleFaq = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -20,15 +24,20 @@ const Faqs = () => {
       {faqs.map((faq, index) => (
         <div
           key={index}
-          className="bg-white rounded-4xl shadow-xl hover:shadow-2xl overflow-hidden"
+          className="bg-white rounded-4xl shadow-xl hover:shadow-2xl overflow-hidden transition duration-300"
         >
           <button
             onClick={() => toggleFaq(index)}
-            className={`w-full flex justify-between items-center px-6 py-4 text-left font-semibold text-gray-800 ${activeIndex === index ? "bg-yellow-300" : "hover:bg-yellow-200"} transition`}
+            className={`w-full flex justify-between items-center px-6 py-4 text-left font-semibold text-gray-800 transition duration-300 ${
+              activeIndex === index
+                ? "bg-yellow-300"
+                : "hover:bg-yellow-200"
+            } transition`}
           >
             <span>
-              {lang === "hi" ? faq.question.hi : faq.question.en}
+              {getLocalized(faq?.question)}
             </span>
+
             <FaChevronDown
               className={`transition-transform ${
                 activeIndex === index ? "rotate-180" : ""
@@ -36,7 +45,6 @@ const Faqs = () => {
             />
           </button>
 
-          {/* ✅ Answer */}
           <div
             className={`px-6 text-gray-700 text-lg leading-relaxed transition-all duration-300 ${
               activeIndex === index
@@ -44,7 +52,7 @@ const Faqs = () => {
                 : "max-h-0 py-0 opacity-0"
             } overflow-hidden`}
           >
-            {lang === "hi" ? faq.answer.hi : faq.answer.en}
+            {getLocalized(faq?.answer)}
           </div>
         </div>
       ))}

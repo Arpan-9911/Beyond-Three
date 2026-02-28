@@ -6,14 +6,25 @@ const WhoWeAre = () => {
   const about = useSelector((state) => state.about);
   const { lang } = useLanguage();
 
-  if(!about) return null
-  const content = about?.whoWeAre
-  console.log(content);
+  if (!about?.whoWeAre) return null;
+
+  const content = about.whoWeAre;
+
+  const getLocalized = (obj) =>
+    obj?.[lang] || obj?.en || obj?.hi || "";
 
   return (
-    <p className="text-gray-700 leading-relaxed text-lg md:text-xl">
-      {content.description[lang]}
-    </p>
+    <div
+      className="prose max-w-none text-gray-700
+                prose-p:m-0
+                prose-ul:m-0
+                prose-ol:m-0
+                prose-li:m-0
+                prose-headings:m-0"
+      dangerouslySetInnerHTML={{
+        __html: getLocalized(content?.description),
+      }}
+    />
   );
 };
 

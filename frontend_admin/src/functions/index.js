@@ -57,3 +57,11 @@ export const deleteDocument = (index) => API.delete(`/about/documents/${index}`)
 export const addFaq = (data) => API.post("/about/faqs", data);
 export const updateFaq = (index, data) => API.put(`/about/faqs/${index}`, data);
 export const deleteFaq = (index) => API.delete(`/about/faqs/${index}`);
+
+export const allReviews = () => API.get("/reviews");
+export const approveReview = (id) => API.put(`/reviews/approve/${id}`);
+export const rejectReview = (id) => API.put(`/reviews/reject/${id}`);
+
+export const allParticipations = () => API.get("/projects/participation");
+export const approveParticipation = (id) => API.put(`/projects/participation/approve/${id}`);
+export const rejectParticipation = (id) => API.put(`/projects/participation/reject/${id}`);

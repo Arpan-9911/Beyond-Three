@@ -3,7 +3,6 @@ import { useLanguage } from "../context/LanguageContext";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Youth from "../components/project_foms/Youth";
-import Other from "../components/project_foms/Other";
 import { useSelector } from "react-redux";
 
 const truncateText = (text = "", limit = 90) =>
@@ -102,7 +101,7 @@ const Projects = () => {
                     getLangText(lang, project.description)
                   )}
                 </p>
-                <div className="flex flex-wrap gap-3 items-center">
+                <div className="flex flex-wrap gap-3 items-center justify-between">
                   <button
                     onClick={() => setActiveProject(project)}
                     className="text-amber-700 font-medium hover:underline text-sm cursor-pointer"
@@ -203,11 +202,7 @@ const Projects = () => {
               ✕
             </button>
             <div className="bg-amber-100 rounded-4xl overflow-y-auto max-h-[90vh] hide-scrollbar">
-              {showFormFor._id === projectCategories[0]?._id ? (
-                <Youth />
-              ) : (
-                <Other />
-              )}
+              <Youth project={showFormFor} setShowFormFor={setShowFormFor} />
             </div>
           </div>
         </div>

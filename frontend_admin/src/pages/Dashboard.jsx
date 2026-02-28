@@ -19,11 +19,9 @@ const Dashboard = () => {
   const news = useSelector(state => state.news)
   const tours = useSelector(state => state.tours)
   const media = useSelector(state => state.media)
-  const hero = useSelector(state => state.hero)
   const admin = useSelector(state => state.auth)
 
   const stats = [
-    { label: 'Hero Slides', count: hero?.length || 0, icon: <FaImages />, color: 'from-orange-400 to-amber-500', link: '/hero-carousel' },
     { label: 'News', count: news?.length || 0, icon: <FaCalendarAlt />, color: 'from-yellow-400 to-orange-500', link: '/news' },
     { label: 'Events', count: events?.length || 0, icon: <FaCalendarCheck />, color: 'from-amber-500 to-orange-600', link: '/events' },
     { label: 'Projects', count: projects?.length || 0, icon: <FaProjectDiagram />, color: 'from-yellow-500 to-amber-600', link: '/projects' },
@@ -56,7 +54,7 @@ const Dashboard = () => {
         <div className='min-h-[92.5dvh] p-4'>
 
           {/* Welcome Banner */}
-          <div className='bg-gradient-to-r from-amber-700 to-amber-900 rounded-2xl p-6 mb-6 text-white shadow-lg'>
+          <div className='bg-linear-to-r from-amber-700 to-amber-900 rounded-2xl p-6 mb-6 text-white shadow-lg'>
             <h1 className='text-2xl font-bold'>Welcome back{admin?.name ? `, ${admin.name}` : ''}! 👋</h1>
             <p className='text-amber-200 mt-1 text-sm'>Here's an overview of your Beyond Three admin panel.</p>
           </div>
@@ -67,7 +65,7 @@ const Dashboard = () => {
               <div key={i}
                 onClick={() => navigate(stat.link)}
                 className='bg-white rounded-2xl shadow-lg p-4 hover:shadow-xl transition cursor-pointer group'>
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white text-lg mb-3 group-hover:scale-110 transition`}>
+                <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${stat.color} flex items-center justify-center text-white text-lg mb-3 group-hover:scale-110 transition`}>
                   {stat.icon}
                 </div>
                 <p className='text-2xl font-bold text-gray-800'>{stat.count}</p>

@@ -109,7 +109,7 @@ const Header = () => {
             {loginOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg text-xs z-50">
                 <a
-                  href="#"
+                  href="https://member.beyondthree.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 rounded-lg hover:bg-amber-100 text-amber-700"
@@ -118,7 +118,7 @@ const Header = () => {
                   {t.memberLogin}
                 </a>
                 <a
-                  href="#"
+                  href="https://admin.beyondthree.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 rounded-lg hover:bg-amber-100 text-amber-700"
