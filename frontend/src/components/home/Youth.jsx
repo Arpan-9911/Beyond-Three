@@ -80,7 +80,10 @@ const Youth = () => {
           <div className="mt-8 space-y-4">
             {topProjects.map((project) => {
               const title = getLangValue(project.title);
-              const desc = getLangValue(project.description);
+              const rawDesc = getLangValue(project.description);
+              const desc = rawDesc
+                ? rawDesc.replace(/<[^>]*>/g, " ")
+                : "";
               return (
                 <div
                   key={project._id}

@@ -96,11 +96,17 @@ const Projects = () => {
                 <h3 className="text-lg font-semibold text-amber-700 mb-2">
                   {getLangText(lang, project.title)}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 grow">
-                  {truncateText(
-                    getLangText(lang, project.description)
-                  )}
-                </p>
+                <div
+                  className="prose prose-sm grow mb-4 leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: truncateText(getLangText(lang, project.description))
+                  }}
+                />
                 <div className="flex flex-wrap gap-3 items-center justify-between">
                   <button
                     onClick={() => setActiveProject(project)}
@@ -179,12 +185,17 @@ const Projects = () => {
                 <h2 className="sm:text-2xl text-xl font-bold text-amber-700 mb-3">
                   {getLangText(lang, activeProject.title)}
                 </h2>
-                <p className="text-gray-700 whitespace-pre-line">
-                  {getLangText(
-                    lang,
-                    activeProject.description
-                  )}
-                </p>
+                <div
+                  className="prose prose-md leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: getLangText(lang, activeProject.description)
+                  }}
+                />
               </div>
             </div>
           </div>

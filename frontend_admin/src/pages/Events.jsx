@@ -7,6 +7,7 @@ import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaMapMarkerAlt, FaClock } from 
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { addEvent, deleteEvent, updateEvent } from '../functions/event'
+import RichTextEditor from "../components/editor/RichTextEditor";
 
 const Events = () => {
   const dispatch = useDispatch()
@@ -150,8 +151,28 @@ const Events = () => {
                       </button>
                     </div>
                   </div>
-                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.en)}</p>
-                  <p className='text-gray-600 text-sm mt-1'>{truncateText(item.description.hi)}</p>
+                  <div
+                    className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                              prose-p:m-0
+                              prose-ul:m-0
+                              prose-ol:m-0
+                              prose-li:m-0
+                              prose-headings:m-0"
+                    dangerouslySetInnerHTML={{
+                      __html: truncateText(item.description.en) || "",
+                    }}
+                  />
+                  <div
+                    className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                              prose-p:m-0
+                              prose-ul:m-0
+                              prose-ol:m-0
+                              prose-li:m-0
+                              prose-headings:m-0"
+                    dangerouslySetInnerHTML={{
+                      __html: truncateText(item.description.hi) || "",
+                    }}
+                  />
                   <div className='mt-3 space-y-1 text-sm text-gray-500'>
                     <div className='flex items-center gap-2'>
                       <FaCalendarAlt size={12} className='text-amber-600' />
@@ -190,7 +211,7 @@ const Events = () => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className='fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50'>
-          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto'>
+          <div className='bg-white rounded-4xl p-6 w-full max-w-lg space-y-3 max-h-[90vh] overflow-y-auto hide-scrollbar'>
             <h2 className='font-bold text-lg'>
               {editIndex !== null ? "Edit Event" : "Create Event"}
             </h2>
@@ -256,18 +277,28 @@ const Events = () => {
 
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Description (English)</label>
-              <textarea placeholder='Enter event description in English'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
-                value={form.description.en} rows={3}
-                onChange={(e) => setForm({ ...form, description: { ...form.description, en: e.target.value } })} />
+              <RichTextEditor
+                value={form.description.en}
+                onChange={(html) =>
+                  setForm({
+                    ...form,
+                    description: { ...form.description, en: html },
+                  })
+                }
+              />
             </div>
 
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Description (Hindi)</label>
-              <textarea placeholder='इवेंट विवरण हिंदी में दर्ज करें'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
-                value={form.description.hi} rows={3}
-                onChange={(e) => setForm({ ...form, description: { ...form.description, hi: e.target.value } })} />
+              <RichTextEditor
+                value={form.description.hi}
+                onChange={(html) =>
+                  setForm({
+                    ...form,
+                    description: { ...form.description, hi: html },
+                  })
+                }
+              />
             </div>
 
             <div className='flex justify-end gap-3 pt-2'>

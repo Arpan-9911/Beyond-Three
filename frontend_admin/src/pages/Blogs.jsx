@@ -7,6 +7,7 @@ import { FaPlus, FaEdit, FaTrash, FaFolder, FaUser, FaCalendar } from 'react-ico
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { deleteBlog, addBlog, updateBlog, toggleStatus } from '../functions/blogs'
+import RichTextEditor from "../components/editor/RichTextEditor";
 
 const Blogs = () => {
   const dispatch = useDispatch()
@@ -207,8 +208,28 @@ const Blogs = () => {
                             </button>
                           </div>
                         </div>
-                        <p className='text-gray-600 text-sm mt-1'>{truncateText(blog.content.en)}</p>
-                        <p className='text-gray-600 text-sm mt-1'>{truncateText(blog.content.hi)}</p>
+                        <div
+                          className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                                    prose-p:m-0
+                                    prose-ul:m-0
+                                    prose-ol:m-0
+                                    prose-li:m-0
+                                    prose-headings:m-0"
+                          dangerouslySetInnerHTML={{
+                            __html: truncateText(blog.content.en) || "",
+                          }}
+                        />
+                        <div
+                          className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                                    prose-p:m-0
+                                    prose-ul:m-0
+                                    prose-ol:m-0
+                                    prose-li:m-0
+                                    prose-headings:m-0"
+                          dangerouslySetInnerHTML={{
+                            __html: truncateText(blog.content.hi) || "",
+                          }}
+                        />
                         <div className='flex gap-4 mt-2 text-xs text-gray-500'>
                           {blog.author && (
                             <div className='flex items-center gap-1'>
@@ -318,25 +339,25 @@ const Blogs = () => {
             </div>
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content English</label>
-              <textarea
-                placeholder='Content English'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                rows={4}
+              <RichTextEditor
                 value={blogForm.content.en}
-                onChange={(e) =>
-                  setBlogForm({ ...blogForm, content: { ...blogForm.content, en: e.target.value } })
+                onChange={(html) =>
+                  setBlogForm({
+                    ...blogForm,
+                    content: { ...blogForm.content, en: html },
+                  })
                 }
               />
             </div>
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content Hindi</label>
-              <textarea
-                placeholder='Content Hindi'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none'
-                rows={4}
+              <RichTextEditor
                 value={blogForm.content.hi}
-                onChange={(e) =>
-                  setBlogForm({ ...blogForm, content: { ...blogForm.content, hi: e.target.value } })
+                onChange={(html) =>
+                  setBlogForm({
+                    ...blogForm,
+                    content: { ...blogForm.content, hi: html },
+                  })
                 }
               />
             </div>

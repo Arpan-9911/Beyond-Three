@@ -83,9 +83,17 @@ const Blogs = () => {
                 <h3 className="text-lg font-semibold text-amber-700 mb-2">
                   {getLangText(blog.title)}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 grow">
-                  {truncateText(getLangText(blog.content))}
-                </p>
+                <div
+                  className="prose prose-sm mb-2 leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: truncateText(getLangText(blog.content))
+                  }}
+                />
                 <Link
                   to={`/blogs/${blog._id}`}
                   className="text-amber-700 font-medium hover:underline text-sm self-start cursor-pointer"
@@ -161,9 +169,17 @@ const Blogs = () => {
                   {t.author[lang]} {selectedBlog.author} •{" "}
                   {new Date(selectedBlog.date).toLocaleDateString("en-GB")}
                 </p>
-                <p className="text-gray-700 whitespace-pre-line">
-                  {getLangText(selectedBlog.content)}
-                </p>
+                <div
+                  className="prose prose-md leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: getLangText(selectedBlog.content),
+                  }}
+                />
               </div>
             </div>
           </div>

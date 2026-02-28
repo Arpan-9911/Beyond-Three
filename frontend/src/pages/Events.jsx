@@ -105,9 +105,17 @@ const Events = () => {
                   </span>
                   <span>📍 {getLangText(event.location)}</span>
                 </div>
-                <p className="text-gray-700 mt-2">
-                  {truncateText(getLangText(event.description), 100)}
-                </p>
+                <div
+                  className="prose prose-sm mb-2 leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: truncateText(getLangText(event.description), 100)
+                  }}
+                />
                 <Link
                   to={`/events/${tab}/${event._id}`}
                   className="text-amber-700 font-medium hover:underline text-sm self-start"
@@ -186,10 +194,17 @@ const Events = () => {
                   </span>
                   <span>📍 {getLangText(activeEvent.location)}</span>
                 </div>
-
-                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                  {getLangText(activeEvent.description)}
-                </p>
+                <div
+                  className="prose prose-md leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: getLangText(activeEvent.description),
+                  }}
+                />
               </div>
             </div>
           </div>

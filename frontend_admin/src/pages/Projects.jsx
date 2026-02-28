@@ -8,6 +8,7 @@ import { HiViewGrid } from 'react-icons/hi'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { addProjectCategory, deleteProjectCategory, addProject, deleteProject, updateProject } from '../functions/projects'
+import RichTextEditor from "../components/editor/RichTextEditor";
 
 const Projects = () => {
   const dispatch = useDispatch()
@@ -41,6 +42,9 @@ const Projects = () => {
   const [projectForm, setProjectForm] = useState(emptyProjectForm)
   const [categoryForm, setCategoryForm] = useState(emptyCategoryForm)
 
+  const currentCategoryProjects = projects.filter(p => p.category === activeCategory)
+  const currentCategory = categories.find(c => c._id === activeCategory)
+
   // Project handlers
   const openAddProject = () => {
     setProjectForm({ ...emptyProjectForm, categoryId: activeCategory })
@@ -49,7 +53,7 @@ const Projects = () => {
   }
 
   const openEditProject = (index) => {
-    const project = projects[index]
+    const project = currentCategoryProjects[index]
     setProjectForm(project)
     setEditIndex(project._id)
     setShowProjectModal(true)
@@ -122,9 +126,6 @@ const Projects = () => {
   const truncateText = (text, limit = 120) => {
     return text.length > limit ? text.substring(0, limit) + "..." : text
   }
-
-  const currentCategoryProjects = projects.filter(p => p.category === activeCategory)
-  const currentCategory = categories.find(c => c._id === activeCategory)
 
   return (
     <div className='min-h-dvh flex bg-amber-100'>
@@ -233,8 +234,28 @@ const Projects = () => {
                             </button>
                           </div>
                         </div>
-                        <p className='text-gray-600 text-sm mt-1'>{truncateText(project.description.en)}</p>
-                        <p className='text-gray-600 text-sm mt-1'>{truncateText(project.description.hi)}</p>
+                        <div
+                          className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                                    prose-p:m-0
+                                    prose-ul:m-0
+                                    prose-ol:m-0
+                                    prose-li:m-0
+                                    prose-headings:m-0"
+                          dangerouslySetInnerHTML={{
+                            __html: truncateText(project.description.en) || "",
+                          }}
+                        />
+                        <div
+                          className="prose prose-sm leading-tight mt-1 max-w-none text-gray-700
+                                    prose-p:m-0
+                                    prose-ul:m-0
+                                    prose-ol:m-0
+                                    prose-li:m-0
+                                    prose-headings:m-0"
+                          dangerouslySetInnerHTML={{
+                            __html: truncateText(project.description.hi) || "",
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -305,13 +326,13 @@ const Projects = () => {
             {/* Description English */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Description (English)</label>
-              <textarea
-                placeholder='Enter project description in English'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
+              <RichTextEditor
                 value={projectForm.description.en}
-                rows={4}
-                onChange={(e) =>
-                  setProjectForm({ ...projectForm, description: { ...projectForm.description, en: e.target.value } })
+                onChange={(html) =>
+                  setProjectForm({
+                    ...projectForm,
+                    description: { ...projectForm.description, en: html },
+                  })
                 }
               />
             </div>
@@ -319,13 +340,13 @@ const Projects = () => {
             {/* Description Hindi */}
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Description (Hindi)</label>
-              <textarea
-                placeholder='प्रोजेक्ट विवरण हिंदी में दर्ज करें'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
+              <RichTextEditor
                 value={projectForm.description.hi}
-                rows={4}
-                onChange={(e) =>
-                  setProjectForm({ ...projectForm, description: { ...projectForm.description, hi: e.target.value } })
+                onChange={(html) =>
+                  setProjectForm({
+                    ...projectForm,
+                    description: { ...projectForm.description, hi: html },
+                  })
                 }
               />
             </div>

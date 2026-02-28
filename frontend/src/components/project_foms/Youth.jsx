@@ -91,7 +91,7 @@ const Youth = ({ project, setShowFormFor }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder={labels.mobile[lang]} className="p-2 border rounded-md" />
           <input name="email" value={formData.email} onChange={handleChange} placeholder={labels.email[lang]} className="p-2 border rounded-md" />
-          <textarea name="address" value={formData.address} onChange={handleChange} placeholder={labels.address[lang]} className="p-2 border rounded-md col-span-2" rows={3} />
+          <textarea name="address" value={formData.address} onChange={handleChange} placeholder={labels.address[lang]} className="p-2 border rounded-md sm:col-span-2" rows={3} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input name="education" value={formData.education} onChange={handleChange} placeholder={labels.education[lang]} className="p-2 border rounded-md" />

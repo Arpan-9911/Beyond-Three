@@ -35,7 +35,7 @@ const RichTextEditor = ({ value, onChange }) => {
     editorProps: {
       attributes: {
         class:
-          "min-h-80 p-4 focus:outline-none text-gray-800 text-base",
+          "min-h-40 p-4 focus:outline-none text-gray-800 text-base",
       },
     },
     onUpdate: ({ editor }) => {
@@ -111,7 +111,7 @@ const RichTextEditor = ({ value, onChange }) => {
       </div>
 
       {/* Editor Body */}
-      <div className="max-h-100 overflow-y-auto">
+      <div className="max-h-80 overflow-y-auto">
         <EditorContent editor={editor} />
       </div>
     </div>
