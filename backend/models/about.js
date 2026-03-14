@@ -15,9 +15,11 @@ const AboutSchema = new mongoose.Schema(
       description: { type: LocalizedStringSchema },
     },
     whoWeAre: {
+      image: { type: String },
       description: { type: LocalizedStringSchema },
     },
     methodology: {
+      image: { type: String },
       description: { type: LocalizedStringSchema },
     },
     missionVision: {

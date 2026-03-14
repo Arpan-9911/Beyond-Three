@@ -11,6 +11,7 @@ const Youth = ({ project, setShowFormFor }) => {
     mobile: "", email: "", address: "",
     education: "", occupation: "",
     approval: "", reason: "", declaration: false,
+    disease: "", medications: "",
   });
 
   const labels = {
@@ -29,6 +30,8 @@ const Youth = ({ project, setShowFormFor }) => {
     approval: { en: "Do you approve to participate?", hi: "क्या आप भाग लेने के लिए सहमति देते हैं?" },
     reason: { en: "Reason for joining", hi: "जुड़ने का कारण" },
     declaration: { en: "I declare that all information is correct", hi: "मैं घोषणा करता/करती हूँ कि सभी जानकारी सही है" },
+    disease: { en: "Disease (if any)", hi: "बीमारी (यदि है)" },
+    medications: { en: "Medications (if any)", hi: "ली जा रही इलाज (यदि है)" },
     submit: { en: "Submit Form", hi: "फॉर्म जमा करें" },
     yes: { en: "Yes", hi: "हाँ" },
     no: { en: "No", hi: "नहीं" },
@@ -107,6 +110,8 @@ const Youth = ({ project, setShowFormFor }) => {
           </label>
         </div>
         <textarea name="reason" value={formData.reason} onChange={handleChange} placeholder={labels.reason[lang]} className="p-2 border rounded-md w-full" rows={3} />
+        <textarea name="disease" value={formData.disease} onChange={handleChange} placeholder={labels.disease[lang]} className="p-2 border rounded-md w-full" rows={3} />
+        <textarea name="medications" value={formData.medications} onChange={handleChange} placeholder={labels.medications[lang]} className="p-2 border rounded-md w-full" rows={3} />
         <div className="flex items-center gap-2">
           <input type="checkbox" name="declaration" checked={formData.declaration} onChange={handleChange} />
           <span>{labels.declaration[lang]}</span>

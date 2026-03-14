@@ -51,7 +51,7 @@ const Testimonials = () => {
       stars: formData.stars
     };
     try {
-      await dispatch(addReview(data));
+      await addReview(data);
       handleClose();
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to add review");
@@ -60,7 +60,7 @@ const Testimonials = () => {
 
   return (
     <>
-      <section className="bg-linear-to-b from-amber-50 to-amber-100 py-8">
+      <section className="bg-amber-100 py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-3xl md:text-4xl font-bold text-amber-700">

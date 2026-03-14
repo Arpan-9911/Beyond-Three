@@ -13,8 +13,8 @@ const getAboutDoc = async () => {
         description: { en: "", hi: "" },
         image: "",
       },
-      methodology: { description: { en: "", hi: "" } },
-      whoWeAre: { description: { en: "", hi: "" } },
+      methodology: { image: "", description: { en: "", hi: "" } },
+      whoWeAre: { image: "", description: { en: "", hi: "" } },
       missionVision: { mission: { en: "", hi: "" }, vision: { en: "", hi: "" } },
       documents: [],
       faqs: [],
@@ -71,9 +71,17 @@ export const updateFounder = async (req, res) => {
 export const updateMethodology = async (req, res) => {
   try {
     let { description } = req.body;
+    const imageFile = req.file;
     const about = await getAboutDoc();
     if (typeof description === "string") description = JSON.parse(description);
     about.methodology.description = description;
+    if (imageFile) {
+      if(about.methodology.image) {
+        const oldPath = path.join(process.cwd(), about.methodology.image);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+      about.methodology.image = `uploads/methodology/${imageFile.filename}`;
+    }
     await about.save();
     res.status(200).json({ message: "Methodology updated successfully", methodology: about.methodology });
   } catch (error) {
@@ -87,11 +95,18 @@ export const updateMethodology = async (req, res) => {
 export const updateWhoWeAre = async (req, res) => {
   try {
     let { description } = req.body;
+    const imageFile = req.file;
     const about = await getAboutDoc();
 
     if (typeof description === "string") description = JSON.parse(description);
-
     about.whoWeAre.description = description;
+    if (imageFile) {
+      if (about.whoWeAre.image) {
+        const oldPath = path.join(process.cwd(), about.whoWeAre.image);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+      about.whoWeAre.image = `uploads/whoWeAre/${imageFile.filename}`;
+    }
 
     await about.save();
     res.status(200).json({ message: "Who We Are updated successfully", whoWeAre: about.whoWeAre });

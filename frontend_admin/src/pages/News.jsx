@@ -7,6 +7,7 @@ import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNews, deleteNews, updateNews } from '../functions/news'
 import { toast } from 'react-toastify'
+import RichTextEditor from "../components/editor/RichTextEditor";
 
 const News = () => {
   const dispatch = useDispatch()
@@ -232,25 +233,25 @@ const News = () => {
             </div>
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content (English)</label>
-              <textarea
-                placeholder='Enter news content in English'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
+              <RichTextEditor
                 value={form.content.en}
-                rows={4}
-                onChange={(e) =>
-                  setForm({ ...form, content: { ...form.content, en: e.target.value } })
+                onChange={(html) =>
+                  setForm({
+                    ...form,
+                    content: { ...form.content, en: html },
+                  })
                 }
               />
             </div>
             <div>
               <label className='text-sm text-gray-600 mb-1 block'>Content (Hindi)</label>
-              <textarea
-                placeholder='समाचार सामग्री हिंदी में दर्ज करें'
-                className='w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none'
+              <RichTextEditor
                 value={form.content.hi}
-                rows={4}
-                onChange={(e) =>
-                  setForm({ ...form, content: { ...form.content, hi: e.target.value } })
+                onChange={(html) =>
+                  setForm({
+                    ...form,
+                    content: { ...form.content, hi: html },
+                  })
                 }
               />
             </div>

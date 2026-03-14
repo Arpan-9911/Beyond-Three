@@ -64,86 +64,98 @@ const Hero = () => {
   const getImageUrl = (img) =>
     img?.startsWith("http") ? img : import.meta.env.VITE_UPLOADS + img;
 
+  const img1 = getImageUrl(images[0]);
+  const img2 = getImageUrl(images[1]);
+  const img3 = getImageUrl(images[2]);
+  const img4 = getImageUrl(images[3]);
+  const img5 = getImageUrl(images[4]);
+
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-amber-50 via-white to-orange-100">
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-amber-300/20 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-120 h-120 bg-orange-400/20 blur-3xl rounded-full"></div>
-      <div className="py-2 text-center bg-linear-to-r from-amber-700 to-orange-600 text-white font-bold tracking-widest text-lg shadow-md">
+    <section className="relative overflow-hidden bg-amber-900">
+      <div className="py-2 text-center bg-amber-900 text-white font-bold tracking-widest text-lg border-b">
         आओ लौट चलें प्रकृति की ओर
       </div>
       <div
-        className="relative max-w-7xl mx-auto px-4 md:px-10 py-10"
+        className="relative max-w-7xl mx-auto px-4 md:px-10 py-10 max-md:pt-4"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onTouchStart={() => setTouched(true)}
         onTouchEnd={() => setTouched(false)}
         ref={heroRef}
       >
-        <div className="flex flex-col-reverse md:flex-row md:gap-16 items-center">
-          <div className="md:w-[45%]">
+        <div className="grid lg:grid-cols-2 lg:gap-16 gap-6 items-center">
+          <div>
             <h1
-              className={`text-3xl md:text-4xl lg:text-5xl font-black leading-tight transition-all duration-500 ${
+              className={`text-3xl md:text-5xl font-black leading-tight transition-all duration-500 ${
                 animating
                   ? "opacity-0 translate-y-3"
                   : "opacity-100 translate-y-0"
               }`}
             >
-              <span className="bg-linear-to-r from-amber-700 to-orange-600 bg-clip-text text-transparent">
+              <span className="text-white">
                 {heading[lang]}
               </span>
             </h1>
             <div
-              className={`mt-4 p-4 rounded-2xl bg-white/70 backdrop-blur-md shadow-xl border border-amber-200 transition-all duration-500 ${
-                animating ? "opacity-0" : "opacity-100"
-              }`}
+              className="mt-4 p-4 rounded-r-2xl bg-white/5
+                        backdrop-blur-md shadow-xl transition-all duration-500
+                        border-l-4 border-yellow-500"
             >
-              <p className="text-gray-700 text-base md:text-lg italic leading-relaxed">
+              <p className="text-white text-base md:text-lg italic leading-relaxed">
                 “{slide.desc[lang]}”
               </p>
-              <div className="flex justify-between items-center gap-3 mt-3">
-                <div className="flex gap-3">
-                  {slides.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => handleSlideChange(i)}
-                      className={`transition-all duration-300 rounded-full ${
-                        i === index
-                          ? "w-8 h-2 bg-linear-to-r from-amber-600 to-orange-600"
-                          : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="text-amber-700 font-semibold text-right">
+              <div className="mt-3">
+                <p className="text-yellow-500 font-bold">
                   — {slide.title[lang]}
                 </p>
               </div>
             </div>
-            <button className="mt-6 bg-linear-to-r from-amber-600 to-orange-600 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-orange-400/40 hover:scale-105 transition-all duration-300 active:scale-95">
+            <button className="mt-6 bg-yellow-500 text-amber-900 font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-orange-400/40 hover:scale-105 transition-all duration-300 active:scale-95">
               {lang === "hi" ? "दान करें" : "Make a Donation"}
             </button>
           </div>
 
-          <div className="flex-1 w-full relative md:pb-[40%] pb-[100%]">
-            {images.map((img, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveImage(getImageUrl(img))}
-                className="absolute cursor-pointer rounded-xl overflow-hidden shadow-2xl bg-white/30 backdrop-blur-md border border-white/40 transition-transform duration-500 hover:scale-105"
-                style={{
-                  top: `${[0, 0, 30, 60, 55][i] || 0}%`,
-                  left: `${[20, 50, 10, 0, 45][i] || 0}%`,
-                  width: `${[25, 50, 35, 40, 50][i] || 40}%`,
-                  height: `${[25, 50, 25, 25, 25][i] || 25}%`,
-                }}
-              >
-                <img
-                  src={getImageUrl(img)}
-                  alt=""
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                />
-              </div>
-            ))}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 row-span-2 overflow-hidden rounded-2xl max-h-80">
+              <img
+                src={img1}
+                alt="Image 1"
+                className="w-full h-full object-cover hover:scale-110 transition duration-300 cursor-pointer"
+                onClick={() => setActiveImage(img1)}
+              />
+            </div>
+            <div className="overflow-hidden rounded-2xl max-h-80">
+              <img
+                src={img2}
+                alt="Image 2"
+                className="w-full h-full object-cover hover:scale-110 transition duration-300 cursor-pointer"
+                onClick={() => setActiveImage(img2)}
+              />
+            </div>
+            <div className="row-span-2 overflow-hidden rounded-2xl max-h-80">
+              <img
+                src={img3}
+                alt="Image 3"
+                className="w-full h-full object-cover hover:scale-110 transition duration-300 cursor-pointer"
+                onClick={() => setActiveImage(img3)}
+              />
+            </div>
+            <div className="overflow-hidden rounded-2xl max-h-80">
+              <img
+                src={img4}
+                alt="Image 4"
+                className="w-full h-full object-cover hover:scale-110 transition duration-300 cursor-pointer"
+                onClick={() => setActiveImage(img4)}
+              />
+            </div>
+            <div className="overflow-hidden rounded-2xl max-h-80">
+              <img
+                src={img5}
+                alt="Image 5"
+                className="w-full h-full object-cover hover:scale-110 transition duration-300 cursor-pointer"
+                onClick={() => setActiveImage(img5)}
+              />
+            </div>
           </div>
         </div>
       </div>

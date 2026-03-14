@@ -50,8 +50,8 @@ export const deleteMedia = (id) => API.delete(`/media/delete/${id}`);
 
 export const getAbout = () => API.get("/about");
 export const updateFounder = (formData) => API.post("/about/founder?folder=founder", formData);
-export const updateMethodology = (data) => API.post("/about/methodology", data);
-export const updateWhoWeAre = (data) => API.post("/about/who-we-are", data);
+export const updateMethodology = (data) => API.post("/about/methodology?folder=methodology", data);
+export const updateWhoWeAre = (data) => API.post("/about/who-we-are?folder=whoWeAre", data);
 export const updateMissionVision = (data) => API.post("/about/mission-vision", data);
 export const addDocument = (formData) => API.post("/about/documents?folder=documents", formData);
 export const deleteDocument = (index) => API.delete(`/about/documents/${index}`);
@@ -66,3 +66,7 @@ export const rejectReview = (id) => API.put(`/reviews/reject/${id}`);
 export const allParticipations = () => API.get("/projects/participation");
 export const approveParticipation = (id) => API.put(`/projects/participation/approve/${id}`);
 export const rejectParticipation = (id) => API.put(`/projects/participation/reject/${id}`);
+
+export const allJoinRequests = () => API.get("/join");
+export const approveMember = (id) => API.put(`/join/approve/${id}`);
+export const rejectRequest = (id) => API.put(`/join/reject/${id}`);

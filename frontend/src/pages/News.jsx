@@ -73,9 +73,17 @@ const News = () => {
                 <h3 className="text-lg font-semibold text-amber-700 mb-2">
                   {getText(item.title)}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 grow">
-                  {truncateText(getText(item.content))}
-                </p>
+                <div
+                  className="grow prose prose-sm mb-2 leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: truncateText(getText(item.content))
+                  }}
+                />
                 <Link
                   to={`/news/${item._id}`}
                   className="text-amber-700 font-medium hover:underline text-sm self-start"
@@ -144,9 +152,17 @@ const News = () => {
                 <p className="text-sm text-gray-500 mb-4">
                   {new Date(selectedNews.date).toLocaleDateString("en-GB")}
                 </p>
-                <p className="text-gray-700 whitespace-pre-line">
-                  {getText(selectedNews.content)}
-                </p>
+                <div
+                  className="prose prose-md leading-snug max-w-none text-gray-700
+                            prose-p:m-0
+                            prose-ul:m-0
+                            prose-ol:m-0
+                            prose-li:m-0
+                            prose-headings:m-0"
+                  dangerouslySetInnerHTML={{
+                    __html: getText(selectedNews.content),
+                  }}
+                />
               </div>
             </div>
           </div>

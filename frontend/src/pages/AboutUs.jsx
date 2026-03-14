@@ -7,12 +7,14 @@ import WhoWeAre from '../components/aboutUs/WhoWeAre'
 import MissionAndVision from '../components/aboutUs/MissionAndVision'
 import LegalDocuments from '../components/aboutUs/LegalDocuments'
 import Faqs from '../components/aboutUs/Faqs'
+import Methodology from '../components/aboutUs/Methodology'
 
 const AboutUs = () => {
   const { lang } = useLanguage();
   const tabs = [
     {en: "Founder", hi: "संस्थापक"},
     {en: "Who We Are", hi: "हमारे बारे में"},
+    {en: "Methodology", hi: "पद्धति"},
     {en: "Mission & Vision", hi: "मिशन और दृष्टिकोण"},
     {en: "Legal Documents", hi: "कानूनी दस्तावेज़"},
     {en: "FAQS", hi: "सामान्य प्रश्न"},
@@ -38,9 +40,10 @@ const AboutUs = () => {
         </div>
         {activeTab == 0 && <Founder />}
         {activeTab == 1 && <WhoWeAre />}
-        {activeTab == 2 && <MissionAndVision />}
-        {activeTab == 3 && <LegalDocuments />}
-        {activeTab == 4 && <Faqs />}
+        {activeTab == 2 && <Methodology />}
+        {activeTab == 3 && <MissionAndVision />}
+        {activeTab == 4 && <LegalDocuments />}
+        {activeTab == 5 && <Faqs />}
       </div>
 
       <Footer />

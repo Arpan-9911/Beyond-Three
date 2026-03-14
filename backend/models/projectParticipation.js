@@ -30,6 +30,9 @@ const projectParticipationSchema = new mongoose.Schema(
     reason: { type: String, required: true },
     declaration: { type: Boolean, required: true },
 
+    disease: String,
+    medications: String,
+
     // Admin Status
     status: {
       type: String,

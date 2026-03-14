@@ -48,7 +48,7 @@ const Faqs = () => {
           <div
             className={`px-6 text-gray-700 text-lg leading-relaxed transition-all duration-300 ${
               activeIndex === index
-                ? "max-h-40 py-4 opacity-100"
+                ? "py-4 opacity-100"
                 : "max-h-0 py-0 opacity-0"
             } overflow-hidden`}
           >

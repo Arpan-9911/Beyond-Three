@@ -96,10 +96,9 @@ export const getReviews = () => async (dispatch) => {
   }
 };
 
-export const addReview = (review) => async (dispatch) => {
+export const addReview = async (review) => {
   try {
-    const { data } = await API.post("/reviews/add", review);
-    dispatch({ type: "ADD_REVIEW", payload: data });
+    await API.post("/reviews/add", review);
     toast.success("Review added successfully");
   } catch (error) {
     toast.error(error.response?.data?.msg || "Failed to add review");
@@ -112,5 +111,14 @@ export const submitParticipation = async (participation) => {
     toast.success("Participation submitted successfully");
   } catch (error) {
     toast.error(error.response?.data?.msg || "Failed to submit participation");
+  }
+};
+
+export const createJoinRequest = async (request) => {
+  try {
+    await API.post("/join", request);
+    toast.success("Request submitted successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to submit request");
   }
 };

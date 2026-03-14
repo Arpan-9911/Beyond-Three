@@ -28,7 +28,6 @@ import {
 } from "../functions/about";
 import RichTextEditor from "../components/editor/RichTextEditor";
 
-
 const categories = [
   { _id: "1", name: { en: "Founder", hi: "संस्थापक" } },
   { _id: "2", name: { en: "Who We Are", hi: "हमारे बारे में" } },
@@ -52,9 +51,15 @@ const About = () => {
     backendImage: "",
   });
   const [whoWeAreData, setWhoWeAreData] = useState({
+    image: "",
+    imagePreview: "",
+    backendImage: "",
     description: { en: "", hi: "" },
   });
   const [methodologyData, setMethodologyData] = useState({
+    image: "",
+    imagePreview: "",
+    backendImage: "",
     description: { en: "", hi: "" },
   });
   const [missionVisionData, setMissionVisionData] = useState({
@@ -84,12 +89,18 @@ const About = () => {
         },
       });
       setMethodologyData({
+        image: "",
+        imagePreview: about.methodology?.image || "",
+        backendImage: about.methodology?.image || "",
         description: {
           en: about.methodology?.description?.en || "",
           hi: about.methodology?.description?.hi || "",
         },
       });
       setWhoWeAreData({
+        image: "",
+        imagePreview: about.whoWeAre?.image || "",
+        backendImage: about.whoWeAre?.image || "",
         description: {
           en: about.whoWeAre?.description?.en || "",
           hi: about.whoWeAre?.description?.hi || "",
@@ -133,6 +144,28 @@ const About = () => {
     });
   };
 
+  const handleWhoWeAreImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setWhoWeAreData({
+      ...whoWeAreData,
+      image: file,
+      imagePreview: URL.createObjectURL(file),
+    });
+  };
+
+  const handleMethodologyImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setMethodologyData({
+      ...methodologyData,
+      image: file,
+      imagePreview: URL.createObjectURL(file),
+    });
+  };
+
   // --- Document Handlers ---
   const openAddDoc = () => {
     setDocForm({ title: { en: "", hi: "" }, file: null });
@@ -140,7 +173,8 @@ const About = () => {
   };
 
   const handleSaveDoc = async () => {
-    if (!docForm.title.en.trim() && !docForm.title.hi.trim()) return toast.error("Either English or Hindi title is required");
+    if (!docForm.title.en.trim() && !docForm.title.hi.trim())
+      return toast.error("Either English or Hindi title is required");
     if (!docForm.file) return toast.error("Document is required");
 
     const formData = new FormData();
@@ -155,7 +189,6 @@ const About = () => {
       setDocForm({ title: { en: "", hi: "" }, file: null });
     }
   };
-
 
   const handleDeleteDoc = async (id) => {
     if (!window.confirm("Delete this document?")) return;
@@ -180,7 +213,8 @@ const About = () => {
   };
 
   const handleSaveFaq = async () => {
-    if (!faqForm.question.en.trim()) return toast.error("Question (English) is required");
+    if (!faqForm.question.en.trim())
+      return toast.error("Question (English) is required");
     try {
       if (editFaqIndex !== null) {
         await dispatch(updateFaq(editFaqIndex, faqForm));
@@ -215,16 +249,27 @@ const About = () => {
         formData.append("name", JSON.stringify(founderData.name));
         formData.append("title", JSON.stringify(founderData.title));
         formData.append("description", JSON.stringify(founderData.description));
-        if (founderData.image) {
-          formData.append("image", founderData.image);
-        }
+        if (founderData.image) formData.append("image", founderData.image);
         await dispatch(updateFounder(formData));
       }
       if (activeCategory === "2") {
-        await dispatch(updateWhoWeAre(whoWeAreData));
+        const formData = new FormData();
+        formData.append(
+          "description",
+          JSON.stringify(whoWeAreData.description),
+        );
+        if (whoWeAreData.image) formData.append("image", whoWeAreData.image);
+        await dispatch(updateWhoWeAre(formData));
       }
       if (activeCategory === "3") {
-        await dispatch(updateMethodology(methodologyData));
+        const formData = new FormData();
+        formData.append(
+          "description",
+          JSON.stringify(methodologyData.description),
+        );
+        if (methodologyData.image)
+          formData.append("image", methodologyData.image);
+        await dispatch(updateMethodology(formData));
       }
       if (activeCategory === "4") {
         await dispatch(updateMissionVision(missionVisionData));
@@ -234,9 +279,12 @@ const About = () => {
     }
   };
 
-  const inputClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none";
-  const textareaClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none resize-none";
-  const modalInputClass = "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none";
+  const inputClass =
+    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none";
+  const textareaClass =
+    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none resize-none";
+  const modalInputClass =
+    "w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none";
 
   // --- Render Content for Active Category ---
   const renderContent = () => {
@@ -311,7 +359,11 @@ const About = () => {
             ) : (
               <div className="relative w-full h-full">
                 <img
-                  src={!founderData.image ? import.meta.env.VITE_UPLOADS + founderData.imagePreview : founderData.imagePreview}
+                  src={
+                    !founderData.image
+                      ? import.meta.env.VITE_UPLOADS + founderData.imagePreview
+                      : founderData.imagePreview
+                  }
                   alt="Preview"
                   className="object-cover w-full h-full"
                 />
@@ -458,6 +510,82 @@ const About = () => {
           <span>Save</span>
         </button>
       </div>
+      {/* Image Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-sm mx-auto">
+        {/* Current Backend Image */}
+        <div className="flex flex-col items-center">
+          <span className="text-sm text-gray-600 mb-1">Current Image</span>
+          <div className="w-full aspect-square border border-dashed border-gray-300 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50">
+            {whoWeAreData.backendImage ? (
+              <img
+                src={import.meta.env.VITE_UPLOADS + whoWeAreData.backendImage}
+                alt="Current Who We Are Image"
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <span className="text-gray-400 text-center p-2">
+                No image from backend
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* New Image Upload */}
+        <div className="flex flex-col items-center">
+          <span className="text-sm text-gray-600 mb-1">New Image</span>
+          <div className="w-full aspect-square border border-dashed border-gray-300 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50 relative">
+            {!whoWeAreData.imagePreview ? (
+              <label className="cursor-pointer flex flex-col items-center justify-center h-full w-full text-gray-400 hover:text-amber-600 transition">
+                <div className="flex flex-col items-center gap-2">
+                  <FaPlus size={24} />
+                  <span>Select Image</span>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleWhoWeAreImageChange}
+                />
+              </label>
+            ) : (
+              <div className="relative w-full h-full">
+                <img
+                  src={
+                    !whoWeAreData.image
+                      ? import.meta.env.VITE_UPLOADS + whoWeAreData.imagePreview
+                      : whoWeAreData.imagePreview
+                  }
+                  alt="Preview"
+                  className="object-cover w-full h-full"
+                />
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={() =>
+                      setWhoWeAreData({
+                        ...whoWeAreData,
+                        image: null,
+                        imagePreview: "",
+                      })
+                    }
+                    className="bg-red-600 text-white px-2 py-1 text-xs rounded-full hover:bg-red-700 transition"
+                  >
+                    Remove
+                  </button>
+                  <label className="bg-blue-600 text-white px-2 py-1 text-xs rounded-full cursor-pointer hover:bg-blue-700 transition">
+                    Change
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleWhoWeAreImageChange}
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         <div>
           <label className="text-sm text-gray-600 mb-1 block">
@@ -502,6 +630,82 @@ const About = () => {
           <FaSave size={14} />
           <span>Save</span>
         </button>
+      </div>
+      {/* Image Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-sm mx-auto">
+        {/* Current Backend Image */}
+        <div className="flex flex-col items-center">
+          <span className="text-sm text-gray-600 mb-1">Current Image</span>
+          <div className="w-full aspect-square border border-dashed border-gray-300 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50">
+            {methodologyData.backendImage ? (
+              <img
+                src={import.meta.env.VITE_UPLOADS + methodologyData.backendImage}
+                alt="Current Founder"
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <span className="text-gray-400 text-center p-2">
+                No image from backend
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* New Image Upload */}
+        <div className="flex flex-col items-center">
+          <span className="text-sm text-gray-600 mb-1">New Image</span>
+          <div className="w-full aspect-square border border-dashed border-gray-300 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50 relative">
+            {!methodologyData.imagePreview ? (
+              <label className="cursor-pointer flex flex-col items-center justify-center h-full w-full text-gray-400 hover:text-amber-600 transition">
+                <div className="flex flex-col items-center gap-2">
+                  <FaPlus size={24} />
+                  <span>Select Image</span>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleMethodologyImageChange}
+                />
+              </label>
+            ) : (
+              <div className="relative w-full h-full">
+                <img
+                  src={
+                    !methodologyData.image
+                      ? import.meta.env.VITE_UPLOADS + methodologyData.imagePreview
+                      : methodologyData.imagePreview
+                  }
+                  alt="Preview"
+                  className="object-cover w-full h-full"
+                />
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={() =>
+                      setMethodologyData({
+                        ...methodologyData,
+                        image: null,
+                        imagePreview: "",
+                      })
+                    }
+                    className="bg-red-600 text-white px-2 py-1 text-xs rounded-full hover:bg-red-700 transition"
+                  >
+                    Remove
+                  </button>
+                  <label className="bg-blue-600 text-white px-2 py-1 text-xs rounded-full cursor-pointer hover:bg-blue-700 transition">
+                    Change
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleMethodologyImageChange}
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         <div>
@@ -640,7 +844,10 @@ const About = () => {
               <h3 className="font-semibold text-sm truncate">{doc.title.en}</h3>
               <p className="text-xs text-gray-500 truncate">{doc.title.hi}</p>
               <div className="flex gap-2 mt-2">
-                <a href={import.meta.env.VITE_UPLOADS + doc.url} target="_blank">
+                <a
+                  href={import.meta.env.VITE_UPLOADS + doc.url}
+                  target="_blank"
+                >
                   <FaDownload size={14} />
                 </a>
                 <button
@@ -851,7 +1058,9 @@ const About = () => {
               <button
                 onClick={handleSaveDoc}
                 className="cursor-pointer bg-amber-700 text-white px-4 py-2 rounded-2xl hover:bg-amber-800 transition active:scale-95"
-              >Add</button>
+              >
+                Add
+              </button>
             </div>
           </div>
         </div>

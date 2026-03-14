@@ -26,11 +26,13 @@ router.post(
 router.post(
   "/methodology",
   protect,
+  upload.single("image"),
   updateMethodology
 );
 router.post(
   "/who-we-are",
   protect,
+  upload.single("image"),
   updateWhoWeAre
 );
 router.post(

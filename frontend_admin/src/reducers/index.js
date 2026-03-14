@@ -11,6 +11,7 @@ import media from "./media";
 import about from "./about";
 import review from "./review";
 import projectParticipations from "./participation";
+import joinUs from "./join";
 
 export default combineReducers({
   auth,
@@ -25,4 +26,5 @@ export default combineReducers({
   about,
   review,
   projectParticipations,
+  joinUs,
 });
