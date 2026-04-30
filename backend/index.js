@@ -17,6 +17,8 @@ import media from "./routes/media.js";
 import about from "./routes/about.js";
 import review from "./routes/review.js";
 import join from "./routes/join.js";
+import appointment from "./routes/appointment.js";
+import sendMail from "./routes/sendMail.js";
 
 dotenv.config();
 const app = express();
@@ -46,6 +48,8 @@ app.use("/api/media", media);
 app.use("/api/about", about);
 app.use("/api/reviews", review);
 app.use("/api/join", join);
+app.use("/api/appointment", appointment);
+app.use("/api/contact", sendMail);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

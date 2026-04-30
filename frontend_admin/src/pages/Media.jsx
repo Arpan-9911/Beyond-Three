@@ -11,10 +11,11 @@ import {
   FaVideo,
   FaPlay,
   FaShareAlt,
+  FaStar,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addMedia, deleteMedia } from "../functions/media";
+import { addMedia, deleteMedia, makeFeatured } from "../functions/media";
 
 const Media = () => {
   const dispatch = useDispatch();
@@ -87,7 +88,46 @@ const Media = () => {
       toast.error(err?.response?.data?.msg || "Failed to delete media.");
     }
   };
+
+  const handleMakeFeatured = async (id) => {
+    try {
+      await dispatch(makeFeatured(id));
+    } catch (err) {
+      toast.error(err?.response?.data?.msg || "Failed to update featured status.");
+    }
+  };
+
   const currentItems = items.filter((i) => i.type === activeTab);
+
+  const convertToEmbed = (url) => {
+    try {
+      // youtu.be format
+      if (url.includes("youtu.be")) {
+        const id = url.split("/").pop().split("?")[0];
+        return `https://www.youtube.com/embed/${id}`;
+      }
+
+      // watch?v= format
+      if (url.includes("watch?v=")) {
+        const id = new URL(url).searchParams.get("v");
+        return `https://www.youtube.com/embed/${id}`;
+      }
+
+      // 🔥 shorts
+      if (url.includes("/shorts/")) {
+        const id = url.split("/shorts/")[1].split("?")[0];
+        return `https://www.youtube.com/embed/${id}`;
+      }
+
+      return url;
+    } catch {
+      return url;
+    }
+  };
+
+  const isFacebookShare = (url) => {
+    return url.includes("facebook.com/share/");
+  };
 
   return (
     <div className="min-h-dvh flex bg-amber-100">
@@ -140,7 +180,7 @@ const Media = () => {
                   Add Media
                 </button>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {currentItems.map((item) => (
                   <div
                     key={item._id}
@@ -152,6 +192,14 @@ const Media = () => {
                       className="absolute cursor-pointer top-2 right-2 z-10 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow"
                     >
                       <FaTrash size={12} />
+                    </button>
+
+                    {/* Make featured button */}
+                    <button
+                      onClick={() => handleMakeFeatured(item._id)}
+                      className={`absolute cursor-pointer top-2 left-2 z-10 p-2 rounded-full shadow ${item.featured ? 'bg-amber-600 text-white' : 'bg-white'} `}
+                    >
+                      <FaStar size={12} />
                     </button>
 
                     <div className="aspect-square overflow-hidden">
@@ -174,30 +222,77 @@ const Media = () => {
 
                       {/* SOCIAL CARD */}
                       {item.type === "social" && (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-amber-50 text-center p-3 gap-1">
-                          <FaShareAlt className="text-xl text-amber-600" />
-
-                          {/* PLATFORM */}
-                          <p className="text-xs font-semibold text-gray-800">
-                            {item.platform}
-                          </p>
-
-                          {/* TITLE */}
-                          {item.title && (
-                            <p className="text-xs text-gray-700 font-medium">
-                              {item.title}
-                            </p>
+                        <div className="w-full h-full bg-black">
+                          {/* 🎥 YOUTUBE */}
+                          {item.platform.toLowerCase() === "youtube" && (
+                            <iframe
+                              src={convertToEmbed(item.url)}
+                              className="w-full h-full"
+                              allowFullScreen
+                            />
                           )}
 
-                          {/* LINK */}
-                          {item.url && (
-                            <a
-                              href={item.url}
-                              target="_blank"
-                              className="text-[10px] text-blue-600 break-all"
-                            >
-                              {item.url}
-                            </a>
+                          {/* 📱 INSTAGRAM */}
+                          {item.platform.toLowerCase() === "instagram" && (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-pink-500 to-purple-600 text-white p-3 text-center">
+                              <p className="text-sm font-semibold">
+                                Instagram Reel
+                              </p>
+                              {item.title && (
+                                <p className="text-xs opacity-90">
+                                  {item.title}
+                                </p>
+                              )}
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                className="mt-2 text-xs underline"
+                              >
+                                Watch on Instagram
+                              </a>
+                            </div>
+                          )}
+
+                          {/* 📘 FACEBOOK */}
+                          {item.platform.toLowerCase() === "facebook" && (
+                            <div className="w-full h-full relative bg-blue-600">
+                              {/* ✅ If NOT share link → try embed */}
+                              {!isFacebookShare(item.url) && (
+                                <iframe
+                                  src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(item.url)}`}
+                                  className="w-full h-full"
+                                  allowFullScreen
+                                />
+                              )}
+
+                              {/* 🔥 Fallback UI */}
+                              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white text-center p-3">
+                                <p className="text-sm font-semibold">
+                                  Facebook Video
+                                </p>
+
+                                {item.title && (
+                                  <p className="text-xs opacity-90">
+                                    {item.title}
+                                  </p>
+                                )}
+
+                                {isFacebookShare(item.url) && (
+                                  <p className="text-[10px] opacity-80 mt-1">
+                                    Preview not available
+                                  </p>
+                                )}
+
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="mt-2 text-xs underline bg-white/20 px-2 py-1 rounded"
+                                >
+                                  Open on Facebook
+                                </a>
+                              </div>
+                            </div>
                           )}
                         </div>
                       )}
@@ -233,14 +328,18 @@ const Media = () => {
             )}
             {activeTab === "social" && (
               <>
-                <input
-                  placeholder="Platform"
+                <select
                   className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"
                   value={form.platform}
                   onChange={(e) =>
                     setForm({ ...form, platform: e.target.value })
                   }
-                />
+                >
+                  <option value="">Select Platform</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="facebook">Facebook</option>
+                </select>
                 <input
                   placeholder="URL"
                   className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl"

@@ -34,3 +34,12 @@ export const getProfile = () => async (dispatch) => {
     toast.error(error.response.data.msg || "Logout failed");
   }
 };
+
+export const updateAdmin = async (formData) => {
+  try {
+    const { data } = await api.updateAdmin(formData);
+    toast.success(data.message || "Profile updated successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Update failed");
+  }
+};

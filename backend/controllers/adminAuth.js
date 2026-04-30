@@ -48,3 +48,28 @@ export const me = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { email, currentPassword, newPassword } = req.body;
+    const admin = await Admin.findById(req.user.id);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    if (email) admin.email = email;
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, admin.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+      admin.password = await bcrypt.hash(newPassword, 10);
+    }
+    await admin.save();
+    res.status(200).json({
+      message: "Profile updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

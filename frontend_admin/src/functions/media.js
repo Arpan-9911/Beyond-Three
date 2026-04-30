@@ -29,3 +29,13 @@ export const deleteMedia = (id) => async (dispatch) => {
     toast.error(error.response?.data?.msg || "Failed to delete media")
   }
 }
+
+export const makeFeatured = (id) => async (dispatch) => {
+  try {
+    await api.makeFeatured(id)
+    dispatch({ type: "MAKE_FEATURED", payload: id })
+    toast.success("Media made featured successfully")
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to make media featured")
+  }
+}

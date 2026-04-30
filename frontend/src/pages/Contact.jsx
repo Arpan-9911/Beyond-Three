@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import { sendMail } from "../functions";
 import {
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -12,6 +13,7 @@ import {
   FaYoutube,
   FaWhatsapp,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const { lang } = useLanguage();
@@ -51,7 +53,7 @@ const Contact = () => {
     },
     emailAddress: {
       label: { en: "Email", hi: "ईमेल" },
-      value: "contact@beyondthree.org",
+      value: "beyondthree.org@gmail.com",
     },
     timing: {
       label: { en: "Working Hours", hi: "कार्य समय" },
@@ -67,11 +69,20 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert(lang === "hi" ? "संदेश भेजा गया!" : "Message sent!");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    try {
+      await sendMail(formData);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Failed to send message. Please try again later.");
+    }
   };
 
   return (

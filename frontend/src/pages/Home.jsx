@@ -7,6 +7,7 @@ import Resolution from '../components/home/Resolution'
 import Youth from '../components/home/Youth'
 import Testimonials from '../components/home/Testimonials'
 import NewsEvents from '../components/home/NewsEvents'
+import FeaturedMedia from '../components/home/FeaturedMedia'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Hero />
       <About />
       <NewsEvents />
+      <FeaturedMedia />
       <Resolution />
       <Youth />
       <Testimonials />

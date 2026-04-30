@@ -8,6 +8,7 @@ const API = axios.create({
 export const login = (authData) => API.post("/admin/auth/login", authData);
 export const logout = () => API.get("/admin/auth/logout");
 export const getProfile = () => API.get("/admin/auth/me");
+export const updateAdmin = (formData) => API.put("/admin/auth/update", formData);
 
 export const getHeroSection = () => API.get("/hero");
 export const saveHeading = (data) => API.post("/hero/heading", data);
@@ -47,6 +48,7 @@ export const updateTour = (id, data) => API.put(`/tours/update/${id}?folder=tour
 export const allMedia = () => API.get("/media");
 export const addMedia = (data) => API.post("/media/add?folder=media", data);
 export const deleteMedia = (id) => API.delete(`/media/delete/${id}`);
+export const makeFeatured = (id) => API.put(`/media/featured/${id}`);
 
 export const getAbout = () => API.get("/about");
 export const updateFounder = (formData) => API.post("/about/founder?folder=founder", formData);
@@ -70,3 +72,6 @@ export const rejectParticipation = (id) => API.put(`/projects/participation/reje
 export const allJoinRequests = () => API.get("/join");
 export const approveMember = (id) => API.put(`/join/approve/${id}`);
 export const rejectRequest = (id) => API.put(`/join/reject/${id}`);
+
+export const getAppointments = () => API.get("/appointment/get");
+export const changeStatusAppointment = (id, body) => API.put(`/appointment/update-status/${id}`, body);

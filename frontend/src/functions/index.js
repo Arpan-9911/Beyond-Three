@@ -122,3 +122,21 @@ export const createJoinRequest = async (request) => {
     toast.error(error.response?.data?.msg || "Failed to submit request");
   }
 };
+
+export const createAppointment = async (appointment) => {
+  try {
+    await API.post("/appointment/create", appointment);
+    toast.success("Appointment created successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to create appointment");
+  }
+};
+
+export const sendMail = async (mail) => {
+  try {
+    await API.post("/contact/send", mail);
+    toast.success("Message sent successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.msg || "Failed to send message");
+  }
+};

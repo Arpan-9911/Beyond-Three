@@ -12,6 +12,7 @@ import about from "./about";
 import review from "./review";
 import projectParticipations from "./participation";
 import joinUs from "./join";
+import appointment from "./appointment";
 
 export default combineReducers({
   auth,
@@ -27,4 +28,5 @@ export default combineReducers({
   review,
   projectParticipations,
   joinUs,
+  appointment,
 });

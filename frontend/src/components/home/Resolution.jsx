@@ -1,41 +1,41 @@
 import React from "react";
-import { FaHeartbeat, FaUsers, FaSun } from "react-icons/fa";
+import { FaLeaf, FaBalanceScale, FaBrain } from "react-icons/fa";
 import { useLanguage } from "../../context/LanguageContext";
 
 const Resolution = () => {
   const { lang } = useLanguage();
   const resolutions = [
     {
-      icon: <FaHeartbeat className="text-4xl text-amber-700" />,
+      icon: <FaLeaf className="text-3xl text-white" />,
       title: {
-        en: "Pure Health",
-        hi: "शुद्ध स्वास्थ्य",
+        en: "Natural Healing",
+        hi: "प्राकृतिक उपचार",
       },
       description: {
-        en: "Rejuvenation of the body without chemicals.",
-        hi: "रसायनों के बिना शरीर का कायाकल्प।",
+        en: "Heal naturally, live fully",
+        hi: "प्राकृतिक रूप से उपचार करें, पूर्ण जीवन जिएं",
       },
     },
     {
-      icon: <FaUsers className="text-4xl text-amber-700" />,
+      icon: <FaBalanceScale className="text-3xl text-white" />,
       title: {
-        en: "Empowered Society",
-        hi: "सशक्त समाज",
+        en: "Inner Balance",
+        hi: "आंतरिक संतुलन",
       },
       description: {
-        en: "A community dedicated to mutual help.",
-        hi: "आपसी मदद के लिए समर्पित एक समुदाय।",
+        en: "Balance within, peace beyond",
+        hi: "भीतर संतुलन, बाहर शांति",
       },
     },
     {
-      icon: <FaSun className="text-4xl text-amber-700" />,
+      icon: <FaBrain className="text-3xl text-white" />,
       title: {
-        en: "Natural Joy",
-        hi: "प्राकृतिक आनंद",
+        en: "Conscious Living",
+        hi: "सचेत जीवन",
       },
       description: {
-        en: "Mental peace in the presence of nature.",
-        hi: "प्रकृति की उपस्थिति में मानसिक शांति।",
+        en: "Live aware, live aligned",
+        hi: "जागरूक रहें, संतुलित जीवन जिएं",
       },
     },
   ];

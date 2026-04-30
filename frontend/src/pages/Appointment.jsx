@@ -2,29 +2,19 @@ import React, { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
-import {
-  FaCalendarAlt,
-  FaClock,
-  FaUser,
-  FaPhone,
-  FaEnvelope,
-  FaCheckCircle,
-  FaLeaf,
-  FaHeart,
-  FaUsers,
-  FaSpa,
-} from "react-icons/fa";
+import { FaSpa } from "react-icons/fa";
+import { createAppointment } from "../functions";
+import { toast } from "react-toastify";
 
 const Appointment = () => {
   const { lang } = useLanguage();
-  const [selectedService, setSelectedService] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     date: "",
     time: "",
-    message: "",
+    notes: "",
   });
 
   const t = {
@@ -33,65 +23,13 @@ const Appointment = () => {
       en: "Schedule a meeting with our spiritual guides",
       hi: "हमारे आध्यात्मिक मार्गदर्शकों के साथ मिलने का समय निर्धारित करें",
     },
-    selectService: { en: "Select a Service", hi: "सेवा चुनें" },
-    yourDetails: { en: "Your Details", hi: "आपका विवरण" },
     name: { en: "Full Name", hi: "पूरा नाम" },
     email: { en: "Email Address", hi: "ईमेल पता" },
     phone: { en: "Phone Number", hi: "फ़ोन नंबर" },
     date: { en: "Preferred Date", hi: "पसंदीदा तारीख़" },
     time: { en: "Preferred Time", hi: "पसंदीदा समय" },
-    message: { en: "Additional Notes (Optional)", hi: "अतिरिक्त नोट (वैकल्पिक)" },
+    notes: { en: "Additional Notes (Optional)", hi: "अतिरिक्त नोट (वैकल्पिक)" },
     submit: { en: "Book Appointment", hi: "अपॉइंटमेंट बुक करें" },
-    services: [
-      {
-        id: 1,
-        icon: <FaLeaf />,
-        name: { en: "Natural Healing Consultation", hi: "प्राकृतिक चिकित्सा परामर्श" },
-        duration: { en: "60 mins", hi: "60 मिनट" },
-        desc: {
-          en: "Personal consultation for natural remedies and lifestyle guidance",
-          hi: "प्राकृतिक उपचार और जीवनशैली मार्गदर्शन के लिए व्यक्तिगत परामर्श",
-        },
-      },
-      {
-        id: 2,
-        icon: <FaSpa />,
-        name: { en: "Yoga & Meditation Session", hi: "योग एवं ध्यान सत्र" },
-        duration: { en: "90 mins", hi: "90 मिनट" },
-        desc: {
-          en: "Guided yoga and meditation practice with certified instructors",
-          hi: "प्रमाणित प्रशिक्षकों के साथ निर्देशित योग और ध्यान अभ्यास",
-        },
-      },
-      {
-        id: 3,
-        icon: <FaHeart />,
-        name: { en: "Spiritual Counseling", hi: "आध्यात्मिक परामर्श" },
-        duration: { en: "45 mins", hi: "45 मिनट" },
-        desc: {
-          en: "One-on-one session with Swami Ji for spiritual guidance",
-          hi: "आध्यात्मिक मार्गदर्शन के लिए स्वामी जी के साथ एक-से-एक सत्र",
-        },
-      },
-      {
-        id: 4,
-        icon: <FaUsers />,
-        name: { en: "Group Workshop", hi: "समूह कार्यशाला" },
-        duration: { en: "3 hours", hi: "3 घंटे" },
-        desc: {
-          en: "Join group sessions for community learning and practice",
-          hi: "सामुदायिक शिक्षण और अभ्यास के लिए समूह सत्रों में शामिल हों",
-        },
-      },
-    ],
-    timeSlots: [
-      { value: "06:00", label: { en: "6:00 AM", hi: "सुबह 6:00" } },
-      { value: "08:00", label: { en: "8:00 AM", hi: "सुबह 8:00" } },
-      { value: "10:00", label: { en: "10:00 AM", hi: "सुबह 10:00" } },
-      { value: "14:00", label: { en: "2:00 PM", hi: "दोपहर 2:00" } },
-      { value: "16:00", label: { en: "4:00 PM", hi: "शाम 4:00" } },
-      { value: "18:00", label: { en: "6:00 PM", hi: "शाम 6:00" } },
-    ],
     note: {
       en: "* You will receive a confirmation call within 24 hours",
       hi: "* आपको 24 घंटे के भीतर पुष्टिकरण कॉल प्राप्त होगी",
@@ -102,17 +40,27 @@ const Appointment = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedService) {
-      alert(lang === "hi" ? "कृपया एक सेवा चुनें" : "Please select a service");
+    if(!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time) {
+      alert(lang === "hi" ? "कृपया सभी आवश्यक फ़ील्ड भरें" : "Please fill in all required fields");
       return;
     }
-    console.log("Appointment booked:", { service: selectedService, ...formData });
-    alert(lang === "hi" ? "अपॉइंटमेंट बुक हो गई!" : "Appointment booked successfully!");
-    setFormData({ name: "", email: "", phone: "", date: "", time: "", message: "" });
-    setSelectedService(null);
-  };
+    try {
+      await createAppointment(formData);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: "",
+        notes: "",
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.msg || lang === "hi" ? "अपॉइंटमेंट बुक करने में विफल" : "Failed to book appointment");
+    }
+  }
+    
 
   return (
     <div className="bg-amber-100">
@@ -121,58 +69,8 @@ const Appointment = () => {
         <h1 className="border-l-4 border-yellow-400 pl-4 md:text-4xl text-3xl font-bold text-amber-700 md:mb-8 mb-4">
           {t.title[lang]}
         </h1>
-        <div className="grid lg:grid-cols-2 lg:gap-8 gap-4">
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-amber-800 flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
-              {t.selectService[lang]}
-            </h2>
-            <div className="grid gap-4">
-              {t.services.map((service) => (
-                <div
-                  key={service.id}
-                  onClick={() => setSelectedService(service.id)}
-                  className={`bg-white p-4 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 border-2 ${selectedService === service.id
-                      ? "border-amber-500 bg-amber-50 scale-[1.02]"
-                      : "border-transparent hover:border-yellow-300 hover:shadow-xl"
-                    }`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`p-3 rounded-xl text-2xl transition-colors ${selectedService === service.id
-                          ? "bg-amber-700 text-white"
-                          : "bg-amber-100 text-amber-700"
-                        }`}
-                    >
-                      {service.icon}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-gray-800">
-                          {service.name[lang]}
-                        </h3>
-                        {selectedService === service.id && (
-                          <FaCheckCircle className="text-amber-600 text-xl" />
-                        )}
-                      </div>
-                      <p className="text-gray-500 text-sm mb-1">
-                        {service.desc[lang]}
-                      </p>
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
-                        <FaClock className="text-xs" />
-                        {service.duration[lang]}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="grid lg:grid-cols-2 lg:gap-8 gap-4 items-center">
           <div className="bg-white p-4 md:p-8 rounded-3xl shadow-xl h-fit">
-            <h2 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-yellow-400 rounded-full"></span>
-              {t.yourDetails[lang]}
-            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-amber-700">
@@ -213,7 +111,7 @@ const Appointment = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="..."
                   />
                 </div>
@@ -230,39 +128,33 @@ const Appointment = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split("T")[0]}
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-amber-700">
                     {t.time[lang]}
                   </label>
-                  <select
+                  <input
+                    type="time"
                     name="time"
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
-                  >
-                    <option value="">--</option>
-                    {t.timeSlots.map((slot) => (
-                      <option key={slot.value} value={slot.value}>
-                        {slot.label[lang]}
-                      </option>
-                    ))}
-                  </select>
+                    className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none"
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-amber-700">
-                  {t.message[lang]}
+                  {t.notes[lang]}
                 </label>
                 <textarea
-                  name="message"
-                  value={formData.message}
+                  name="notes"
+                  value={formData.notes}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none resize-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-yellow-400 rounded-2xl focus:ring-2 focus:ring-amber-500 outline-none resize-none"
                   placeholder="..."
                 ></textarea>
               </div>
@@ -276,6 +168,16 @@ const Appointment = () => {
                 {t.submit[lang]}
               </button>
             </form>
+          </div>
+          <div>
+            <div className="p-4 flex flex-col items-center gap-3">
+              <FaSpa className="text-amber-600 md:text-[200px] text-9xl" />
+              <p className="md:text-4xl text-xl text-center font-bold text-amber-600 uppercase leading-snug">
+                {lang === "hi"
+                  ? "हमारी टीम आपके लिए सर्वोत्तम सेवा का चयन करेगी"
+                  : "Our team will assign the best service for you"}
+              </p>
+            </div>
           </div>
         </div>
       </main>

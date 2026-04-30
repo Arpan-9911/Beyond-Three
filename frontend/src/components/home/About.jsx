@@ -37,11 +37,11 @@ const About = () => {
 
   return (
     <section className="overflow-hidden bg-amber-50">
-      <div className="max-w-6xl mx-auto px-4 py-10 md:space-y-20 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 py-10 md:space-y-20 space-y-6">
         <div className="text-center">
           <span className="uppercase tracking-[0.25em] text-amber-700 font-bold">{lang === "hi" ? "हमारे बारे में" : "Who we are"}</span>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-10 gap-6 items-center">
+        <div className="grid md:grid-cols-2 md:gap-20 gap-6 items-center text-justify">
           <div>
             <h2 className="text-amber-900 text-2xl md:text-4xl font-extrabold leading-tight mb-2">{lang === "hi" ? "बिऑन्ड थ्री के बारे में" : "About Beyond Three"}</h2>
             <p className="text-gray-700 sm:leading-relaxed mb-6">{truncateText(stripHtml(getText(about?.whoWeAre?.description)))}</p>
@@ -61,16 +61,16 @@ const About = () => {
           <div className="rounded-3xl overflow-hidden shadow-xl ring-4 ring-amber-900">
             <img
               src={import.meta.env.VITE_UPLOADS + about?.whoWeAre?.image}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover max-h-100"
               alt=""
             />
           </div>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-10 gap-6 items-center">
+        <div className="grid md:grid-cols-2 md:gap-20 gap-6 items-center text-justify">
           <div className="rounded-3xl overflow-hidden shadow-xl ring-4 ring-amber-900 max-md:hidden">
             <img
               src={import.meta.env.VITE_UPLOADS + about?.founder?.image}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover max-h-100"
               alt=""
             />
           </div>
@@ -94,12 +94,12 @@ const About = () => {
           <div className="rounded-3xl overflow-hidden shadow-xl ring-4 ring-amber-900 md:hidden">
             <img
               src={import.meta.env.VITE_UPLOADS + about?.founder?.image}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover max-h-100"
               alt=""
             />
           </div>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-10 gap-6 items-center">
+        <div className="grid md:grid-cols-2 md:gap-20 gap-6 items-center text-justify">
           <div>
             <h2 className="text-amber-900 text-2xl md:text-4xl font-extrabold leading-tight mb-2">{lang === "hi" ? "हमारी पद्धती" : "Our Methodology"}</h2>
             <p className="text-gray-700 md:leading-relaxed mb-6">{truncateText(stripHtml(getText(about?.methodology?.description)))}</p>
@@ -119,7 +119,7 @@ const About = () => {
           <div className="rounded-3xl overflow-hidden shadow-xl ring-4 ring-amber-900">
             <img
               src={import.meta.env.VITE_UPLOADS + about?.methodology?.image}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover max-h-100"
               alt=""
             />
           </div>

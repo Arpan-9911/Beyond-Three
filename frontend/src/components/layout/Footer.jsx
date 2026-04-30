@@ -13,7 +13,7 @@ const Footer = () => {
     },
     mapsLink: "https://www.google.com/maps/dir//Shri+Panch+Dashnam+Juna+Akhara+Prachin+Shivmandir+North+West+Moti+Bagh,+Moti+Bagh+1,+Block+G,+North+West+Moti+Bagh,+Moti+Bagh,+New+Delhi,+Delhi+110021/@28.5212193,77.2290188,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x390d1dcbbfa58fc7:0xb9e7fb2658eb37c2!2m2!1d77.1745351!2d28.5845721?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D",
     phone: "+917018149221",
-    email: "info@beyondthree.org",
+    email: "beyondthree.org@gmail.com",
   };
 
   return (

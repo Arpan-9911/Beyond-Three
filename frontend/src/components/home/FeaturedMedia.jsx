@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import { useLanguage } from "../context/LanguageContext";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import { FaShareAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { FaShareAlt } from "react-icons/fa";
 
-const Media = () => {
-  const { lang } = useLanguage();
-  const mediaData = useSelector((state) => state.media);
+const FeaturedMedia = () => {
+  const mediaData = useSelector((state) => state.media) || [];
 
-  const [activeTab, setActiveTab] = useState("image");
+  const featured = mediaData.filter((item) => item.featured === true);
+
   const [activeMedia, setActiveMedia] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
-  const tabs = [
-    { id: "image", name: lang === "hi" ? "चित्र" : "Photos" },
-    { id: "video", name: lang === "hi" ? "वीडियो" : "Videos" },
-    { id: "social", name: lang === "hi" ? "सोशल" : "Social" },
-  ];
-
-  const filteredMedia = mediaData?.filter((item) => item.type === activeTab);
 
   const convertToEmbed = (url) => {
     try {
@@ -31,7 +20,6 @@ const Media = () => {
         const id = new URL(url).searchParams.get("v");
         return `https://www.youtube.com/embed/${id}`;
       }
-      // 🔥 shorts
       if (url.includes("/shorts/")) {
         const id = url.split("/shorts/")[1].split("?")[0];
         return `https://www.youtube.com/embed/${id}`;
@@ -47,61 +35,59 @@ const Media = () => {
   };
 
   return (
-    <div className="bg-amber-100">
-      <Header />
-      <div className="max-w-7xl mx-auto px-4 py-6 min-h-dvh">
-        <h1 className="border-l-4 border-yellow-400 pl-4 text-3xl md:text-4xl font-bold text-amber-700 mb-6">
-          {lang === "hi" ? "मीडिया" : "Media"}
-        </h1>
-        <div className="flex flex-wrap max-md:text-xs gap-2 md:mb-8 mb-4">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-1 rounded-full cursor-pointer font-medium ${
-                activeTab === tab.id
-                  ? "bg-amber-700 text-white"
-                  : "bg-white hover:bg-yellow-200"
-              }`}
-            >
-              {tab.name}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredMedia?.map((item) => (
+    <section className="bg py-8">
+      <div className="max-w-7xl mx-auto px-4">
+
+        {/* Header */}
+        <h2 className="text-3xl md:text-4xl font-bold text-amber-900 mb-2">
+          Featured Media
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Highlights from our latest media
+        </p>
+
+        {/* ✅ GRID */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+          {featured.map((item) => (
             <div
               key={item._id}
-              className="rounded-3xl overflow-hidden shadow-md bg-white group"
+              className="min-h-60 rounded-3xl overflow-hidden shadow-md bg-white group"
             >
+
+              {/* IMAGE */}
               {item.type === "image" && (
                 <div
                   onClick={() => {
                     setActiveMedia(item);
                     setShowModal(true);
                   }}
-                  className="cursor-pointer overflow-hidden"
+                  className="cursor-pointer w-full h-full overflow-hidden"
                 >
                   <img
                     src={import.meta.env.VITE_UPLOADS + item.file}
-                    alt="media"
-                    className="w-full h-52 object-cover group-hover:scale-110 transition duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                   />
                 </div>
               )}
+
+              {/* VIDEO */}
               {item.type === "video" && (
-                <div className="cursor-pointer">
+                <div className="cursor-pointer w-full h-full">
                   <video
                     src={import.meta.env.VITE_UPLOADS + item.file}
-                    className="w-full h-52 object-cover"
+                    className="w-full h-full object-cover"
                     controls
                   />
                 </div>
               )}
+
+              {/* SOCIAL */}
               {item.type === "social" && (
-                <div className="h-52 bg-black overflow-hidden">
-                  {/* 🎥 YOUTUBE */}
-                  {item.platform.toLowerCase() === "youtube" && (
+                <div className="w-full h-full bg-black overflow-hidden">
+
+                  {/* YOUTUBE */}
+                  {item.platform?.toLowerCase() === "youtube" && (
                     <iframe
                       src={convertToEmbed(item.url)}
                       className="w-full h-full"
@@ -110,10 +96,10 @@ const Media = () => {
                     />
                   )}
 
-                  {/* 📘 FACEBOOK */}
-                  {item.platform.toLowerCase() === "facebook" && (
+                  {/* FACEBOOK */}
+                  {item.platform?.toLowerCase() === "facebook" && (
                     <div className="w-full h-full relative bg-blue-600">
-                      {/* ✅ If NOT share link → try embed */}
+
                       {!isFacebookShare(item.url) && (
                         <iframe
                           src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(item.url)}`}
@@ -122,12 +108,15 @@ const Media = () => {
                         />
                       )}
 
-                      {/* 🔥 Fallback UI */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white text-center p-3">
-                        <p className="text-sm font-semibold">Facebook Video</p>
+                        <p className="text-sm font-semibold">
+                          Facebook Video
+                        </p>
 
                         {item.title && (
-                          <p className="text-xs opacity-90">{item.title}</p>
+                          <p className="text-xs opacity-90">
+                            {item.title}
+                          </p>
                         )}
 
                         {isFacebookShare(item.url) && (
@@ -148,16 +137,18 @@ const Media = () => {
                     </div>
                   )}
 
-                  {/* 📱 INSTAGRAM (Clean Fallback) */}
-                  {item.platform.toLowerCase() === "instagram" && (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 text-center">
+                  {/* INSTAGRAM */}
+                  {item.platform?.toLowerCase() === "instagram" && (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-pink-500 to-purple-600 text-white p-3 text-center">
                       <FaShareAlt className="text-xl" />
                       <p className="text-sm font-semibold mt-1">
                         Instagram Reel
                       </p>
 
                       {item.title && (
-                        <p className="text-xs opacity-90">{item.title}</p>
+                        <p className="text-xs opacity-90">
+                          {item.title}
+                        </p>
                       )}
 
                       <a
@@ -174,20 +165,18 @@ const Media = () => {
               )}
             </div>
           ))}
+
         </div>
-        {filteredMedia?.length === 0 && (
-          <div className="text-center mt-12 text-gray-500">
-            <p className="text-lg">
-              {lang === "hi"
-                ? "कोई मीडिया उपलब्ध नहीं है।"
-                : "No media available."}
-            </p>
+
+        {/* EMPTY */}
+        {featured.length === 0 && (
+          <div className="text-center mt-10 text-gray-500">
+            No featured media available.
           </div>
         )}
       </div>
-      <Footer />
 
-      {/* MODAL (Image & Video Only) */}
+      {/* MODAL */}
       {activeMedia && showModal && activeMedia.type !== "social" && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-4xl">
@@ -196,15 +185,15 @@ const Media = () => {
                 setActiveMedia(null);
                 setShowModal(false);
               }}
-              className="absolute cursor-pointer top-4 right-4 bg-black text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-red-600 transition z-20"
+              className="absolute top-4 right-4 bg-black text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-red-600 transition z-20"
             >
               ✕
             </button>
+
             <div className="bg-black rounded-3xl overflow-hidden max-h-[90vh]">
               {activeMedia.type === "image" ? (
                 <img
                   src={import.meta.env.VITE_UPLOADS + activeMedia.file}
-                  alt="media"
                   className="w-full max-h-[85vh] object-contain"
                 />
               ) : (
@@ -219,8 +208,8 @@ const Media = () => {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
-export default Media;
+export default FeaturedMedia;

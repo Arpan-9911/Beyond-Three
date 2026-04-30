@@ -41,3 +41,16 @@ export const deleteMedia = async (req, res) => {
     res.status(500).json({ success: false, msg: "Server Error" });
   }
 };
+
+export const makeFeatured = async (req, res) => {
+  try {
+    const mediaId = req.params.id;
+    const media = await Media.findById(mediaId);
+    if (!media) return res.status(404).json({ success: false, msg: "Media not found" });
+    media.featured = !media.featured;
+    await media.save();
+    res.status(200).json({ success: true, media });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: "Server Error" });
+  }
+};

@@ -10,6 +10,7 @@ const mediaSchema = new mongoose.Schema({
   file: { type: String, default: '' },
   url: { type: String, default: '' },
   platform: { type: String, default: '' },
+  featured: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const Media = mongoose.model('Media', mediaSchema);

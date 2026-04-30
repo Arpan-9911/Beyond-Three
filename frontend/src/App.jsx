@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import LanguageProvider from "./context/LanguageProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,19 @@ import { useDispatch } from "react-redux";
 import { allProjectCategories, allProjects, allEvents, allBlogs, allNews, allTours, allMedia, getHeroSection, getAbout } from "./functions";
 import FloatingSocials from "./components/layout/FloatingSocials";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // remove if you want instant jump
+    });
+  }, [pathname]);
+
+  return null;
+};
+
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,6 +48,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ToastContainer position="top-right" autoClose={2000} />
       <LanguageProvider>
         <FloatingSocials />
